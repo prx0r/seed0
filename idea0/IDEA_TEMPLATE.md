@@ -17,7 +17,12 @@
 [What this idea explicitly does not cover.]
 
 ## Verification plan
-[How an agent proves it worked: tests, demos, numbers — before building.]
+[How an agent proves it worked: tests, demos, kanban completion contracts,
+Pydantic eval dataset cases, numbers — before building.]
+
+## Operating needs (optional but explicit)
+[Profiles, boards, keys, budgets, models. Unlisted needs get discovered mid-build
+at 10x cost — list them now. Hermes skills to create, cron schedules, MCP servers.]
 
 ## Out of scope (logged, not gated)
 [Anything deferred, so scope arguments end.]

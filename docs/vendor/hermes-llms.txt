@@ -1,0 +1,38 @@
+# Hermes Agent
+
+> Hermes Agent is the open-source, self-hosted AI agent built by Nous Research. It runs on your own machine or server, keeps persistent memory across sessions, writes its own reusable skills, and can be reached from Telegram, Discord, Slack, WhatsApp, Signal, email, and the CLI. It is free under the MIT license. This is the official site (hermes-agent.nousresearch.com); the source lives at github.com/NousResearch/hermes-agent.
+
+## Official links
+
+- [Hermes Agent homepage](https://hermes-agent.nousresearch.com/): Official site — overview, downloads, and install commands.
+- [Documentation](https://hermes-agent.nousresearch.com/docs/): Full docs — installation, configuration, features, and developer guides.
+- [GitHub repository](https://github.com/NousResearch/hermes-agent): Source code, releases, and issues (MIT license).
+- [Nous Research](https://nousresearch.com/): The team that builds Hermes Agent.
+- [Nous Portal](https://portal.nousresearch.com/): Managed models and credits for use in Hermes Agent.
+
+## Getting started
+
+- [Installation](https://hermes-agent.nousresearch.com/docs/getting-started/installation): Install in about 60 seconds on Linux, macOS, WSL2, native Windows, or Android.
+- [Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart): First conversation and the core features to try.
+- [Desktop App](https://hermes-agent.nousresearch.com/docs/user-guide/desktop): Hermes Desktop — the native app for macOS, Windows, and Linux, running the same agent core as the CLI.
+
+## Features
+
+- [Memory](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory): Persistent memory that grows across sessions.
+- [Skills](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills): Procedural memory the agent creates and reuses.
+- [Messaging Gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging): Connect Telegram, Discord, Slack, WhatsApp, Signal, Teams, and more.
+- [MCP Integration](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp): Connect to MCP servers and extend Hermes safely.
+- [Voice Mode](https://hermes-agent.nousresearch.com/docs/user-guide/features/voice-mode): Real-time voice interaction across CLI, Telegram, and Discord.
+- [Security](https://hermes-agent.nousresearch.com/docs/user-guide/security): Command approval, authorization, and container isolation.
+
+## About
+
+- Built by: Nous Research
+- License: MIT (open source)
+- Supported platforms: Linux, macOS, Windows, WSL2, Android
+- Interfaces: command-line terminal app, native desktop app, and a messaging gateway
+
+## Optional
+
+- [Full documentation in one file](https://hermes-agent.nousresearch.com/llms-full.txt): The entire docs site concatenated as markdown (~3.7 MB) for LLM context ingestion.
+- [Docs index for LLMs](https://hermes-agent.nousresearch.com/docs/llms.txt): Per-section link index of every documentation page.

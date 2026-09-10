@@ -10,7 +10,7 @@ import sys
 import time
 from pathlib import Path
 
-METHODS = ("test", "demo", "review")
+METHODS = ("test", "demo", "review", "kanban", "pyeval")
 WEASEL = re.compile(r"\b(good|robust|better|best|seamless|powerful|strong)\b", re.I)
 
 
@@ -24,8 +24,16 @@ def validate(path: str) -> list[str]:
         verif, owner = verif.strip(), owner.strip()
         if not owner or owner.lower() in ("tbd", "?"):
             errs.append(f"{cid}: owner missing")
-        if verif.split()[0].lower() not in METHODS:
+        meth = verif.split()[0].lower()
+        if meth not in METHODS:
             errs.append(f"{cid}: unknown verification method in '{verif}'")
+            continue
+        if meth == "kanban" and "/" not in verif:
+            # kanban needs board/task routing + a completion contract upstream
+            errs.append(f"{cid}: kanban verification needs `board/task` + contract")
+        if meth == "pyeval" and "." not in verif.replace("pyeval", "", 1):
+            # pyeval needs dataset.case (Pydantic evals: dataset + evaluator)
+            errs.append(f"{cid}: pyeval verification needs `dataset.case`")
         if WEASEL.search(stmt):
             errs.append(f"{cid}: weasel word in statement — rewrite binary")
     return errs

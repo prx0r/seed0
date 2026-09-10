@@ -47,3 +47,18 @@ def test_validators_cli_time_logged():
         r = subprocess.run([sys.executable] + cmd, capture_output=True, text=True)
         assert r.returncode == 0, r.stdout
         assert "ms]" in r.stdout  # elapsed always printed = time-to-verify logged
+
+
+def test_kanban_and_pyeval_methods_accepted(tmp_path):
+    from validate_criteria import validate
+    good = tmp_path / "c.md"
+    good.write_text("| ID | Statement | Verification | Owner |\n"
+                    "| C1 | Board task completes | kanban `default/slug` per contract | human |\n"
+                    "| C2 | Judge passes cases | pyeval `safety.refusal` evaluator llm-judge | human |\n")
+    assert validate(str(good)) == []
+    bad = tmp_path / "c2.md"
+    bad.write_text("| ID | Statement | Verification | Owner |\n"
+                   "| C1 | Board task completes | kanban `noslash` | human |\n"
+                   "| C2 | Judge passes | pyeval `nodot` | human |\n")
+    errs = validate(str(bad))
+    assert any("board/task" in e for e in errs) and any("dataset.case" in e for e in errs)
