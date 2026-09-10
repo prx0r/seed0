@@ -19,3 +19,6 @@ python3 -m pytest tests/ -q             # self-tests
 - `tournament.py` — mechanical scoring (compliance + own-suite + evidence) with
   `substrate` field for cross-platform bake-offs.
 - `templates/` — AGENTS.md laws, README, NORTHSTAR, docs set, boot test, .env example.
+- `seeds/seed1..seed5` — five starting kernels (ralph-minimal, spec-first,
+  evidence-maximalist, multi-agent lanes, red-team-first). Tournament fodder:
+  `python3 tournament.py seeds/seed*`.
