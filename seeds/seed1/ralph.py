@@ -1,8 +1,15 @@
-"""Ralph loop: next unchecked plan item, one agent run, gate, mark done. Stdlib."""
+"""Ralph loop: next unchecked plan item, one agent run, gate, mark done. Stdlib.
+
+1.1: run_once takes workdir (all paths + subprocess anchored — CWD-fragility
+kills: bout1 seed5, gate saga x10) and appends every iteration to an attempt
+log (A-log: the chain's evidence substrate).
+"""
 from __future__ import annotations
+import json
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 OPEN = re.compile(r"^- \[ \] (.*)$")
@@ -30,21 +37,41 @@ class Plan:
         return False
 
 
+def log_attempt(workdir: str | Path, task: str | None, ok: bool,
+                detail: str) -> dict:
+    """Append one A-log line. Returns the entry (ts-ordered JSONL)."""
+    entry = {"ts": time.time(), "task": task, "ok": bool(ok), "detail": detail}
+    p = Path(workdir) / "attempts.jsonl"
+    with open(p, "a") as f:
+        f.write(json.dumps(entry, sort_keys=True) + "\n")
+    return entry
+
+
 def run_once(plan_path: str = "plan.md", agent_cmd: str = "echo",
-             verify_cmd: str = "python3 -m pytest tests/ -q") -> dict:
+             verify_cmd: str = "python3 -m pytest tests/ -q",
+             workdir: str | Path | None = None) -> dict:
     """One loop iteration. Returns receipt; never marks done on red gate."""
-    plan = Plan(plan_path)
+    root = Path(workdir) if workdir else Path(plan_path).parent
+    plan = Plan(root / Path(plan_path).name if workdir else plan_path)
     task = plan.next_task()
     if task is None:
         return {"ok": True, "done": True, "task": None, "detail": "plan empty"}
-    a = subprocess.run(agent_cmd.split() + [task], capture_output=True, text=True)
+    a = subprocess.run(agent_cmd.split() + [task], capture_output=True,
+                       text=True, cwd=root)
     if a.returncode != 0:
-        return {"ok": False, "task": task, "detail": f"agent failed: {a.stderr[:200]}"}
-    v = subprocess.run(verify_cmd.split(), capture_output=True, text=True)
+        res = {"ok": False, "task": task, "detail": f"agent failed: {a.stderr[:200]}"}
+        log_attempt(root, task, False, res["detail"])
+        return res
+    v = subprocess.run(verify_cmd.split(), capture_output=True, text=True,
+                       cwd=root)
     if v.returncode != 0:
-        return {"ok": False, "task": task, "detail": "gate red — task left open"}
+        res = {"ok": False, "task": task, "detail": "gate red — task left open"}
+        log_attempt(root, task, False, res["detail"])
+        return res
     plan.mark_done(task)
-    return {"ok": True, "task": task, "detail": "done + gate green"}
+    res = {"ok": True, "task": task, "detail": "done + gate green"}
+    log_attempt(root, task, True, res["detail"])
+    return res
 
 
 if __name__ == "__main__":
