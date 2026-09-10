@@ -77,14 +77,19 @@ def report(rows: list[dict]) -> str:
 
 
 if __name__ == "__main__":
-    args = [x for x in sys.argv[1:] if not x.startswith("--")]
+    raw = sys.argv[1:]
     model = ""
-    if "--model" in sys.argv:
+    if "--model" in raw:
         try:
-            model = sys.argv[sys.argv.index("--model") + 1]
+            model = raw[raw.index("--model") + 1]
         except IndexError:
             pass
-    paths = args
+    skip = set()
+    for i, x in enumerate(raw):
+        if x == "--model":
+            skip.update((i, i + 1))
+    paths = [x for i, x in enumerate(raw)
+             if i not in skip and not x.startswith("--")]
     if not paths:
         print("usage: tournament.py <seed-dir> [<seed-dir> ...] [--model m]")
         raise SystemExit(2)
