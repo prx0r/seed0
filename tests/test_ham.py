@@ -1,4 +1,5 @@
 """ham.py tests: prohibited screen, digest-bound approvals, standing ratchet."""
+import sys
 from pathlib import Path
 
 from ham import (check_prohibited, approve, approval_valid, log_decision,
@@ -63,3 +64,14 @@ def test_standing_ratchet_and_denial_blocks(tmp_path):
     for _ in range(5):
         record_outcome("never:thing", True, pol)
     assert standing("never:thing", pol) == "ask"
+
+
+def test_policy_command_advises():
+    import subprocess as _sp
+    r = _sp.run([sys.executable, "ham.py", "policy", "--class", "x",
+                 "--diff", "500", "--files", "12", "--security"],
+                capture_output=True, text=True,
+                cwd=Path(__file__).resolve().parent.parent)
+    import json as _json
+    d = _json.loads(r.stdout)
+    assert d["verdict"] == "checkin" and d["learned"] is False

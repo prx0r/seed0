@@ -125,13 +125,16 @@ def standing(action_class: str, path: str = POLICY_FILE) -> str:
 
 def main(argv: list[str]) -> int:
     if not argv or argv[0] not in ("check", "approve", "verify", "outcome",
-                                   "standing", "log"):
+                                   "standing", "log", "policy"):
         print(__doc__)
         return 2
     kw: dict[str, str] = {}
     it = iter(argv[1:])
     for x in it:
         if x.startswith("--"):
+            if x in ("--security",):
+                kw[x] = "1"
+                continue
             try:
                 kw[x] = next(it)
             except StopIteration:
@@ -155,7 +158,23 @@ def main(argv: list[str]) -> int:
                                         kw.get("--approved", "1") == "1")))
         return 0
     if cmd == "standing":
-        print(standing(kw["--class"]))
+        print(standing(kw.get("--class")))
+        return 0
+    if cmd == "policy":
+        # Learned check-in advice (Hedwig port): proceed|surface|checkin for
+        # a proposed action. Advisory only — gates still decide.
+        from policy import CheckinPolicy
+        try:
+            diff = int(kw.get("--diff", "10"))
+            files = int(kw.get("--files", "1"))
+        except ValueError:
+            print("--diff/--files must be integers")
+            return 2
+        pol = CheckinPolicy()
+        print(json.dumps(pol.decide({"action_class": kw.get("--class", ""),
+                                     "diff_lines": diff, "files": files,
+                                     "security": 1 if "--security" in argv else 0}),
+                         indent=1))
         return 0
     if cmd == "log":
         kinds = ("A", "H", "M")

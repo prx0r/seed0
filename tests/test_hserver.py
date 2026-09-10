@@ -23,7 +23,7 @@ def test_pending_resolve_roundtrip(tmp_path, monkeypatch):
     monkeypatch.setattr(hinbox, "HREG", str(reg))
     import hserver
     monkeypatch.setattr(hserver.hinbox, "HREG", str(reg))
-    r = hinbox.new_request("push main?", context="25 files", unlocks=["a-push"])
+    r = hinbox.new_request("push main?", context="25 files")
     srv = serve(0)
     port = srv.server_address[1]
     t = threading.Thread(target=srv.serve_forever, daemon=True)
@@ -34,7 +34,7 @@ def test_pending_resolve_roundtrip(tmp_path, monkeypatch):
         assert s == 200
         items = json.loads(body)
         assert len(items) == 1 and items[0]["id"] == r["id"]
-        assert items[0]["priority_score"] >= 1
+        assert items[0]["priority_score"] == 0.5  # urgency-only, no unlocks
         s, body = _call(base, "POST", "/api/h/resolve",
                         {"id": r["id"], "decision": "approved", "note": "go"})
         assert s == 200 and json.loads(body)["ok"] is True
@@ -73,8 +73,9 @@ def test_funnel_route_multi_repo(tmp_path, monkeypatch):
         with _url.urlopen(base + "/api/h/funnel?" + qs, timeout=5) as resp:
             rows = _json.loads(resp.read().decode())
         by_repo = {x.get("repo"): x for x in rows}
-        assert by_repo[str(r)]["status"] == "open"
-        assert by_repo[f"{tmp_path}/dark"]["status"] == "dark"
+        assert by_repo["r1"]["status"] == "open"  # label travels, not path
+        assert by_repo["r1"]["box"] == ""
+        assert by_repo["dark"]["status"] == "dark"
         assert rows[0]["status"] == "dark"  # darkness ranks top
     finally:
         srv.shutdown()

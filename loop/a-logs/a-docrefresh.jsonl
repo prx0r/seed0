@@ -1,0 +1,2 @@
+{"action": "36 docs re-read + fixes", "covers": [0, 1, 2, 3], "detail": "12 files, packet reconciled", "evidence": "", "intent": "", "task": "a-docrefresh", "ts": 1789053633.8098752}
+{"action": "full verify", "covers": [4], "detail": "122 green both CWDs, 6/6, 57 records 0 problems", "evidence": "command:python3 -m pytest tests/ -q", "intent": "", "task": "a-docrefresh", "ts": 1789053651.6113207}

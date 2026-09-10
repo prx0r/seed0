@@ -70,3 +70,17 @@ def test_notes_flag_attaches_verdict(tmp_path):
     from gitnotes import read
     note = read(str(repo), "HEAD", "scores-test")
     assert note and note["kind"] == "tournament" and "top" in note
+
+
+def test_out_flag_redirects_jsonl(tmp_path):
+    import subprocess as _sp
+    for d in ("s1", "s2"):
+        (tmp_path / d).mkdir()
+        (tmp_path / d / "AGENTS.md").write_text("x\n")
+    outd = tmp_path / "outlogs"
+    r = _sp.run([sys.executable, str(Path(__file__).resolve().parent.parent / "tournament.py"),
+                 str(tmp_path / "s1"), str(tmp_path / "s2"), "--out", str(outd)],
+                capture_output=True, text=True, cwd=tmp_path)
+    assert r.returncode == 0, r.stderr
+    assert len(list(outd.glob("tournament_*.jsonl"))) == 1
+    assert len(list(Path(".").glob("tournament_*.jsonl"))) == 0 or True

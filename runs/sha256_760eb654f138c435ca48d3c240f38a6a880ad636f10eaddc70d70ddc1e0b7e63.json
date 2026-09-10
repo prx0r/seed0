@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "grant activates on approve",
+   "denial moves nothing",
+   "hserver surfaces both"
+  ],
+  "basis": "pytest hinbox/hserver + live API check",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-b5activate",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:760eb654f138c435ca48d3c240f38a6a880ad636f10eaddc70d70ddc1e0b7e63",
+ "ts": 1789056995.1670089
+}

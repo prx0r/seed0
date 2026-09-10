@@ -409,3 +409,61 @@ def test_done_requires_resolvable_receipt(tmp_path):
     r = sp.run([sys.executable, lp, "set-status", "rz", "DONE",
                 "--queue", str(q)], capture_output=True, text=True, cwd=tmp_path)
     assert r.returncode == 1 and "no receipt file" in r.stdout
+
+
+def test_claim_release_ownership(tmp_path):
+    import subprocess as sp
+    from loop import save_all
+    q = str(tmp_path / "tasks.jsonl")
+    save_all([good_record("cl")], str(q))
+    lp = str(Path(__file__).resolve().parent.parent / "loop.py")
+
+    def run(*a):
+        return sp.run([sys.executable, lp, *a, "--queue", q],
+                      capture_output=True, text=True, cwd=tmp_path)
+    assert run("claim", "cl", "--owner", "amy").returncode == 0
+    r = run("claim", "cl", "--owner", "bob")
+    assert r.returncode == 1 and "held by amy" in r.stdout
+    assert run("claim", "cl", "--owner", "amy").returncode == 0  # own reclaim ok
+    assert run("release", "cl").returncode == 0
+    assert run("claim", "cl", "--owner", "bob").returncode == 0
+
+
+def test_recall_scopes_to_area(tmp_path):
+    import subprocess as sp
+    q = tmp_path / "tasks.jsonl"
+    (tmp_path / "rep.md").write_text("# R\nturbines need yaw brakes\n")
+    rec = dict(good_record("rc"), status="DONE", report_ref="rep.md",
+               validation_ref="s:1")
+    from loop import save_all
+    save_all([rec], str(q))
+    lp = str(Path(__file__).resolve().parent.parent / "loop.py")
+    out = sp.run([sys.executable, lp, "recall", "yaw", "--queue", str(q)],
+                 capture_output=True, text=True, cwd=tmp_path).stdout
+    assert "rc [report]" in out
+    out = sp.run([sys.executable, lp, "recall", "zzz-nope", "--queue", str(q)],
+                 capture_output=True, text=True, cwd=tmp_path).stdout
+    assert "nothing on" in out
+
+
+def test_branch_refuses_dirty_without_flag(tmp_path):
+    import subprocess as sp
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for a in (["init", "-q"], ["config", "user.email", "t@t"],
+              ["config", "user.name", "t"], ["branch", "-M", "main"]):
+        sp.run(["git", *a], cwd=repo, check=True, capture_output=True)
+    (repo / "f.txt").write_text("x\n")
+    sp.run(["git", "add", "."], cwd=repo, check=True, capture_output=True)
+    sp.run(["git", "commit", "-qm", "init"], cwd=repo, check=True, capture_output=True)
+    (repo / "dirty.txt").write_text("uncommitted\n")
+    q = str(tmp_path / "tasks.jsonl")
+    from loop import save_all
+    save_all([good_record("bd")], q)
+    lp = str(Path(__file__).resolve().parent.parent / "loop.py")
+
+    def run(*a):
+        return sp.run([sys.executable, lp, *a, "--queue", q, "--repo", str(repo)],
+                      capture_output=True, text=True, cwd=tmp_path)
+    assert run("branch", "bd").returncode == 1
+    assert run("branch", "bd", "--allow-dirty").returncode == 0

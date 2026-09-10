@@ -47,7 +47,12 @@ def api_resolve(body: dict) -> tuple[int, dict]:
         decision = body.get("decision", "")
         note = body.get("note", "")
         rec = hinbox.resolve(rid, decision, note=note)
-        return 200, {"ok": True, "resolution": rec["id"]}
+        out = {"ok": True, "resolution": rec["id"]}
+        if "grant_id" in rec:
+            out["grant_id"] = rec["grant_id"]
+        if "grant_error" in rec:
+            out["grant_error"] = rec["grant_error"]
+        return 200, out
     except (KeyError, ValueError) as e:
         return 400, {"ok": False, "error": str(e)[:200]}
     except Exception as e:

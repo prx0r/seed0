@@ -1,0 +1,2 @@
+{"action": "capped run", "covers": [0, 1], "detail": "3x429, /bin/bash.00 receipted", "evidence": "", "intent": "", "task": "g-quota-probe", "ts": 1789051429.3101933}
+{"action": "quote fix", "covers": [0, 1], "detail": "spend zero verified", "evidence": "", "intent": "", "task": "g-quota-probe", "ts": 1789051437.4532862}

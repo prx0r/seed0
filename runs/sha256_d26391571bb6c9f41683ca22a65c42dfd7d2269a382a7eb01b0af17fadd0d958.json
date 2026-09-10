@@ -1,0 +1,52 @@
+{
+ "content": {
+  "blind_review": "all promote; divergence achieved (no EICR); datacenter x2 partial convergence",
+  "idea": "make me money T0 repeat (de-primed brief)",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed1",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed2",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed3",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed4",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed5",
+    "suite_green": true
+   }
+  ],
+  "trace_rollup": {
+   "cost_usd": 0.0,
+   "spans": 6,
+   "tokens": 0
+  },
+  "weights": {
+   "compliant": 10,
+   "evidence": 1,
+   "tests_green": 100
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:d26391571bb6c9f41683ca22a65c42dfd7d2269a382a7eb01b0af17fadd0d958",
+ "ts": 1789055106.3293853
+}

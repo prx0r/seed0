@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "probe outputs + files this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "g-rail-probe",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:fa1dd7ae4f3d6f8ee834637cb71ac51c214c02c5190123ab9411ae64fd1195e6",
+ "ts": 1789051422.7017643
+}

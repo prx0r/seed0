@@ -1,0 +1,35 @@
+{
+ "content": {
+  "blind_review": "all promote; mechanism convergence (linear family, distinct keys)",
+  "idea": "bout3 pure mechanism (no domain hints)",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed1",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed3",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed5",
+    "suite_green": true
+   }
+  ],
+  "weights": {
+   "compliant": 10,
+   "evidence": 1,
+   "tests_green": 100
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:b12e392bb316681b176d2a57c7090d428c2ced73274ad4737a97cda5033eb911",
+ "ts": 1789052157.1455534
+}

@@ -1,0 +1,42 @@
+{
+ "content": {
+  "kind": "tournament",
+  "seeds": [
+   {
+    "compliant": true,
+    "elapsed_s": 1.22,
+    "model": "bout3",
+    "rank_score": 113.0,
+    "seed": "seed3",
+    "substrate": "unknown",
+    "tests_green": true
+   },
+   {
+    "compliant": true,
+    "elapsed_s": 1.2,
+    "model": "bout3",
+    "rank_score": 112.0,
+    "seed": "seed5",
+    "substrate": "unknown",
+    "tests_green": true
+   },
+   {
+    "compliant": true,
+    "elapsed_s": 1.49,
+    "model": "bout3",
+    "rank_score": 111.0,
+    "seed": "seed1",
+    "substrate": "unknown",
+    "tests_green": true
+   }
+  ],
+  "weights": {
+   "compliant": 10.0,
+   "evidence": 1.0,
+   "tests_green": 100.0
+  }
+ },
+ "kind": "tournament",
+ "run_id": "sha256:3286e7af4cab92b4198f63f75d808cc169ba4119f95140d9a6cf7b0e814965fc",
+ "ts": 1789052147.846067
+}

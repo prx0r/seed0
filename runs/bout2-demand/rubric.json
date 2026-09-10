@@ -1,0 +1,1 @@
+{"checks": [{"id": "demand", "path": "demand.py", "type": "file_exists"}, {"id": "dtests", "path": "tests/test_demand.py", "type": "file_exists"}, {"id": "rankfn", "path": "demand.py", "text": "def rank", "type": "contains"}, {"id": "evidence", "path": "evidence.txt", "type": "file_exists"}, {"id": "suite", "type": "suite_green"}]}

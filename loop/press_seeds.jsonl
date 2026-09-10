@@ -1,0 +1,15 @@
+{"chain": [1], "key": "1", "prompt": "do it, record all progress to a-logs", "source": "session-20260910"}
+{"chain": [1], "key": "1", "prompt": "do all a-tasks $0, review, propose 10 more with justification, repeat the loop", "source": "session-20260910"}
+{"chain": [1, 3], "key": "13", "prompt": "run all a-tasks and log it all, review, suggest next a-tasks with justification + validation + evidence", "source": "session-20260910"}
+{"chain": [1, 2], "key": "12", "prompt": "document all progress and zoom out: what achieved so far, what missing", "source": "session-20260910"}
+{"chain": [8, 1], "key": "81", "prompt": "make all of it accessible via mcp so site features test headlessly", "source": "session-20260910"}
+{"chain": [3, 1], "key": "31", "prompt": "organise repo, docs, recipes, agents.md, review /cg, full audit, no confusion for new agents", "source": "session-20260910"}
+{"chain": [3], "key": "3", "prompt": "review all cmail and adjacent repos until obvious, tell me what it is", "source": "session-20260910"}
+{"chain": [9, 1], "key": "91", "prompt": "make repo beautiful, stale folders with long alpha titles, don't rewrite or break anything", "source": "session-20260910"}
+{"chain": [8, 1], "key": "81", "prompt": "mcp domain/social checker, buy on cloudflare, email signup, telnyx phone verify; explicit goal, only target, checkpoints, work autonomously", "source": "session-20260910"}
+{"chain": [2], "key": "2", "prompt": "review all threads: stale? what next", "source": "session-20260910"}
+{"chain": [8, 1], "key": "81", "prompt": "/bitt + /fleece results to backtest strategies, set message as northstar, git tree + binary validation, ralph loops until done", "source": "session-20260910"}
+{"chain": [9], "key": "9", "prompt": "a/h/m global registries, 3 parallel streams, unlock graph priority, grant lock, review workerkit, websearch imports", "source": "session-20260910"}
+{"chain": [3, 1], "key": "31", "prompt": "review all done, test all, tournaments with falsifiable criteria, full metaguide, log process notes", "source": "session-20260910"}
+{"chain": [1], "key": "1", "prompt": "run the tournament again with changes", "source": "session-20260910"}
+{"chain": [8, 1], "key": "81", "prompt": "5 hermes agents take thesis, spec, build app start to finish, review seeds, seed1.1, northstar to a-tasks, work autonomously", "source": "session-20260910"}

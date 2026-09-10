@@ -56,5 +56,5 @@ lists exactly what must re-verify. Expiry re-escalates, never auto-approves.
   (both print elapsed ms — time-to-verify is logged).
 - Vendor docs: `docs/vendor/` (Hermes full corpus, Pydantic pages); handbook at
   `docs/HERMES_HANDBOOK.md`; cg doctrine import at `docs/CG_IMPORTS.md`.
-- Runbook detail per area: criteria0/CRITERIA_TEMPLATE, skill/SKILL equivalents
-  in templates/, RECIPES pattern in each seed under `seeds/`.
+- Runbook detail per area: criteria0/CRITERIA_TEMPLATE, `templates/docs/MCP.md`
+  (skill-equivalent surface), RECIPES pattern in each seed under `seeds/`.

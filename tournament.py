@@ -86,6 +86,18 @@ def report(rows: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def _outdir() -> Path:
+    """--out DIR for the tournament jsonl (default CWD, backward compatible)."""
+    if "--out" in sys.argv:
+        try:
+            d = Path(sys.argv[sys.argv.index("--out") + 1])
+            d.mkdir(parents=True, exist_ok=True)
+            return d
+        except IndexError:
+            pass
+    return Path(".")
+
+
 if __name__ == "__main__":
     raw = sys.argv[1:]
     model = ""
@@ -96,7 +108,7 @@ if __name__ == "__main__":
             pass
     skip = set()
     for i, x in enumerate(raw):
-        if x in ("--model", "--weights"):
+        if x in ("--model", "--weights", "--out"):
             skip.update((i, i + 1))
     paths = [x for i, x in enumerate(raw)
              if i not in skip and not x.startswith("--")]
@@ -129,7 +141,7 @@ if __name__ == "__main__":
             pass
         except Exception as e:
             print(f"notes skipped: {e}"[:120])
-    with open(f"tournament_{int(time.time())}.jsonl", "w") as f:
+    with open(_outdir() / f"tournament_{int(time.time())}.jsonl", "w") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")
     try:

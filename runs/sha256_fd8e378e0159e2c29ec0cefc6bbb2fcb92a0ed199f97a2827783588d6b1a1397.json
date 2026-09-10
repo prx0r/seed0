@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "8 fixes landed+tested",
+   "learn fired on real data",
+   "verify-all green"
+  ],
+  "basis": "pytest per item + live learn + ledger audit",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-wave2",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:fd8e378e0159e2c29ec0cefc6bbb2fcb92a0ed199f97a2827783588d6b1a1397",
+ "ts": 1789052940.9719622
+}

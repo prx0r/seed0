@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "agentrun built+tested",
+   "5 stubs measured live",
+   "strict guide banked",
+   "gold star saved"
+  ],
+  "basis": "pytest + live stub run + files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-agentrun",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:f84fb7c61130d4404e7973949e55dc5fa896bef669b34d7edef0522c1a81adb3",
+ "ts": 1789056240.6506543
+}

@@ -1,0 +1,17 @@
+{
+ "content": {
+  "A_pass": true,
+  "B_pass": false,
+  "ablated": [
+   "evidence.txt"
+  ],
+  "arch": "evidence-file",
+  "elapsed_s": 2.8,
+  "kind": "eval-arch",
+  "seed": "runs/bout3-mech/attempts/seed1",
+  "verdict": "load-bearing"
+ },
+ "kind": "eval-arch",
+ "run_id": "sha256:752efdceea217fcd1056d360359308c3299f45a7682686667cf1f35c6dc35310",
+ "ts": 1789052628.6373427
+}

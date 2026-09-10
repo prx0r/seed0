@@ -3,7 +3,7 @@
 ## Bring-up (fresh machine, no keys)
 ```bash
 git clone <seed0> && cd seed0
-python3 -m pytest tests/ -q        # expect 106 passed
+python3 -m pytest tests/ -q        # expect 127 passed
 python3 seed0.py check .           # expect 5/5 COMPLIANT
 python3 seed0.py check . --cwd-independent   # + suite green from foreign CWD
 ```
@@ -49,7 +49,8 @@ python3 learn.py runs/idea1 --out learnings/
 ## Live model evals (needs key, spends cents)
 ```bash
 OPENCODE_GO_API_KEY=... python3 pyeval.py run datasets/safety_sample.json \
-  --model mimo-v2.5 --out runs/     # expect SCORE 5.0/5.0 PASS + receipt
+  --model mimo-v2.5 --out runs/     # expect SCORE line + receipt; PASS needs
+# live quota (429s fail open per-case with $0.00 — see METERING_AUDIT)
 ```
 
 ## Delegate a step (H/A/M tiers)
@@ -63,9 +64,19 @@ python3 ham.py outcome --class "push:branch" --approved 1   # x3 -> standing all
 
 ## Work the queue (META_LOOP)
 ```bash
-python3 loop.py list                  # 14 DONE + 1 PAUSED expected
+python3 loop.py list                  # expect: 50+ DONE, 0 problems via check
 python3 loop.py list --status PAUSED
 python3 loop.py check                 # schema + DONE-needs-proof audit
+```
+
+## Multi-box funnel (3 VPS × N agents)
+```bash
+# plane/remotes.txt: label|git-url[|box] per agent repo (fill real URLs)
+python3 hplane.py sync                        # clone once, fetch+reset after
+python3 hplane.py funnel                      # ranked rows carry repo+box
+python3 hplane.py review                      # + STALE flags + receipt
+# one dead box records ok:false, never blocks the rest. Resolution stays
+# per-repo: the dashboard reads everything, decides nothing remotely.
 ```
 
 ## Human inbox (H-stream)
@@ -74,11 +85,19 @@ python3 -c "from hinbox import new_request; print(new_request('approve X?', unlo
 python3 hserver.py --port 8791        # inbox at http://127.0.0.1:8791 (localhost only)
 ```
 
-## Money grants (M-stream)
-```bash
+## Money grants (M-stream)```bash
 python3 -c "from grants import new_grant, activate, check_spend;
 g = new_grant(100, 'eval-run', 'https://x402.egoic.ai/v1/work');
 activate(g['id']); print(check_spend(g['id'], 100, 'eval-run')['remaining_cents'])"
+```
+
+## Per-run observability (spans: timing/tokens/budget)
+```bash
+python3 funnel.py run --idea "..." --rubric rubric.json --seeds seed1 \
+  --agent-cmd true --out runs/demo   # writes runs/demo/spans.jsonl
+python3 -c "from spans import Tracer; t=Tracer(); ..."  # rollup: spans/tokens/cost/elapsed
+# Schema mirrors OTel (trace/span/parent ids, gen_ai.* attrs); swap the sink
+# for OTLP later without changing instrumented code. No SDK, no collector.
 ```
 
 ## Use seed0 from any agent (MCP, zero install beyond clone)

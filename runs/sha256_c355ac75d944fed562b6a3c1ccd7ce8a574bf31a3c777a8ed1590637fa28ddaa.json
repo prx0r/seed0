@@ -1,0 +1,35 @@
+{
+ "content": {
+  "blind_review": "all promote; convergence: 3/3 gas-boiler (partial de-prime success)",
+  "idea": "bout2 demand-side, de-primed brief",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed1",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed3",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed5",
+    "suite_green": true
+   }
+  ],
+  "weights": {
+   "compliant": 10,
+   "evidence": 1,
+   "tests_green": 100
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:c355ac75d944fed562b6a3c1ccd7ce8a574bf31a3c777a8ed1590637fa28ddaa",
+ "ts": 1789051686.229509
+}

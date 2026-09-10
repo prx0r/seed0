@@ -1,0 +1,9 @@
+# plane/remotes.txt — one entry per agent repo, ANY box
+# Format: label|git-url[|box]   (label = short name shown in funnel)
+# Mirrors land in plane/mirrors/<label>/ via `python3 hplane.py sync`.
+# Transport is plain git (clone once, fetch+reset after) — works over
+# ssh/https/file://. Fill in real URLs; lines starting with # are ignored.
+#
+# EXAMPLES (uncomment + fill):
+# vps1-seed0|git@box1:~/seed0.git|vps1
+# vps2-voice|https://github.com/prx0r/voiceagent.git|vps2

@@ -54,3 +54,22 @@ def test_new_scaffold_git_inits_tree(tmp_path):
     assert r.returncode == 0 and "scaffold" in r.stdout
     r = _sp.run(["git", "config", "user.email"], capture_output=True, text=True, cwd=out)
     assert r.stdout.strip() == "seed0@local"  # local identity, not operator's
+
+
+def test_install_hooks_roundtrip(tmp_path):
+    import subprocess as _sp
+    import shutil
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for a in (["init", "-q"], ["config", "user.email", "t@t"],
+              ["config", "user.name", "t"], ["branch", "-M", "main"]):
+        _sp.run(["git", *a], cwd=repo, check=True, capture_output=True)
+    root = Path(__file__).resolve().parent.parent
+    shutil.copy(root / "scripts" / "install-hooks.py", tmp_path / "install-hooks.py")
+    r = _sp.run([sys.executable, str(tmp_path / "install-hooks.py")],
+                capture_output=True, text=True, cwd=repo)
+    assert r.returncode == 0 and "installed" in r.stdout
+    assert (repo / ".git" / "hooks" / "pre-commit").stat().st_mode & 0o111
+    r = _sp.run([sys.executable, str(tmp_path / "install-hooks.py"),
+                 "--uninstall"], capture_output=True, text=True, cwd=repo)
+    assert r.returncode == 0 and not (repo / ".git" / "hooks" / "pre-commit").exists()

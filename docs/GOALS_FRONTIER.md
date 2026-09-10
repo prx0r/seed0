@@ -46,19 +46,25 @@ on by published systems; nothing structural contradicts the literature.
 4. **Receipt-verified tournaments** (content-hashed run ids, verify-by-rerun
    as the scoreboard's trust anchor).
 
-## 4. Gaps worth closing (ranked by leverage)
+## 4. Gaps: closed since (verified 2026-09-10 re-read)
 
-1. **Learned check-in policy** (Hedwig-style online classifier over our
-   approval/denial traces) to graduate the count-based ratchet. (Proposed B12.)
-2. **Enforced budgets** — `budgets.py` advertises; nothing enforces. XBSTACK
-   cuts network access at the token cap. Ours is theatre until wired. (M4.)
-3. **Replanner as a first-class node** (ours is manual send-back).
-4. **Plan-validity metrics** (valid-plan rate, replan success rate) tracked
-   per bout, not just pass/fail.
-5. **Leaf-termination formalism** (STEP mappability criteria ≈ our
-   acceptance+evidence, but stated as checkable predicates).
+1. ~~Learned check-in policy~~ → DONE: `policy.py` (heuristic cold start +
+   online SGD over approval/denial traces, three-tier cascade,
+   `tests/test_policy.py`). Count-ratchet graduated, not removed.
+2. ~~Enforced budgets~~ → DONE: `Budget.check()` pre-call refusal wired into
+   `pyeval.py`; zero-budget run makes zero calls (tested). Funnel-subprocess
+   spend still unobservable (honest zeros in spend.jsonl).
+3. ~~Replanner as first-class node~~ → DONE: `loop.py replan` with reason log
+   + MAX_REPLANS=3 breaker escalating to H.
+4. ~~Plan-validity metrics~~ → DONE: `loop.py metrics` (validity rate, replan
+   success, coverage fraction).
+5. ~~Leaf-termination formalism~~ → DONE: `leafcheck` (every acceptance item
+   needs an executable-kind evidence entry); `loop.py log --evidence` re-runs
+   claims at stoplight.
 
 ## 5. Bottom line
 
 Build like Plan-and-Execute, gate like XBSTACK, learn like Hedwig, settle
-like nobody else. The framework stands; the next unit of work is gap 1+2.
+like nobody else. The framework stands; §4 gaps closed same-session — the
+remaining frontier is live data (metered runs at quota, H-traffic for the
+learned policy), not machinery.

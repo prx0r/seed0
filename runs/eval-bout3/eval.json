@@ -1,0 +1,11 @@
+{
+ "arch": "evidence-file",
+ "seed": "runs/bout3-mech/attempts/seed1",
+ "ablated": [
+  "evidence.txt"
+ ],
+ "A_pass": true,
+ "B_pass": false,
+ "verdict": "load-bearing",
+ "elapsed_s": 2.8
+}

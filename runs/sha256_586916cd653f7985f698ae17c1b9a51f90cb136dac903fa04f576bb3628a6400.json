@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "escalate_tier implemented",
+   "5-case test green",
+   "live wiring held as M"
+  ],
+  "basis": "pytest + live commands this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-b4escalation",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:586916cd653f7985f698ae17c1b9a51f90cb136dac903fa04f576bb3628a6400",
+ "ts": 1789054137.7704914
+}

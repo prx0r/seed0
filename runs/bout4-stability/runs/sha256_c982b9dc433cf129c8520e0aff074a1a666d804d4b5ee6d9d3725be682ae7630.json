@@ -1,0 +1,23 @@
+{
+ "content": {
+  "idea": "bout4 stability (input-shuffle determinism)",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": false,
+    "seed": "seed1"
+   },
+   {
+    "binary_pass": false,
+    "seed": "seed3"
+   },
+   {
+    "binary_pass": true,
+    "seed": "seed5"
+   }
+  ]
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:c982b9dc433cf129c8520e0aff074a1a666d804d4b5ee6d9d3725be682ae7630",
+ "ts": 1789052641.7565582
+}

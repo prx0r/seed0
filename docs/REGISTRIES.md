@@ -9,8 +9,9 @@ owns M under lock. Streams run parallel; the graph joins them.
 deleted, never edited (corrections are new records referencing the old id).
 Removal rule per stream: A dies only by proof (§2); H dies only by human
 action in the inbox (§3); M dies only by expiry/spend/revocation (§4).
-`loop.py check` semantics extend: DONE/RESOLVED/SPENT without the stream's
-proof field is rejected by the tool.
+`loop.py check` enforces record SCHEMA; DONE-gating (report+receipt) lives
+in `loop.py set-status` + `stoplight`, not in `check` (separation: shape vs
+proof).
 
 ## 2. A-registry (agent stream — exists today as loop/tasks.jsonl)
 
@@ -22,9 +23,12 @@ pattern from evidence lifecycle).
 
 ## 3. H-registry + inbox (human stream — the build)
 
-Record: `{id, kind: approval|input|review, summary, context, options,
+Record: `{id, kind: request|resolution|expiry, h_kind: approval|input|review,
+summary, context, options,
 unlocks: [a-task ids], priority_score, idempotency_key, timeout_s,
 escalate_to, status: open|approved|denied|answered|expired, resolution}`.
+(envelope `kind` + taxonomy `h_kind` per hinbox.py; corrected 2026-09-10 —
+spec previously conflated the two.)
 Schema mirrors HumanLayer's approval record (idempotency + timeout +
 escalation) so a future HumanLayer webhook can replace the file backend
 without changing the agent side.
@@ -83,13 +87,13 @@ before.
 - Turn-bound agent: H and M NEVER block execution — poll/resume only.
   HumanLayer's blocking `await approval` is the exact pattern we invert.
 
-## 7. Build order
+## 7. Build order (all four DONE 2026-09-10 — kept as history)
 
-1. `hinbox.py` + H-record schema + `pending/poll/resolve` (A-task, ready).
-2. Port `queue.html` → `hqueue.html` + server retarget (A-task, ready).
-3. `unlocks:` on H-records + priority sort (A-task, ready).
-4. M-grant schema + Treasury/BATS port + x402 receipt check (A-design now,
-   M-run later — already split as a-metering-design).
+1. ~~`hinbox.py` + H-record schema + `pending/poll/resolve`~~ DONE.
+2. ~~Port `queue.html` → `hqueue.html` + server retarget~~ DONE (+funnel route).
+3. ~~`unlocks:` + priority sort~~ DONE (transitive + value_usd points).
+4. ~~M-grant schema + Treasury/BATS port + x402 receipt check~~ DONE
+   (grants.py; live settlement awaits rail + human button).
 
 ## 8. Canonical M-failsafe stack (7 layers, each enforced in code)
 

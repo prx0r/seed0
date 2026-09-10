@@ -81,3 +81,13 @@ def test_metered_call_accumulates_and_logs(tmp_path):
     sp = str(tmp_path / "spend.jsonl")
     log_spend(sp, {"model": "mimo-v2.5", "in": 1, "out": 2})
     assert len(open(sp).read().splitlines()) == 1
+
+
+def test_escalate_tier_policy():
+    from grants import escalate_tier
+    assert escalate_tier("free", False)["tier"] == "free"
+    assert escalate_tier("free", True)["tier"] == "cheap"
+    assert escalate_tier("cheap", True)["tier"] == "strong"
+    top = escalate_tier("strong", True)
+    assert top["tier"] == "strong" and top["escalate_human"] is True
+    assert escalate_tier("???", True)["tier"] == "free"

@@ -1,0 +1,29 @@
+{
+ "content": {
+  "idea": "eval/arch=evidence-file intact",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed1",
+    "suite_green": true
+   }
+  ],
+  "telemetry": {
+   "cost_usd": null,
+   "criteria": "",
+   "criteria_version": "",
+   "elapsed_s": 1.41,
+   "idea": "",
+   "idea_version": "",
+   "input_tokens": 0,
+   "model": "",
+   "output_tokens": 0,
+   "usage_source": "reported"
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:8486d88248f584d05b1806937b8d4910f4a5edad335eb594c285741bd0f5feed",
+ "ts": 1789052627.25549
+}

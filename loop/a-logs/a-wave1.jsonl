@@ -1,0 +1,5 @@
+{"action": "wave1 closed", "covers": [0, 1], "detail": "10 items, F1-F8 to wave2", "evidence": "", "intent": "", "task": "a-wave1", "ts": 1789052695.2992861}
+{"action": "S22+S19", "covers": [2], "detail": "attempt.json in funnel; WIP commit test green", "evidence": "", "intent": "", "task": "a-wave1", "ts": 1789052710.9673955}
+{"action": "gold bout + B3", "covers": [3, 4], "detail": "stability measured receipted; value weights tested", "evidence": "", "intent": "", "task": "a-wave1", "ts": 1789052711.0480177}
+{"action": "claim/release + eval_arch", "covers": [5, 6], "detail": "ownership tests; load-bearing verdict", "evidence": "", "intent": "", "task": "a-wave1", "ts": 1789052711.0983407}
+{"action": "recall + catalog + hooks", "covers": [7, 8, 9], "detail": "recall tests; catalog caught 4; hook roundtrip", "evidence": "", "intent": "", "task": "a-wave1", "ts": 1789052711.1775987}

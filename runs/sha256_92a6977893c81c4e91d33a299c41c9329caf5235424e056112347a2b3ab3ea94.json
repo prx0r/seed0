@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "probe outputs + files this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "g-quota-probe",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:92a6977893c81c4e91d33a299c41c9329caf5235424e056112347a2b3ab3ea94",
+ "ts": 1789051422.7021458
+}

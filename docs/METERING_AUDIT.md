@@ -18,8 +18,9 @@ arithmetic on empty inputs. Price table live (mimo 0.14/0.28, spark
 pydantic + fallback paths). Judge-model second calls would merge into the
 same meter with no per-case split (gap G1).
 **Time in 0.000s?** Run-level YES (1.43s/1.39s) — but that is 429-wait time,
-not inference. Per-case NO: result rows carry no time/tokens fields, so no
-case is attributable (gap G2).
+not inference. Per-case: IMPLEMENTED since (every result row carries
+`elapsed_s/input_tokens/output_tokens/cost_usd`, stub-proven; live values
+pending quota). Judge-model calls split into `judge_in/judge_out`.
 **Why?** (1) Provider 429: daily free-tier neuron allocation exhausted — the
 exact constraint our model policy predicts; not our bug. Handling correct:
 per-case fail-open, budget intact ($0.01 cap untouched), receipts banked.
@@ -35,12 +36,15 @@ freeze_run + lane_risk + keyed proposals + rollback + context + map +
 branch-per-task + stoplight + receipts; test-exhaust purge (40 tournament
 files + 1 receipt deleted); CLI-test CWD fix (pollution vector closed);
 59/59 receipts verify; stoplight sweep 6 GO / 38 NOGO-grandfathered.
-NOT DONE: H1b push (~180 files — blocks ALL downstream clone story);
+NOT DONE: H1b push — CLOSED (fa478bb landed, origin in sync; clone story
+unblocked)
 S19–S23 (WIP checkpoints, branch protection, scoped recall, attempt schema,
 pre-commit hooks); freeze/notes/bundles used only in tests, never a real
 bout; learn.py never fired on real failures (all bouts all-green);
-eval_arch + csec packs never on winners; assisted-eval + certificates
-(endgame only); A-log coverage 6/44 DONE (pre-chain1 era grandfathered).
+eval_arch + csec packs never on winners (eval_arch since RAN on bout3
+winner; csec still open); assisted-eval + certificates
+(endgame only); A-log coverage 6/44 DONE at audit time (grown since —
+see `loop/a-logs/` count, grandfather rule stands).
 
 ## Queued from this audit
 

@@ -8,6 +8,7 @@ Resolution stays per-repo (hserver); the plane writes only review receipts.
 
   python3 hplane.py funnel [--repos plane/repos.txt]
   python3 hplane.py review [--repos plane/repos.txt]   # + STALE + receipt
+  python3 hplane.py sync [--remotes plane/remotes.txt] [--mirrors plane/mirrors]
 """
 from __future__ import annotations
 import json
@@ -19,6 +20,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import hinbox
 
 REPOS = "plane/repos.txt"
+REMOTES = "plane/remotes.txt"
+MIRRORS = "plane/mirrors"
+
+
+def parse_entry(line: str) -> dict:
+    """`label|source[|box]` or bare path (label = basename, box = '')."""
+    parts = [p.strip() for p in line.split("|")]
+    if len(parts) == 1:
+        return {"label": Path(parts[0]).name, "source": parts[0], "box": ""}
+    return {"label": parts[0] or Path(parts[1]).name, "source": parts[1],
+            "box": parts[2] if len(parts) > 2 else ""}
 
 
 def repo_list(path: str = REPOS) -> list[str]:
@@ -29,24 +41,66 @@ def repo_list(path: str = REPOS) -> list[str]:
             if l.strip() and not l.startswith("#")]
 
 
-def collect(repos: list[str]) -> list[dict]:
-    """Gather open H-records from every repo + darkness reports."""
+def sync(remotes_file: str = REMOTES, mirrors_dir: str = MIRRORS,
+         timeout: int = 120) -> list[dict]:
+    """Multi-box transport (git as bus): mirror every listed repo locally.
+    Clone once (`--depth 1`), then fetch + hard-reset (mirrors are caches,
+    never edited). Failures recorded per mirror, never raised — one dead
+    box must not blind the whole funnel."""
+    import subprocess as _sp
     out = []
-    for repo in repos:
+    Path(mirrors_dir).mkdir(parents=True, exist_ok=True)
+    for line in repo_list(remotes_file):
+        e = parse_entry(line)
+        dest = str(Path(mirrors_dir) / e["label"])
+        try:
+            if Path(dest, ".git").exists():
+                _sp.run(["git", "fetch", "-q", "origin"], cwd=dest, check=True,
+                        capture_output=True, timeout=timeout)
+                _sp.run(["git", "reset", "-q", "--hard", "origin/HEAD"],
+                        cwd=dest, capture_output=True, timeout=timeout)
+                op = "fetched"
+            else:
+                _sp.run(["git", "clone", "-q", "--depth", "1", e["source"], dest],
+                        check=True, capture_output=True, timeout=timeout)
+                op = "cloned"
+            out.append({"label": e["label"], "ok": True, "op": op,
+                        "fetched_at": time.time()})
+        except Exception as ex:
+            out.append({"label": e["label"], "ok": False,
+                        "error": str(ex)[:160]})
+    return out
+
+
+def collect(repos: list[str]) -> list[dict]:
+    """Gather open H-records from every repo + darkness reports.
+
+    Entries are `label|path` (local) or plain paths; labels travel as the
+    repo field so 6 agents × 3 boxes stay distinguishable in one funnel."""
+    out = []
+    for line in repos:
+        e = parse_entry(line) if "|" in line else {
+            "label": Path(line).name, "source": line, "box": ""}
+        repo = e["source"]
+        tag = e["label"]
         reg = str(Path(repo) / "loop" / "registry_h.jsonl")
         queue = str(Path(repo) / "loop" / "tasks.jsonl")
         if not Path(reg).exists():
-            out.append({"repo": repo, "status": "dark"})
+            out.append({"repo": tag, "box": e["box"], "status": "dark"})
             continue
         try:
             items = hinbox.poll(reg, queue_path=queue)
-        except Exception as e:
-            out.append({"repo": repo, "status": f"unreadable: {e}"[:80]})
+        except Exception as ex:
+            out.append({"repo": tag, "box": e["box"],
+                        "status": f"unreadable: {ex}"[:80]})
             continue
         for it in items:
             age = time.time() - it.get("ts", time.time())
-            out.append({"repo": repo, "status": "open",
-                        "stale": age > it.get("timeout_s", 86400) / 2, **it})
+            row = {"repo": tag, "box": e["box"], "status": "open",
+                   "stale": age > it.get("timeout_s", 86400) / 2}
+            row.update(it)
+            row["repo"], row["box"] = tag, e["box"]  # labels win over payload
+            out.append(row)
     return out
 
 
@@ -64,9 +118,23 @@ def rank(items: list[dict]) -> list[dict]:
 
 
 def main(argv: list[str]) -> int:
-    if not argv or argv[0] not in ("funnel", "review"):
+    if not argv or argv[0] not in ("funnel", "review", "sync"):
         print(__doc__)
         return 2
+    if argv[0] == "sync":
+        kw = {}
+        it = iter(argv[1:])
+        for x in it:
+            if x.startswith("--"):
+                try:
+                    kw[x] = next(it)
+                except StopIteration:
+                    print(f"flag {x} needs a value")
+                    return 2
+        results = sync(kw.get("--remotes", REMOTES),
+                       kw.get("--mirrors", MIRRORS))
+        print(json.dumps(results, indent=1, sort_keys=True, default=str))
+        return 0 if all(r.get("ok") for r in results) else 1
     repos = repo_list(argv[argv.index("--repos") + 1] if "--repos" in argv else REPOS)
     if not repos:
         print(f"no repos (missing {REPOS}?)")

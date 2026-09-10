@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "probe outputs + files this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "g-rank-report",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:823e421b66140e44c5c94d0e509fb637b9d388abf415abd955e53444ac50c3a1",
+ "ts": 1789051422.702275
+}

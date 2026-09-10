@@ -26,37 +26,51 @@ from telemetry import Meter
 
 def run_funnel(idea: str, rubric: dict, seeds: list[str], agent_cmd: str,
                out: str, seed_root: str = "seeds", model: str = "",
-               idea_id: str = "", criteria: str = "") -> dict:
+               idea_id: str = "", criteria: str = "",
+               timeout_s: int = 600) -> dict:
     outdir = Path(out)
     (outdir / "attempts").mkdir(parents=True, exist_ok=True)
     (outdir / "brief.md").write_text(f"# Brief\n\n{idea}\n")
     (outdir / "rubric.json").write_text(json.dumps(rubric, indent=1))
     _meter = Meter(model=model, idea=idea_id, criteria=criteria)
+    import hashlib as _h
+    brief_sha = _h.sha256(idea.encode()).hexdigest()[:12]
+    try:
+        from spans import Tracer as _Tracer
+        _tracer = _Tracer(str(outdir / "spans.jsonl"), service="seed0-funnel")
+    except Exception:
+        _tracer = None
     results = []
-    for seed in seeds:
-        att = outdir / "attempts" / Path(seed).name
-        if att.exists():
-            shutil.rmtree(att)
-        src = Path(seed) if Path(seed).exists() else Path(seed_root) / seed
-        shutil.copytree(src, att,
-                        ignore=shutil.ignore_patterns(".git", "__pycache__"))
-        (att / "brief.md").write_text(f"# Brief\n\n{idea}\n")
-        (att / "rubric.json").write_text(json.dumps(rubric, indent=1))
-        t0 = time.time()
-        try:
-            import os as _os
-            from budgets import from_env as _budget_from_env
-            env = dict(_os.environ)
-            env.update(_budget_from_env().advertise())
-            p = subprocess.run(agent_cmd.split() + [str(att)], capture_output=True,
-                               text=True, timeout=600, env=env)
-            agent_ok, agent_log = p.returncode == 0, (p.stdout + p.stderr)[-1000:]
-        except subprocess.TimeoutExpired:
-            agent_ok, agent_log = False, "agent timeout"
-        score = score_attempt(str(att), rubric, time.time() - t0)
-        score.update({"seed": seed, "agent_ok": agent_ok,
-                      "agent_log": agent_log})
-        results.append(score)
+    _round = (_tracer.span("funnel.round", seed0_idea=idea[:80],
+                           brief_sha12=brief_sha, model=model or "none")
+              if _tracer else None)
+    if _round is not None:
+        _round.__enter__()
+    try:
+        for seed in seeds:
+            _s = (_tracer.span("funnel.seed", seed=Path(seed).name)
+                  if _tracer else None)
+            if _s is not None:
+                _s.__enter__()
+            try:
+                score = _run_one_seed(outdir, seed_root, seed, rubric, idea,
+                                      brief_sha, agent_cmd, timeout_s)
+            finally:
+                if _s is not None:
+                    _s.__exit__(None, None, None)
+            if _s is not None and _tracer is not None:
+                # re-open span record to attach outcome (spans are values too)
+                _tracer.finished[-1]["attributes"].update(
+                    {"seed0.binary_pass": score.get("binary_pass"),
+                     "seed0.suite_green": score.get("suite_green"),
+                     "seed0.elapsed_s": score.get("elapsed_s")})
+            results.append(score)
+    finally:
+        if _round is not None:
+            passes = sum(1 for r in results if r.get("binary_pass") is True)
+            _round.attr("seed0.seeds", len(seeds)).attr("seed0.passes", passes)
+            _round.__exit__(None, None, None)
+
     (outdir / "scores.jsonl").write_text(
         "\n".join(json.dumps(r) for r in results) + "\n")
     try:
@@ -74,6 +88,77 @@ def run_funnel(idea: str, rubric: dict, seeds: list[str], agent_cmd: str,
     except Exception:
         pass  # receipt is evidence, never load-bearing for the run itself
     return {"idea": idea, "results": results}
+
+
+def _run_one_seed(outdir, seed_root, seed, rubric, idea, brief_sha,
+                  agent_cmd, timeout_s):
+    att = outdir / "attempts" / Path(seed).name
+    if att.exists():
+        shutil.rmtree(att)
+    src = Path(seed) if Path(seed).exists() else Path(seed_root) / seed
+    shutil.copytree(src, att,
+                    ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    (att / "brief.md").write_text(f"# Brief\n\n{idea}\n")
+    (att / "rubric.json").write_text(json.dumps(rubric, indent=1))
+    # S22 attempt record: prompt→artifact linkage (ait-vcs shape).
+    (att / "attempt.json").write_text(json.dumps(
+        {"seed": Path(seed).name, "brief_sha12": brief_sha,
+         "rubric_ids": [c.get("id") for c in rubric.get("checks", [])],
+         "agent_cmd": agent_cmd, "started_ts": time.time()}, indent=1))
+    t0 = time.time()
+    try:
+        import os as _os
+        from budgets import from_env as _budget_from_env
+        env = dict(_os.environ)
+        env.update(_budget_from_env().advertise())
+        import shlex as _shlex
+        try:
+            argv = _shlex.split(agent_cmd) + [str(att)]
+        except ValueError:
+            argv = agent_cmd.split() + [str(att)]
+        p = subprocess.run(argv, capture_output=True,
+                           text=True, timeout=timeout_s, env=env)
+        agent_ok, agent_log = p.returncode == 0, (p.stdout + p.stderr)[-1000:]
+    except subprocess.TimeoutExpired:
+        agent_ok, agent_log = False, "agent timeout"
+        _wip_checkpoint(att)
+    score = score_attempt(str(att), rubric, time.time() - t0)
+    score.update({"seed": seed, "agent_ok": agent_ok,
+                  "agent_log": agent_log})
+    # B1 spend line: elapsed measured externally; subprocess tokens are
+    # unobservable — recorded as zeros, never estimated (honest zeros).
+    try:
+        from grants import log_spend
+        log_spend(str(outdir / "spend.jsonl"),
+                  {"seed": Path(seed).name,
+                   "elapsed_s": score["elapsed_s"],
+                   "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0,
+                   "usage_source": "subprocess-unobservable"})
+    except Exception:
+        pass
+    return score
+
+
+
+
+def _wip_checkpoint(att: Path) -> str:
+    """S19 WIP auto-checkpoint (git-lanes pattern): on agent timeout, commit
+    attempt state to a local branch so partial work survives the crash.
+    Best-effort; returns commit sha or "" (never fails the run)."""
+    import subprocess as _sp
+    try:
+        r = lambda *a: _sp.run(["git", *a], cwd=att, capture_output=True,
+                               timeout=30)
+        if r("rev-parse", "--git-dir").returncode != 0:
+            r("init", "-q"), r("config", "user.email", "funnel@local"), \
+                r("config", "user.name", "funnel")
+        r("add", "-A")
+        c = r("commit", "-qm", "wip: agent timeout snapshot")
+        if c.returncode != 0:
+            return ""
+        return r("rev-parse", "--short", "HEAD").stdout.strip()
+    except Exception:
+        return ""
 
 
 def score_attempt(path: str, rubric: dict, elapsed_s: float) -> dict:

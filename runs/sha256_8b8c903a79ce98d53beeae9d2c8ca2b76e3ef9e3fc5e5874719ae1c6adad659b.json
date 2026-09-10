@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "sync clones+fetches",
+   "labels travel",
+   "dead box safe"
+  ],
+  "basis": "pytest hplane (3) + live sync demo",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-multibox",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:8b8c903a79ce98d53beeae9d2c8ca2b76e3ef9e3fc5e5874719ae1c6adad659b",
+ "ts": 1789057747.0538964
+}

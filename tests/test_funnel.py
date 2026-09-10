@@ -134,3 +134,51 @@ def test_amend_records_falsifier(tmp_path):
     s.mkdir()
     rec = amend(str(s), "1.1", "note", falsifier="suite goes red on rerun")
     assert _json.loads((s / "AMENDMENTS.jsonl").read_text().splitlines()[-1])["falsifier"].startswith("suite")
+
+
+def test_attempt_record_and_spend_lines(tmp_path):
+    import json as _json
+    from funnel import run_funnel
+    seeds = tmp_path / "seeds"
+    (seeds / "s1").mkdir(parents=True)
+    (seeds / "s1" / "README.md").write_text("# s\n")
+    out = run_funnel("idea x", {"checks": []}, ["s1"], "true",
+                     str(tmp_path / "run9"), seed_root=str(seeds))
+    att = tmp_path / "run9" / "attempts" / "s1"
+    rec = _json.loads((att / "attempt.json").read_text())
+    assert rec["seed"] == "s1" and len(rec["brief_sha12"]) == 12
+    spend = [_json.loads(l) for l in
+             (tmp_path / "run9" / "spend.jsonl").read_text().splitlines()]
+    assert spend[0]["usage_source"] == "subprocess-unobservable"
+    assert spend[0]["input_tokens"] == 0 and spend[0]["elapsed_s"] >= 0
+
+
+def test_wip_checkpoint_on_timeout(tmp_path):
+    from funnel import run_funnel
+    seeds = tmp_path / "seeds"
+    (seeds / "s1").mkdir(parents=True)
+    (seeds / "s1" / "README.md").write_text("# s\n")
+    (tmp_path / "sleepy.py").write_text("import time\ntime.sleep(30)\n")
+    out = run_funnel("idea x", {"checks": []}, ["s1"],
+                     f"python3 {tmp_path / 'sleepy.py'}",
+                     str(tmp_path / "run10"), seed_root=str(seeds), timeout_s=1)
+    r = out["results"][0]
+    assert r["agent_ok"] is False and r["agent_log"] == "agent timeout"
+    att = tmp_path / "run10" / "attempts" / "s1"
+    import subprocess as _sp
+    log = _sp.run(["git", "log", "--oneline"], capture_output=True, text=True,
+                  cwd=att).stdout
+    assert "wip: agent timeout snapshot" in log
+
+
+def test_agent_cmd_quoted_survives_split(tmp_path):
+    from funnel import run_funnel
+    seeds = tmp_path / "seeds"
+    (seeds / "s1").mkdir(parents=True)
+    (seeds / "s1" / "README.md").write_text("# s\n")
+    (tmp_path / "flag.txt").write_text("x\n")
+    out = run_funnel("idea x", {"checks": []}, ["s1"],
+                     f"python3 -c \"open('{tmp_path}/touched.txt','w').write('1')\"",
+                     str(tmp_path / "run11"), seed_root=str(seeds))
+    assert out["results"][0]["agent_ok"] is True
+    assert (tmp_path / "touched.txt").read_text() == "1"

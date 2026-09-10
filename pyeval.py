@@ -94,6 +94,13 @@ def run(dataset: str, model: str, base: str, key: str,
     ds = json.loads(Path(dataset).read_text())
     meter = meter or Meter(model=model, idea=idea, criteria=criteria)
     meter.model, meter.idea, meter.criteria = model, idea, criteria
+    try:
+        from spans import Tracer as _Tracer
+        _tracer = _Tracer(None, service="seed0-pyeval")
+        _run_span = _tracer.span("eval.run", **{"gen_ai.response.model": model})
+        _run_span.__enter__()
+    except Exception:
+        _tracer, _run_span = None, None
     results, score, total = [], 0.0, 0.0
     session = f"seed0-pyeval-{int(time.time())}"
     from telemetry import cost_usd
@@ -119,11 +126,16 @@ def run(dataset: str, model: str, base: str, key: str,
                 continue
         i0, o0 = meter.input_tokens, meter.output_tokens
         t0 = time.time()
+        _cs = (_tracer.span("eval.case", case_id=case["id"]) if _tracer else None)
+        if _cs is not None:
+            _cs.__enter__()
         try:
             ans = complete(base, key, model,
                            [{"role": "user", "content": case["input"]}],
                            session=session, meter=meter)
         except Exception as e:
+            if _cs is not None:
+                _cs.error(f"transport: {e}"[:120]).__exit__(None, None, None)
             results.append({"id": case["id"], "pass": False,
                             "why": f"transport: {e}"[:160], "weight": w,
                             "elapsed_s": round(time.time() - t0, 2),
@@ -132,6 +144,7 @@ def run(dataset: str, model: str, base: str, key: str,
             continue
         if case.get("evaluator", "rule") == "judge":
             jm = case.get("judge_model") or judge_model or model
+            ji0, jo0 = meter.input_tokens, meter.output_tokens
             try:
                 ok, why = grade_judge(
                     lambda ms: complete(base, key, jm, ms, session=session,
@@ -139,8 +152,10 @@ def run(dataset: str, model: str, base: str, key: str,
                     ans, case.get("rubric", ""))
             except Exception as e:
                 ok, why = False, f"judge transport: {e}"[:160]
+            judge_in, judge_out = meter.input_tokens - ji0, meter.output_tokens - jo0
         else:
             ok, why = grade_rule(ans, case.get("expect", {}))
+            judge_in, judge_out = 0, 0
         score += w if ok else 0.0
         if budget is not None:
             di, do = meter.input_tokens - i0, meter.output_tokens - o0
@@ -150,24 +165,32 @@ def run(dataset: str, model: str, base: str, key: str,
             except Exception as e:
                 ok, why = False, f"budget refused next call: {e}"[:160]
         di, do = meter.input_tokens - i0, meter.output_tokens - o0
+        case_cost = cost_usd(model, di, do)
+        if _cs is not None:
+            _cs.attr("gen_ai.usage.prompt_tokens", di).attr(
+                "gen_ai.usage.completion_tokens", do).attr(
+                "gen_ai.response.model", model).attr(
+                "llm.estimated_cost_usd", case_cost or 0.0).attr(
+                "seed0.case_pass", ok).__exit__(None, None, None)
         results.append({"id": case["id"], "pass": ok, "why": why,
                         "weight": w, "answer": ans[:300],
                         "elapsed_s": round(time.time() - t0, 2),
                         "input_tokens": di, "output_tokens": do,
-                        "cost_usd": cost_usd(model, di, do)})
+                        "cost_usd": case_cost,
+                        "judge_in": judge_in, "judge_out": judge_out})
+    if _run_span is not None:
+        _run_span.attr("seed0.score", score).attr("seed0.total", total).__exit__(
+            None, None, None)
     return {"model": model, "score": score, "total": total,
             "pass": bool(total) and score >= total, "results": results,
-            "telemetry": meter.block()}
+            "telemetry": meter.block(),
+            "spans": _tracer.finished if _tracer else []}
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
     if not a or a[0] != "run":
         print(__doc__)
-        raise SystemExit(2)
-    a = sys.argv[1:]
-    if not a or a[0] != "run":
-        print("usage: pyeval.py run DATASET [--model m] [--base url] [--judge-model m] [--out runs/]")
         raise SystemExit(2)
     kw, pos = {}, []
     it = iter(a[1:])
@@ -220,7 +243,9 @@ if __name__ == "__main__":
                                                  "elapsed_s": r.get("elapsed_s", 0),
                                                  "input_tokens": r.get("input_tokens", 0),
                                                  "output_tokens": r.get("output_tokens", 0),
-                                                 "cost_usd": r.get("cost_usd", 0)}
+                                                 "cost_usd": r.get("cost_usd", 0),
+                                                 "judge_in": r.get("judge_in", 0),
+                                                 "judge_out": r.get("judge_out", 0)}
                                                 for r in rep["results"]]},
                           root=kw["--out"])
         print(f"receipt: {save(rec, root=kw['--out'])} {rec['run_id'][:19]}…")

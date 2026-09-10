@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "dirty refusal tested",
+   "boolean parser fixed + retested",
+   "M-watch receipted",
+   "a-push closed"
+  ],
+  "basis": "pytest + live commands this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-branchguard",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:7030f37cd494d74137a0020fcd0d049f2326a87d2ba14c702a69ace5734da3bf",
+ "ts": 1789054137.906323
+}

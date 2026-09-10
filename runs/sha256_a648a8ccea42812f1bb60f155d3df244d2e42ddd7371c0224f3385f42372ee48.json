@@ -1,0 +1,16 @@
+{
+ "content": {
+  "acceptance": [
+   "fa478bb on origin/main",
+   "remote == local"
+  ],
+  "basis": "ls-remote fa478bb == git rev-parse HEAD fa478bb; supersedes 01d42ba acceptance (branch merged forward)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-push",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:a648a8ccea42812f1bb60f155d3df244d2e42ddd7371c0224f3385f42372ee48",
+ "ts": 1789054023.140128
+}

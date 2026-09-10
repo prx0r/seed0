@@ -27,6 +27,8 @@ Every agent-side thing, one line of function. Format: name — file —
 function — in/out — tier — proven-by (test or receipt).
 
 **Harness core**
+- checker/scaffolder — `seed0.py` — 5-check compliance gate (+foreign-CWD
+  6th) + template scaffolder that git-inits — A — `tests/test_seed0.py`.
 - checker — `seed0.py check` — scores a repo 5 checks (+6th foreign-CWD gate
   with `--cwd-independent`) — in: path; out: report + exit code — A —
   `tests/test_seed0.py` (40+ cases incl. self-scan).
@@ -53,6 +55,18 @@ function — in/out — tier — proven-by (test or receipt).
 - tracer — `trace.py` — run tracing helpers — A.
 - rulers — `metrics.py` — footrule/rank_distance/storm_counts, tested before
   measuring — in: orders; out: integers — A — `tests/test_metrics.py`.
+- spans — `spans.py` — OTel-shaped traces (monotonic timing, gen_ai attrs,
+  JSONL sink, rollup $/run) without the SDK — A — `tests/test_spans.py`.
+- check-in policy — `policy.py` — heuristic cold start + online SGD over
+  approval/denial traces, three-tier cascade — A — `tests/test_policy.py`.
+- git notes — `gitnotes.py` — scores as notes, outcomes as tags — A —
+  `tests/test_gitnotes.py`.
+- MCP surface — `mcp_server.py` — read-only stdio tools for any agent — A —
+  `tests/test_mcp.py`.
+- measured runs — `agentrun.py` — external timing + usage capture + budgets,
+  three-valued token honesty — A — `tests/test_agentrun.py`.
+- pre-commit gate — `scripts/install-hooks.py` — fast gates before commit
+  (+`--with-push`) — A — installer roundtrip test.
 
 **Delegation (H/A/M as code)**
 - tiers — `ham.py` — prohibited screen, digest-bound approvals
@@ -73,6 +87,10 @@ function — in/out — tier — proven-by (test or receipt).
 - reports — `loop/reports/<id>.md` — claim/evidence/self-review/needs/cost — A.
 
 **Streams (registries)**
+- registry gate — `registries.py` — one read API + schema gate over
+  A/H/M (`loop/tasks.jsonl`, `loop/registry_h.jsonl`,
+  `loop/registry_m.jsonl`); missing file = empty stream; no delete API —
+  in: hub polls; out: records or schema errors — A.
 - inbox — `hinbox.py` — idempotent filing, resolve-once, expiry, transitive
   unlock priority; poll-never-block — in: requests; out: ranked opens — A.
 - inbox UI+server — `hqueue.html` + `hserver.py` — localhost cards +
@@ -82,6 +100,15 @@ function — in/out — tier — proven-by (test or receipt).
   ops; out: GrantDenied or receipted spend — A (live spend = M).
 - plane — `hplane.py` + `plane/repos.txt` — cross-repo funnel, T0 rank
   (value_usd, priority), dark-repo reporting, review receipts — A.
+- instrument — `keys.json` + `chain.py` + `press.py` + `instrument.py` —
+  10-key press chains ("2943") parsed and dispatched to real machinery,
+  every press logged (context -> decision -> outcome) to
+  `loop/presses.jsonl`; 0 toggles `loop/HALT.json`; 8 writes
+  `loop/goal.json`; 9 appends `loop/corrections.jsonl` — in: chains;
+  out: result packet + close line — A (4/5/6/7 = H).
+- self-audit — `acheck.py` — A-task nativeness gate (schema, DONE→receipt
+  resolution mirroring loop.py, EXECUTING→fresh a-log else STALE, dangling
+  refs); exit 0 = native — in: any queue; out: findings — A.
 
 **Validators & seeds**
 - idea gate — `idea0/validate_idea.py` — sections + falsifiable `- [ ]` rows +

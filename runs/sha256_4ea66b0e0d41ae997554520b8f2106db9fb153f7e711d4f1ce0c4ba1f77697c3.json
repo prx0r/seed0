@@ -1,0 +1,16 @@
+{
+ "content": {
+  "acceptance": [
+   "every module graded with evidence",
+   "theatre list with fixes or queues"
+  ],
+  "basis": "census commands + test files + receipt census this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-repoaudit",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:4ea66b0e0d41ae997554520b8f2106db9fb153f7e711d4f1ce0c4ba1f77697c3",
+ "ts": 1789051380.1868823
+}

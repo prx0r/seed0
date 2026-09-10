@@ -50,6 +50,7 @@ def new_request(summary: str, context: str = "", h_kind: str = "approval",
                 urgency: int = 1, timeout_s: int = 86400,
                 idempotency_key: str = "", from_task: str = "",
                 exact_steps: list | None = None, send_back: str = "",
+                grant: dict | None = None,
                 path: str | None = None) -> dict:
     """File a request. Same idempotency_key returns the existing record.
 
@@ -69,7 +70,7 @@ def new_request(summary: str, context: str = "", h_kind: str = "approval",
            "unlocks": unlocks or [], "urgency": urgency,
            "idempotency_key": key, "timeout_s": timeout_s,
            "from_task": from_task, "exact_steps": exact_steps or [],
-           "send_back": send_back,
+           "send_back": send_back, "grant": grant or {},
            "promoted": bool(from_task and exact_steps and send_back),
            "ts": time.time(), "status": OPEN}
     return _append(rec, path)
@@ -107,19 +108,40 @@ def poll(path: str | None = None, queue_path: str = "loop/tasks.jsonl",
 
 
 def resolve(rid: str, decision: str, note: str = "", by: str = "human",
-            path: str | None = None) -> dict:
+            path: str | None = None, mreg_path: str | None = None) -> dict:
     path = path or HREG
-    """Resolve a request (append-only resolution record)."""
+    """Resolve a request (append-only resolution record). B5 wiring: an
+    approved request carrying a grant spec activates the grant inline, so
+    the human button press IS the exact-amount release. Denials and
+    grant-less requests resolve with no money movement. Activation failure
+    is recorded on the resolution (never silent), and the decision stands
+    while spend stays locked."""
     if decision not in DECISIONS:
         raise ValueError(f"decision must be one of {sorted(DECISIONS)}")
     recs = _read(path)
-    if not any(r.get("kind") == "request" and r["id"] == rid for r in recs):
+    req = next((r for r in recs
+                if r.get("kind") == "request" and r.get("id") == rid), None)
+    if req is None:
         raise KeyError(f"unknown request: {rid}")
     if rid in _superseded(recs):
         raise ValueError(f"already resolved: {rid}")
-    return _append({"id": "h-" + secrets.token_hex(4), "kind": "resolution",
-                    "supersedes": rid, "decision": decision,
-                    "note": note, "by": by, "ts": time.time()}, path)
+    rec = {"id": "h-" + secrets.token_hex(4), "kind": "resolution",
+           "supersedes": rid, "decision": decision,
+           "note": note, "by": by, "ts": time.time()}
+    spec = req.get("grant") or {}
+    if decision == "approved" and spec:
+        try:
+            from grants import new_grant, activate
+            kw = {} if mreg_path is None else {"path": mreg_path}
+            g = new_grant(int(spec["amount_cents"]), str(spec["purpose"]),
+                          str(spec.get("recipient", "")),
+                          expiry_s=int(spec.get("expiry_s", 86400)),
+                          approved_by=by, **kw)
+            activate(g["id"], by=by, **kw)
+            rec["grant_id"] = g["id"]
+        except Exception as e:
+            rec["grant_error"] = f"{type(e).__name__}: {e}"[:160]
+    return _append(rec, path)
 
 
 def priority_score(h: dict, tasks: list[dict]) -> float:
@@ -143,4 +165,5 @@ def priority_score(h: dict, tasks: list[dict]) -> float:
                 frontier.append(dep)
     direct = sum(1 for u in (h.get("unlocks", []) or [])
                  if by_id.get(u, {}).get("status", "OPEN") != "DONE")
-    return round(total + direct + 0.5 * (h.get("urgency", 1) or 0), 2)
+    value = float(h.get("value_usd") or 0)  # policy: $1 expected = 1pt
+    return round(total + direct + 0.5 * (h.get("urgency", 1) or 0) + value, 2)

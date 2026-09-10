@@ -1,0 +1,1 @@
+{"checks": [{"id": "engine", "path": "mixengine.py", "type": "file_exists"}, {"id": "mtests", "path": "tests/test_mix.py", "type": "file_exists"}, {"id": "arcfn", "path": "mixengine.py", "text": "def generate_arc", "type": "contains"}, {"id": "evidence", "path": "evidence.txt", "type": "file_exists"}, {"id": "suite", "type": "suite_green"}]}

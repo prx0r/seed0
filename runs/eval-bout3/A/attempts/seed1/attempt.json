@@ -1,0 +1,14 @@
+{
+ "seed": "seed1",
+ "brief_sha12": "1b3cf95a650b",
+ "rubric_ids": [
+  "ranker",
+  "rtests",
+  "rankfn",
+  "formula",
+  "evidence",
+  "suite"
+ ],
+ "agent_cmd": "true",
+ "started_ts": 1789052625.8452454
+}

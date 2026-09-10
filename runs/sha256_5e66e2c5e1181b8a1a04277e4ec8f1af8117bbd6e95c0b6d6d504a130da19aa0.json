@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "frozen de-primed pre-work",
+   "3 lanes exit 0 + re-run",
+   "blind review-then-reveal",
+   "tournament receipted"
+  ],
+  "basis": "commands run live this turn; receipts verify",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-bout2",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:5e66e2c5e1181b8a1a04277e4ec8f1af8117bbd6e95c0b6d6d504a130da19aa0",
+ "ts": 1789051690.4415457
+}

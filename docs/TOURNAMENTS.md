@@ -34,6 +34,8 @@ validator independently — builders never grade their own homework.
   exit 0 + suite green.
 - Red lane invalidates its bout (C7), never the hypothesis. Shared weakness
   across passing lanes becomes a next-round rubric row, not a failure.
+- Rankers must break ties deterministically (bout4 finding: input-order
+  ties are a robustness flaw, not luck — secondary key required).
 - Avatars/gamification only after measurement is luck-free (evidence-count
   tiebreaks are filename luck — costume on noise is theatre).
 - Judges cite ONLY lane-visible fields (lane, binary_pass, metric).
@@ -61,6 +63,8 @@ python3 funnel.py review --run runs/<bout> --round 1 --blind   # verdicts first
 python3 funnel.py reveal --run runs/<bout> --round 1           # identities after
 python3 tournament.py <lane-dirs> --model <label> --weights runs/<bout>/weights.json
 # 4. receipts verify; packet + THREADS updated
+# Ordering law: log covers BEFORE stoplight (light-then-log produced a
+# NOGO-then-DONE sequence in bout2 — striation, not a shortcut).
 ```
 
 ## Failure log (this guide was debugged by its own bouts)

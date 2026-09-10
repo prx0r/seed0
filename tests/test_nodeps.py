@@ -11,7 +11,9 @@ from pathlib import Path
 ALLOWLIST = {"seed0", "tournament", "funnel", "pyeval", "runs", "tasks",
              "telemetry", "budgets", "learn", "trace", "eval_arch", "ham",
              "loop", "hinbox", "hserver", "grants", "hplane", "metrics",
-             "policy", "mcp_server", "gitnotes"}
+             "loop", "hinbox", "hserver", "grants", "hplane", "metrics",
+             "policy", "mcp_server", "gitnotes", "spans",
+             "chain", "press", "instrument", "registries", "acheck"}
 OPTIONAL = {"pydantic"}
 
 

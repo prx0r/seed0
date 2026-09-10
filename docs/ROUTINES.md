@@ -2,7 +2,7 @@
 
 **Rule (cg REPRODUCE doctrine):** receipts are truth. Every routine below ends
 in files + receipts you can re-verify; prose claims nothing. Full command
-outputs verified 2026-09-10 (suite 106, self-check 6/6).
+outputs verified 2026-09-10 (suite 127, self-check 6/6).
 
 ## The core loop every routine lives in
 
@@ -22,7 +22,7 @@ each step proves. Copy the block, fill `[slots]`, run top to bottom.
 When: fresh clone, new box, start of any session that touches code.
 ```bash
 git clone https://github.com/prx0r/seed0.git && cd seed0
-python3 -m pytest tests/ -q                    # expect: 106 passed
+python3 -m pytest tests/ -q                    # expect: 127 passed
 python3 seed0.py check . --cwd-independent     # expect: 6/6 COMPLIANT
 python3 loop.py check                          # expect: N records, 0 problems
 python3 hplane.py funnel 2>/dev/null | head -5 # expect: ranked H-queue

@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "OG saved verbatim",
+   "element map complete",
+   "delta disclosed with justification"
+  ],
+  "basis": "both files on disk, mapped line by line this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-ogcompare",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:8aa964fd0bb7b642759dce7d24a12261ef389f125c838f6af583c0f78edcd06b",
+ "ts": 1789055698.6188574
+}

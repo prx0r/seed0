@@ -6,6 +6,10 @@ v1 first; each section below names the v1 mechanism it graduates.
 
 ## 1. Learned delegation policy (graduates `standing()`)
 
+PARTIALLY BUILT 2026-09-10: `policy.py` (heuristic cold start + online SGD,
+three-tier cascade, `tests/test_policy.py`). Full 13-feature version + nightly
+export still open. Original spec below (kept as direction):
+
 Hedwig-pattern online classifier, per-repo persisted weights. Features per
 proposed action: diff size, blast radius (files × dirs), reversibility class,
 security sensitivity (secret-adjacent paths), prior approvals/denials for the
@@ -24,6 +28,11 @@ with the reason attached. Tiers A/H/M remain as the human-legible projection
 of α (α>0.9 → A, 0.4–0.9 → H-check-in, spend → M regardless of α).
 
 ## 3. Metered everything (graduates M-tier logging)
+
+PARTIALLY BUILT 2026-09-10: `Budget.check()` pre-call refusal wired into
+pyeval (zero-budget runs make zero calls); per-case time/tokens/cost rows;
+`metered_run` (pydantic-optional). Still open: invoice reconciliation,
+subagent-cognition metering, funnel-subprocess observability. Original:
 
 Every inference call wrapped: model, input/output tokens (provider-reported +
 invoice-reconciled, never estimated — see `TELEMETRY_HONESTY.md`), wall time,
@@ -70,6 +79,8 @@ agent still cannot exceed delegated authority). Microsecond cost, same as
 today's regex screen, minus the trust-me.
 
 ## Build order (each is a bout-sized chunk)
+
+Status 2026-09-10: items 1–2 PARTIAL (policy.py, Budget.check); 3–5 OPEN.
 
 1. Metering wrapper + enforced budgets (kills the worst theatre item).
 2. Learned policy v1 (logistic, 13 features, per-repo weights).

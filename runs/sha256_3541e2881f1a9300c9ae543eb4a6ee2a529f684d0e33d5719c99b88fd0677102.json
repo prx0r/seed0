@@ -1,0 +1,16 @@
+{
+ "content": {
+  "acceptance": [
+   "10 items implemented+tested",
+   "findings F1-F8 banked for wave 2"
+  ],
+  "basis": "pytest per item + live bout4 run",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-wave1",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:3541e2881f1a9300c9ae543eb4a6ee2a529f684d0e33d5719c99b88fd0677102",
+ "ts": 1789052689.2015882
+}

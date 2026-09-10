@@ -48,3 +48,27 @@ def verify(receipt: dict) -> bool:
 
 def verify_file(path: str) -> bool:
     return verify(json.loads(Path(path).read_text()))
+
+
+def verify_all(root: str = "runs") -> dict:
+    """Ledger-level audit (F8): verify every receipt file under root.
+    Returns counts + offenders. The whole ledger, not one receipt."""
+    ok, bad, files = 0, [], sorted(Path(root).glob("sha256_*.json"))
+    for f in files:
+        try:
+            if verify_file(str(f)):
+                ok += 1
+            else:
+                bad.append(f.name)
+        except Exception as e:
+            bad.append(f"{f.name} ({e})"[:100])
+    return {"files": len(files), "valid": ok, "invalid": bad}
+
+
+if __name__ == "__main__":
+    import sys as _sys
+    rep = verify_all(_sys.argv[1] if len(_sys.argv) > 1 else "runs")
+    print(f"{rep['valid']}/{rep['files']} valid")
+    for b in rep["invalid"]:
+        print(f"  BAD: {b}")
+    raise SystemExit(0 if not rep["invalid"] else 1)

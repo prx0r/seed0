@@ -25,6 +25,11 @@ quota. `ham.py` is the enforcement; this file is the rationale.
 4. Human sees summary + numbered steps + SEND BACK line (hqueue renders it).
    Resolution resumes the A-task. Pre-rule H-records (no `from_task`) are
    grandfathered, sorted after promoted ones.
+5. Money promotion: an H-record may carry a `grant` spec (integer cents +
+   purpose + recipient). Approving it activates the grant inline
+   (`hinbox.resolve` → `grants.activate`) and stamps `grant_id` on the
+   resolution — the button press IS the exact-amount release. Denial or
+   activation failure moves no money; failures are recorded, never silent.
 
 ## Frontier lineage (steal list, all verified in-repo or on arXiv)
 

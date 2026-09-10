@@ -133,3 +133,26 @@ def test_per_case_telemetry_present_no_network(tmp_path, monkeypatch):
     assert (r["input_tokens"], r["output_tokens"]) == (20, 8)
     assert r["elapsed_s"] >= 0 and r["cost_usd"] > 0
     assert rep["telemetry"]["input_tokens"] == 20
+
+
+def test_judge_tokens_attributed_separately(tmp_path, monkeypatch):
+    import json as _json
+    import urllib.request as _url
+    from pyeval import run
+
+    class FakeResp:
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self):
+            return _json.dumps({"usage": {"input_tokens": 10, "output_tokens": 4},
+                                "choices": [{"message": {"content": "ans"}}]}).encode()
+
+    monkeypatch.setattr(_url, "urlopen", lambda *a, **k: FakeResp())
+    ds = tmp_path / "d.json"
+    ds.write_text(_json.dumps(
+        {"cases": [{"id": "j1", "input": "q", "evaluator": "judge",
+                    "rubric": "r", "weight": 1}]}))
+    rep = run(str(ds), "mimo-v2.5", "http://x", "k")
+    r = rep["results"][0]
+    assert (r["input_tokens"], r["output_tokens"]) == (20, 8)
+    assert (r["judge_in"], r["judge_out"]) == (10, 4)

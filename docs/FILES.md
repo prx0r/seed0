@@ -11,6 +11,7 @@
 - telemetry.py — usage metering (reported, never estimated silently)
 - budgets.py — spend caps advertised to agents
 - trace.py — run tracing helpers
+- scripts/install-hooks.py — pre-commit/push gate installer
 - ham.py — H/A/M delegation tiers + prohibited screen + digest-bound approvals
 - decisions.jsonl — tier/approval decision log (content-hashed ids)
 - loop.py — META_LOOP queue driver (schema teeth: DONE needs proof)
@@ -21,17 +22,23 @@
 - hplane.py + plane/repos.txt — cross-repo H-funnel (revenue-first rank)
 - mcp_server.py — MCP stdio server (read-only tools; zero-install use)
 - policy.py — learned check-in policy (Hedwig port: heuristic + SGD)
-- gitnotes.py — scores as git notes + outcome tags- docs/CONTROL_PLANE.md — git-as-bus design (verified primitives)
+- gitnotes.py — scores as git notes + outcome tags
+- spans.py — OTel-shaped traces (monotonic timing, gen_ai attrs, JSONL sink, rollup $/run)
+- docs/CONTROL_PLANE.md — git-as-bus design (verified primitives)
 - metrics.py — shared tournament rulers (footrule, rank_distance, storm_counts)
 - docs/TOURNAMENTS.md — metaguide (schemas, verdict rules, runbook)
 - docs/PROMPT_LIBRARY.md — copy-paste H/M/A prompt blocks
 - reviewip.md — ip-graph review (functions, skills, steal list S1–S6)
 - docs/ROUTINES.md — R1–R6 session routines + WHEN matrix + combinations
 - docs/GOALS_FRONTIER.md — a-goal validation vs frontier + 5 gaps
-- docs/METERING_AUDIT.md — high-signal metering audit (tokens/$/time + gaps)- docs/GITNATIVE.md — git-native patterns (Letta/ait/lanes) + S17–S23- NORTHSTAR.md — the impenetrable endgame flow (frozen, versioned)- BOOT.md — session-start orders; BOOT_PULSE.txt — frozen scheduler prompt
+- docs/METERING_AUDIT.md — high-signal metering audit (tokens/$/time + gaps)
+- docs/GITNATIVE.md — git-native patterns (Letta/ait/lanes) + S17–S34
+- NORTHSTAR.md — the impenetrable endgame flow (frozen, versioned)
+- BOOT.md — session-start orders; BOOT_PULSE.txt — frozen scheduler prompt
 - docs/DRIVER_GAP.md — the turn-boundary block spec (why returns happen)
 - docs/REGISTRIES.md — 3-stream registries design (A/H/M, unlock graph, grant lock)
-- docs/SESSION_REVIEW.md — full 2026-09-10 session review + T0 goal- endgameautonomy.md — crazy final autonomy spec (vision, not built)
+- docs/SESSION_REVIEW.md — full 2026-09-10 session review + T0 goal (frozen snapshot; live state in THREADS/packet)
+- endgameautonomy.md — crazy final autonomy spec (vision, not built)
 - docs/META_LOOP.md — autonomous work protocol (self-tasking spec v1)
 - AGENTS.md — binding agent laws; README.md — usage; THESIS.md — vision
 - HUMAN_LOOP.md — reporting contract; ECOSYSTEM.md — landscape

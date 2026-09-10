@@ -67,3 +67,38 @@ def test_poll_order_is_priority(tmp_path):
     big = new_request("big unlock", unlocks=["b"], path=p)
     order = [r["id"] for r in poll(p, queue_path=str(q))]
     assert order == [big["id"], small["id"]]
+
+
+def test_value_usd_counts_as_priority_points():
+    from hinbox import priority_score
+    tasks = [{"id": "x", "status": "EXECUTING", "acceptance": ["a"]}]
+    plain = {"unlocks": ["x"], "urgency": 1}
+    rich = {"unlocks": ["x"], "urgency": 1, "value_usd": 500}
+    assert priority_score(rich, tasks) - priority_score(plain, tasks) == 500
+
+
+def test_approve_with_grant_spec_activates(tmp_path):
+    from hinbox import new_request, resolve
+    from grants import check_spend, GrantDenied
+    import pytest as _pt
+    hreg, mreg = str(tmp_path / "h.jsonl"), str(tmp_path / "m.jsonl")
+    r = new_request("fund eval", path=hreg, grant={
+        "amount_cents": 100, "purpose": "eval-run",
+        "recipient": "https://x402.egoic.ai/v1/work"})
+    res = resolve(r["id"], "approved", path=hreg, mreg_path=mreg)
+    assert "grant_id" in res and "grant_error" not in res
+    st = check_spend(res["grant_id"], 100, "eval-run", path=mreg)
+    assert st["remaining_cents"] == 100
+    with _pt.raises(GrantDenied):
+        check_spend(res["grant_id"], 101, "eval-run", path=mreg)
+
+
+def test_deny_with_grant_spec_spends_nothing(tmp_path):
+    from hinbox import new_request, resolve, poll
+    import json as _json
+    hreg, mreg = str(tmp_path / "h.jsonl"), str(tmp_path / "m.jsonl")
+    r = new_request("fund eval", path=hreg, grant={
+        "amount_cents": 100, "purpose": "eval-run", "recipient": "ep"})
+    res = resolve(r["id"], "denied", path=hreg, mreg_path=mreg)
+    assert "grant_id" not in res
+    assert poll(hreg) == []

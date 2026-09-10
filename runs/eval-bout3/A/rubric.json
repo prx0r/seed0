@@ -1,0 +1,35 @@
+{
+ "checks": [
+  {
+   "id": "ranker",
+   "path": "ranker.py",
+   "type": "file_exists"
+  },
+  {
+   "id": "rtests",
+   "path": "tests/test_ranker.py",
+   "type": "file_exists"
+  },
+  {
+   "id": "rankfn",
+   "path": "ranker.py",
+   "text": "def rank",
+   "type": "contains"
+  },
+  {
+   "id": "formula",
+   "path": "ranker.py",
+   "text": "score",
+   "type": "contains"
+  },
+  {
+   "id": "evidence",
+   "path": "evidence.txt",
+   "type": "file_exists"
+  },
+  {
+   "id": "suite",
+   "type": "suite_green"
+  }
+ ]
+}

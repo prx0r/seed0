@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "36 docs re-read",
+   "rot fixed in 12 files",
+   "packet reconciled",
+   "gates re-green"
+  ],
+  "basis": "read tool outputs + edit confirmations + pytest/check/loop runs this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-docrefresh",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:901d715213ba2b1a19389b54832b412a425e2cf0f993cd79c9b26d6aa19a636b",
+ "ts": 1789053623.9219565
+}

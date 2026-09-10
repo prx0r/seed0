@@ -47,3 +47,47 @@ def test_dark_and_stale_surfaced(tmp_path):
     fresh = _repo(tmp_path, "new", [_req("h-8", "fresh", age=1, timeout=100)])
     rows = rank(collect([fresh]))
     assert rows[0]["stale"] is False
+
+
+def _gitrepo(path, files):
+    import subprocess as sp
+    path.mkdir(parents=True)
+    for a in (["init", "-q"], ["config", "user.email", "t@t"],
+              ["config", "user.name", "t"], ["branch", "-M", "main"]):
+        sp.run(["git", *a], cwd=path, check=True, capture_output=True)
+    (path / ".keep").write_text("x\n")
+    for rel, content in files.items():
+        p = path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+    sp.run(["git", "add", "-A"], cwd=path, check=True, capture_output=True)
+    sp.run(["git", "commit", "-qm", "init"], cwd=path, check=True, capture_output=True)
+    return path
+
+
+def test_sync_clones_and_refreshes(tmp_path):
+    import subprocess as sp
+    from hplane import sync, collect, rank
+    import hinbox
+    src = _gitrepo(tmp_path / "src", {})
+    (src / "loop").mkdir()
+    hinbox.new_request("remote fix?", unlocks=[],
+                       path=str(src / "loop" / "registry_h.jsonl"))
+    (src / "loop" / "tasks.jsonl").write_text("")
+    sp.run(["git", "add", "-A"], cwd=src, check=True, capture_output=True)
+    sp.run(["git", "commit", "-qm", "queue"], cwd=src, check=True, capture_output=True)
+    rem = tmp_path / "remotes.txt"
+    rem.write_text(f"vps9-demo|{src}\n")
+    out = sync(str(rem), str(tmp_path / "mirrors"))
+    assert out[0]["ok"] is True and out[0]["op"] == "cloned"
+    rows = rank(collect([f"vps9-demo|{tmp_path}/mirrors/vps9-demo|vps9"]))
+    opens = [r for r in rows if r["status"] == "open"]
+    assert len(opens) == 1 and opens[0]["repo"] == "vps9-demo"
+    assert opens[0]["box"] == "vps9"
+    # second sync fetches; broken remote records error without raising
+    out = sync(str(rem), str(tmp_path / "mirrors"))
+    assert out[0] == [r for r in out if r["label"] == "vps9-demo"][0]
+    assert out[0]["ok"] is True and out[0]["op"] == "fetched"
+    (tmp_path / "remotes2.txt").write_text("dead|/tmp/definitely-not-here-xyz\n")
+    bad = sync(str(tmp_path / "remotes2.txt"), str(tmp_path / "mirrors2"))
+    assert bad[0]["ok"] is False and "error" in bad[0]

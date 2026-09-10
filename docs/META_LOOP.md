@@ -61,11 +61,13 @@ H/M needs surface as queues with demos — never executed unapproved.
 ## 4. A-task lifecycle
 
 ```
-PROPOSED → JUSTIFIED → EXECUTING → REPORTED → VALIDATED → DONE
-               ↑                        |
-               └──── REJECTED (reasons) ┘
+PROPOSED → JUSTIFIED → EXECUTING → REPORTED → DONE
+               ↑                          |
+               └──── REJECTED (reasons) ───┘
 EXECUTING → PAUSED (H/M need) → EXECUTING (on approval)
 ```
+(REPORTED = validation receipt written, awaiting stoplight GO; there is no
+separate VALIDATED state — DONE follows GO directly.)
 
 Batch rule: drain all ready A-tasks (parallel where independent) before the
 review pass. Then run the propose step (§7) and drain AGAIN — iterations
@@ -143,8 +145,12 @@ cluster id), `why_tier` (routing result), `cost_note` + manual actions,
 - `learn.py` → shared-failure clusters feed step "propose next" (§7 parents).
 - `tournament.py` / `funnel.py` / `pyeval.py` → evidence generators.
 - First graduation: `loop.py` driver (machine-readable queue + auto-validation).
-  Until then this file is executed by hand, and deviations are process failures
-  eligible for `learn.py` clustering like any other shared failure.
+  GRADUATED 2026-09-10: `loop.py` implements add/list/show/set/check plus
+  ready/branch/history/replan/metrics/leafcheck/promote/ingest/goalcheck/map/
+  context/rollback/heuristics/claim/release/recall/log/stoplight/set-status.
+  This file is now executed by hand only where no command exists yet; gaps
+  are process failures eligible for `learn.py` clustering like any other
+  shared failure.
 
 ## 10. Worked example (this session, abridged)
 

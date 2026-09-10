@@ -40,13 +40,34 @@
   "a-moneytourney",
   "a-logreview",
   "a-meteraudit",
-  "a-percase"
+  "a-percase",
+  "a-repoaudit",
+  "g-rail-probe",
+  "g-quota-probe",
+  "g-rank-report",
+  "a-bout2",
+  "a-bout3",
+  "a-wave1",
+  "a-wave2",
+  "a-cwdgate",
+  "a-ham",
+  "a-endgame",
+  "a-audit",
+  "a-metaloop",
+  "a-registries",
+  "a-goalfrontier",
+  "a-docrefresh",
+  "a-b4escalation",
+  "a-branchguard",
+  "a-spans",
+  "a-moneyt2",
+  "a-daylog",
+  "a-ogcompare",
+  "a-agentrun",
+  "a-b5activate",
+  "a-multibox"
  ],
  "blocked_on": [
-  {
-   "queue": "H1b",
-   "approval_string": "fresh write-scoped token, then push"
-  },
   {
    "queue": "H2",
    "approval_string": "you revoke read-scoped token"
@@ -66,5 +87,5 @@
   }
  ],
  "proposed_next": [],
- "dryness_proof": "A-backlog empty; H/M queues pending (H1b/H2/H6/H-driver/M4-run). HALT legal."
+ "dryness_proof": "H1b CLOSED (fa478bb pushed, origin in sync). A-backlog open: B1-B11 remainders, S-steal ports, P4/P5 tests, H-items pending. HALT on H/M only."
 }

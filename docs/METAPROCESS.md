@@ -41,11 +41,11 @@ decision, including the flaws. Written so the next run avoids them by constructi
 ## Theatre inventory (claimed vs actual this bout)
 | Claimed | Actual | Verdict |
 |---|---|---|
-| Budgeting works | pyeval caps tested on stubs; $0.000558 live micro-run metered; subagent spend ($ real cost) completely unmetered | THEATRE (worst one) |
-| Fresh-agent isolation | attempt dirs isolate files, but all agents shared my brief (priming) | PARTIAL |
-| learn.py loop | ran on demo data only, not bout data | DEMOED, not exercised |
-| eval_arch ablation | not run on bout winners | SKIPPED (next bout must) |
-| csec packs vs bout outputs | not run | SKIPPED |
+| Budgeting works | pyeval caps tested on stubs; $0.000558 live micro-run metered; subagent spend ($ real cost) completely unmetered | PARTIAL now: `Budget.check()` pre-call refusal wired into pyeval (zero-budget run makes zero calls, tested); subagent cognition still unmetered |
+| Fresh-agent isolation | attempt dirs isolate files, but all agents shared my brief (priming) | PARTIAL (bout2/3 de-priming helped: EICR×5 → boilers×3 → mechanism-only) |
+| learn.py loop | ran on demo data only, not bout data | DEMOED → later FIRED on meta-tourney real data (2 failures → 1 criteria0 proposal; bout1 still zero-fail) |
+| eval_arch ablation | not run on bout winners | RAN on bout3 winner (evidence.txt load-bearing; first real use) |
+| csec packs vs bout outputs | not run | STILL SKIPPED (open) |
 | Hermes/Pydantic/mw integration | referenced in docs, zero runtime use | LITERATURE, not stack |
 | Timings | elapsed on suites/funnel; my own deliberation time unlogged | PARTIAL |
 

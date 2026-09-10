@@ -142,8 +142,6 @@ def leafcheck(rec: dict) -> list[str]:
             errs.append(f"non-primitive evidence kind: {e.get('kind')} "
                         f"(leaf-termination needs command|file)")
     return errs
-    Path(path).write_text("\n".join(
-        json.dumps(r, sort_keys=True) for r in records) + "\n")
 
 
 def alog_path(tid: str, queue_path: str = QUEUE) -> Path:
@@ -353,14 +351,18 @@ def main(argv: list[str]) -> int:
                                    "history", "replan", "metrics",
                                    "leafcheck", "promote", "ingest",
                                    "goalcheck", "map", "context", "rollback",
-                                   "heuristics"):
+                                   "heuristics", "claim", "release", "recall"):
         print(__doc__)
         return 2
     cmd = argv[0]
     kw: dict[str, str] = {}
+    BOOLEANS = {"--force", "--allow-dirty"}
     it = iter(argv[1:])
     for x in it:
         if x.startswith("--"):
+            if x in BOOLEANS:
+                kw[x] = "1"
+                continue
             try:
                 kw[x] = next(it)
             except StopIteration:
@@ -527,6 +529,12 @@ def main(argv: list[str]) -> int:
             print(f"not a git repo: {repo}")
             return 1
         top = ex.stdout.strip()
+        dirty = _sp.run(["git", "status", "--porcelain"], capture_output=True,
+                        text=True, cwd=top).stdout.strip()
+        if dirty and "--allow-dirty" not in argv:
+            print("workdir dirty — commit/stash first, or --allow-dirty "
+                  "(split-brain refusal, not a bug)")
+            return 1
         has = _sp.run(["git", "show-ref", "--verify", "--quiet",
                        f"refs/heads/{name}"], cwd=top).returncode == 0
         if has:
@@ -537,6 +545,35 @@ def main(argv: list[str]) -> int:
             print(f"branched {name} from {base}")
         rec["branch"] = name
         save_all(recs, path)
+        return 0
+    if cmd == "claim":
+        # kanban claim flow: JUSTIFIED -> EXECUTING with owner; refuses if
+        # already held (no silent takeovers).
+        want = pos[0] if pos else ""
+        owner = kw.get("--owner", "agent")
+        rec = next((r for r in recs if r.get("id") == want), None)
+        if rec is None:
+            print(f"unknown id: {want}")
+            return 1
+        if rec.get("status") == "EXECUTING" and rec.get("owner") not in ("", owner):
+            print(f"held by {rec.get('owner')} — release first")
+            return 1
+        if rec.get("status") not in ("PROPOSED", "JUSTIFIED", "EXECUTING"):
+            print(f"cannot claim from {rec.get('status')}")
+            return 1
+        rec["status"], rec["owner"] = "EXECUTING", owner
+        save_all(recs, path)
+        print(f"{want} claimed by {owner}")
+        return 0
+    if cmd == "release":
+        want = pos[0] if pos else ""
+        rec = next((r for r in recs if r.get("id") == want), None)
+        if rec is None:
+            print(f"unknown id: {want}")
+            return 1
+        rec["status"], rec["owner"] = "JUSTIFIED", ""
+        save_all(recs, path)
+        print(f"{want} released to JUSTIFIED")
         return 0
     if cmd == "history":
         like = (kw.get("--like", "") or "").lower()
@@ -611,6 +648,33 @@ def main(argv: list[str]) -> int:
         return 0
     if cmd == "map":
         print(render_map(recs))
+        return 0
+    if cmd == "recall":
+        # Scoped recall: grep DONE reports + decision log for an area keyword.
+        # BOOT reads everything; recall reads one thing. Case-insensitive.
+        import re as _re
+        area = (pos[0] if pos else "").lower()
+        if not area:
+            print("usage: loop.py recall <area-keyword>")
+            return 2
+        base = Path(path).resolve().parent
+        hits = []
+        for r in recs:
+            rr = r.get("report_ref", "")
+            cands = [Path(rr), base / rr, base.parent / rr] if rr else []
+            f = next((c for c in cands if c.is_file()), None)
+            if f and area in f.read_text(errors="ignore").lower():
+                hits.append(f"{r['id']} [report]")
+        try:
+            dlog = base.parent / "decisions.jsonl"
+            if not dlog.exists():
+                dlog = base / "decisions.jsonl"
+            for line in dlog.read_text(errors="ignore").splitlines():
+                if area in line.lower():
+                    hits.append("decisions: " + line[:100])
+        except Exception:
+            pass
+        print("\n".join(hits) if hits else f"(nothing on {area})")
         return 0
     if cmd == "heuristics":
         import re as _re

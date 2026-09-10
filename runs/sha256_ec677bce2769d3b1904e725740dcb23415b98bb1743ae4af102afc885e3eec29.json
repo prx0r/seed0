@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "this-turn pytest + live bout + files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-spans",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:ec677bce2769d3b1904e725740dcb23415b98bb1743ae4af102afc885e3eec29",
+ "ts": 1789055137.4196513
+}

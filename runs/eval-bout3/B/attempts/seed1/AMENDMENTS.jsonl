@@ -1,0 +1,1 @@
+{"at": 1789041933.976106, "seed": "seed1", "version": "1.1", "note": "CWD-anchored run_once(workdir) + attempts.jsonl A-log. Parents: bout1 seed5 4-fail (CWD-relative subprocess), gate saga x10. Chain1 A-log requirement needs attempt evidence at seed level.", "run": "runs/chain1"}

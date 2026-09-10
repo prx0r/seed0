@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "mechanism-only brief frozen",
+   "3 lanes exit 0",
+   "ordering rule banked",
+   "tournament receipted"
+  ],
+  "basis": "commands run live this turn; receipts verify",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-bout3",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:784f692ba0c49a6fad8c53097c2f25983b9378a6462a108a0d9312b4b4761284",
+ "ts": 1789052161.5354018
+}

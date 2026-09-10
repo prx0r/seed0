@@ -1,5 +1,10 @@
 # SESSION REVIEW 2026-09-10 — everything this session (evidence-backed)
 
+> SCOPE: frozen snapshot of the session up to ~T18 (suite 65, 16 records,
+> 01d42ba unpushed). Numbers below are historical, not live. Current state:
+> `docs/THREADS.md` (board) + `loop/packet.json` (done/blocked) + suite
+> self-report. Do not quote this file's counts as current.
+
 ## T0 — the standing goal (owner-stated, end of session)
 
 **The prompt is always "make me money."** Every bout, build, thread, and

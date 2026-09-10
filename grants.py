@@ -171,6 +171,28 @@ def select_tier(remaining_usd: float, uncertainty: float = 0.5) -> dict:
     return {"tier": "free", "reason": "budget_thin_default_free"}
 
 
+TIER_ORDER = ("free", "cheap", "strong")
+
+
+def escalate_tier(current: str, failed: bool) -> dict:
+    """B4 escalation policy: step up one tier on failure, hold on success.
+    At top tier + failing → escalate_human (never auto-spend past strong).
+    Pure function (no spend, no calls) — wiring it into a live loop is a
+    spend-profile change and stays queued behind explicit approval."""
+    if current not in TIER_ORDER:
+        return {"tier": "free", "reason": "unknown-tier-reset",
+                "escalate_human": False}
+    if not failed:
+        return {"tier": current, "reason": "hold-on-success",
+                "escalate_human": False}
+    i = TIER_ORDER.index(current)
+    if i >= len(TIER_ORDER) - 1:
+        return {"tier": current, "reason": "top-tier-failing",
+                "escalate_human": True}
+    return {"tier": TIER_ORDER[i + 1],
+            "reason": f"escalate-{current}-on-failure", "escalate_human": False}
+
+
 def metered_call(fn, acc: dict, model: str = "", prices: dict | None = None):
     """Run fn() -> (result, in_tok, out_tok); accumulate + cost into acc.
 

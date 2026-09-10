@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "this-turn pytest + live bout + files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-moneyt2",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:d146a25e782a7b37b484b9d27e92ac8bcbe25d923b3d8b7fc145a89266cc86b0",
+ "ts": 1789055137.5453427
+}

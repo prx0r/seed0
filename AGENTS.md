@@ -20,6 +20,9 @@ Binding rules for any coding agent working in this repository.
 6. **Mocks prove wiring, never quality.** Simulated numbers labeled; no live
    claims without a live run; exit codes never masked by pipes.
 7. **AGPL patterns-only, never pasted.** MIT/Apache vendored with attribution.
+8. **Macros replay selection, never authorization.** A press-sequence macro may
+   re-fire which action to take; money/irreversible steps re-resolve their
+   gate (keyword, digest, grant) at replay time. No inherited approvals.
 
 ## Where things are
 
@@ -34,6 +37,8 @@ five kernels · `ideas/idea1.md` + `criteria/` live instance · `datasets/` ·
 - Cold start? Read `BOOT.md` first — it is the session-start orders (state,
   standing H7 autonomy rules, halt conditions). No chat history required.
 - Small diffs, tested each step; regression test per fix.
+- Process discipline: capture PIDs at launch (`SRV=$!`), kill by exact PID.
+  Never pkill/pkill -f/killall (pattern kills hit wrong processes).
 - Docs: `docs/README.md` index stays accurate (checker enforces live links).
 - Keyless CI must stay green (`pytest tests/`); live runs (pyeval, funnel with
   agent cmds) are opt-in via env, never default.

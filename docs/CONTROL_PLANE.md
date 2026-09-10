@@ -65,3 +65,13 @@ python3 hplane.py review [--repos ...]               # + STALE flags + receipt
 3. `refs/queue/h/*` watermarks + fetch refspecs documented per box.
 4. pre-push hook: seed0 check + loop check (proposed, not yet).
 5. HydraDB experience graph (exists, live) — only if funnel outgrows JSONL.
+
+## 7. Multi-box (3 VPS × N agents — live)
+
+`plane/remotes.txt` lists `label|git-url[|box]`; `hplane.py sync` mirrors
+each (clone once, fetch + hard-reset after; per-mirror ok/error, one dead
+box never blinds the funnel). `funnel`/`review` read mirrors like local
+repos; rows carry `repo` = label + `box`. Resolution stays per-repo AND
+per-box (dashboard never split-brains a remote decision). Fill in real URLs;
+`#` lines ignored. Mirrors are caches (`plane/mirrors/`, gitignored-safe to
+delete and resync).
