@@ -1,0 +1,29 @@
+{
+ "checks": [
+  {
+   "id": "registry",
+   "path": "tests/ham_registry.py",
+   "type": "file_exists"
+  },
+  {
+   "id": "hypothesis",
+   "path": "HYPOTHESIS.md",
+   "type": "file_exists"
+  },
+  {
+   "id": "falsifier",
+   "path": "HYPOTHESIS.md",
+   "text": "Falsifiers",
+   "type": "contains"
+  },
+  {
+   "id": "tests",
+   "path": "tests",
+   "type": "file_exists"
+  },
+  {
+   "id": "suite",
+   "type": "suite_green"
+  }
+ ]
+}

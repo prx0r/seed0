@@ -1,0 +1,30 @@
+{
+ "round": 1,
+ "at": 1789045975.5783384,
+ "blind": false,
+ "instruction": "Main agent: for EACH entry write hypothesis (why it passed/failed), change (exact seed edit or null), and verdict (promote/augment/drop). Then amend.",
+ "seeds": [
+  {
+   "seed": "cfg-global",
+   "binary_pass": true,
+   "hypothesis": "holds as floor",
+   "change": "keep as baseline",
+   "verdict": "promote"
+  },
+  {
+   "seed": "cfg-knn",
+   "binary_pass": false,
+   "hypothesis": "loses on len+cat; similarity ungated",
+   "change": "add max-sim abstain gate, else drop",
+   "verdict": "augment"
+  },
+  {
+   "seed": "cfg-ensemble-uniform",
+   "binary_pass": false,
+   "hypothesis": "kNN drags blend below global",
+   "change": "session-global alpha sweep without kNN next round",
+   "verdict": "augment"
+  }
+ ],
+ "promotions": []
+}
