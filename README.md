@@ -9,6 +9,7 @@ python3 seed0.py new NAME --idea "..."   # scaffold a standard-shaped project
 python3 seed0.py check ./proj           # compliance gate (5 checks, exit 1 if red)
 python3 tournament.py ./seedA ./seedB   # rank seeds, write tournament_*.jsonl
 python3 -m pytest tests/ -q             # self-tests
+OPENCODE_GO_API_KEY=... python3 pyeval.py run datasets/safety_sample.json --model mimo-v2.5
 ```
 
 ## Primitives (all future seeds share these)

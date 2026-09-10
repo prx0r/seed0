@@ -11,3 +11,6 @@ mechanism — provide it or fail the row. Methods: test | demo | review | kanban
 | C2 | [Falsifiable, true-or-false] | demo `demo/script.sh` expects `OUTPUT` | human |
 | C3 | [Multi-agent or survival work] | kanban `board/task-slug` done per completion contract | human |
 | C4 | [Model-behavior claim] | pyeval `dataset.case` passing with named evaluator | human |
+
+Run it: `OPENCODE_GO_API_KEY=... python3 pyeval.py run datasets/<name>.json`
+(rule + judge evaluators; key via env only, cheap model default).
