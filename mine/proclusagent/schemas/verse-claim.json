@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VerseClaim",
+  "description": "One agent's claim on one verse. Ledger discipline: OPEN → claimed → verified.",
+  "type": "object",
+  "required": ["verse_id", "work", "agent", "claim", "evidence", "status"],
+  "properties": {
+    "verse_id": { "type": "string", "description": "e.g. tantraloka:1.5 or elements:prop-12" },
+    "work": { "type": "string" },
+    "agent": { "type": "string" },
+    "claim": { "type": "string" },
+    "evidence": {
+      "type": "object",
+      "required": ["source_sha256"],
+      "properties": {
+        "source_sha256": { "type": "string" },
+        "citations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "truth_condition": { "type": "string", "description": "What would falsify this reading (from master map)" },
+    "rival_reading": { "type": "string", "description": "Strongest non-metaphysical alternative, steelmanned" },
+    "status": { "enum": ["claimed", "verified", "disputed"] },
+    "verifier": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" }
+  }
+}
