@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "bus primitives verified live",
+   "lore mined (5 docs)",
+   "funnel live 3 repos",
+   "rank+triage tests green"
+  ],
+  "basis": "gitbus demo outputs; doc reads; pytest",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-plane",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:bebf365d32cbf59f66034763dce3c2447b6a2a1d91f9e2fb1d15b34789251837",
+ "ts": 1789039544.482835
+}

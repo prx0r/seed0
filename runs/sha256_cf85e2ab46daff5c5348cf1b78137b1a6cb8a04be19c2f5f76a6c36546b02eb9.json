@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "REPORTED ghost rejected",
+   "5 loop tests green",
+   "set cmd revalidates"
+  ],
+  "basis": "lifecycle run live through CLI: JUSTIFIED->EXECUTING->REPORTED(guard hit once, then passed)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-cont1",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:cf85e2ab46daff5c5348cf1b78137b1a6cb8a04be19c2f5f76a6c36546b02eb9",
+ "ts": 1789037644.209389
+}

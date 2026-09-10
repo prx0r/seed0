@@ -1,0 +1,19 @@
+{
+ "content": {
+  "acceptance": [
+   "frontier sweep (Hedwig+P&E+STEP+prod)",
+   "convergence table",
+   "4 novelties argued",
+   "5 gaps ranked",
+   "evidence-backed logs landed+tested"
+  ],
+  "basis": "2 deep searches; 11 loop tests; files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-goalfrontier",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:b2b2e00405720613baa0267ced135d0655bab768b68393f04365e00eeac20f34",
+ "ts": 1789045099.9825609
+}

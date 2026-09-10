@@ -1,0 +1,16 @@
+{
+ "content": {
+  "acceptance": [
+   "task schema + lifecycle + validation specified",
+   "worked example from session"
+  ],
+  "basis": "artifacts present + suite 46 green + 6/6 (session runs)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-metaloop",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:316c922b9a20b43d85e58da1055d72fcacd0f3424142563a15be9120c7dd7d4d",
+ "ts": 1789037171.5589836
+}

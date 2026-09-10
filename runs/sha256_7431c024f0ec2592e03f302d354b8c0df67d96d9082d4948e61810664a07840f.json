@@ -1,0 +1,19 @@
+{
+ "content": {
+  "acceptance": [
+   "frozen brief+rubric+validator pre-work",
+   "3 isolated lanes exit 0",
+   "independent re-run 3x exit 0",
+   "blind review-then-reveal",
+   "preregistered-weight tournament + receipts"
+  ],
+  "basis": "commands run live this turn; receipts verify",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-flowtest",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:7431c024f0ec2592e03f302d354b8c0df67d96d9082d4948e61810664a07840f",
+ "ts": 1789039090.8778107
+}

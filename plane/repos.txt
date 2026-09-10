@@ -1,0 +1,3 @@
+/tmp/opencode/seed0
+/root/voiceagent
+/root/mw

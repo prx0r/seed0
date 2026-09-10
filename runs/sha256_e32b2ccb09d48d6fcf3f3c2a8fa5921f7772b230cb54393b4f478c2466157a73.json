@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "all 6 logs + 4 receipts + bout1 read",
+   "elapsed_s/tokens/model traced to code",
+   "negative greps (no HTTP, no token keys)"
+  ],
+  "basis": "artifacts present + suite 46 green + 6/6 (session runs)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-audit",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:e32b2ccb09d48d6fcf3f3c2a8fa5921f7772b230cb54393b4f478c2466157a73",
+ "ts": 1789037171.5587769
+}

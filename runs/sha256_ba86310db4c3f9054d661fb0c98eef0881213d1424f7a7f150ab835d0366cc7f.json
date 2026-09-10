@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "metered_call + SPEND_LOG hook",
+   "refusal paths raise",
+   "no network in tests"
+  ],
+  "basis": "this-turn validation",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-metering-design",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:ba86310db4c3f9054d661fb0c98eef0881213d1424f7a7f150ab835d0366cc7f",
+ "ts": 1789038475.150848
+}

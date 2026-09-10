@@ -1,0 +1,2 @@
+{"compliant": false, "compliance": "4/5", "suite_green": true, "suite_detail": "1 passed in 0.16s", "rubric": {"variant": true, "vtest": true, "suite": true}, "binary_pass": false, "elapsed_s": 0.0, "seed": "keyed", "agent_ok": true, "agent_log": "author-built variant"}
+{"compliant": false, "compliance": "4/5", "suite_green": true, "suite_detail": "1 passed in 0.16s", "rubric": {"variant": true, "vtest": true, "suite": true}, "binary_pass": false, "elapsed_s": 0.0, "seed": "naive", "agent_ok": true, "agent_log": "author-built variant"}

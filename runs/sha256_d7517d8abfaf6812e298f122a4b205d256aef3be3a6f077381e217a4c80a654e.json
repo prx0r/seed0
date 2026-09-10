@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "R1-R6 with exact commands",
+   "WHEN matrix",
+   "combinations",
+   "GUIDE diagram"
+  ],
+  "basis": "commands are session-run history; GUIDE edit read-first",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-routines",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:d7517d8abfaf6812e298f122a4b205d256aef3be3a6f077381e217a4c80a654e",
+ "ts": 1789042788.3291337
+}

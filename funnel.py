@@ -128,18 +128,24 @@ def review_template(run_dir: str, rnd: int, blind: bool = False,
             {"round": rnd, "map": lanes,
              "note": "reveal only after verdicts: funnel.py reveal"}, indent=1))
         entries = [{"lane": lanes[s["seed"]], "binary_pass": s["binary_pass"],
-                    "hypothesis": "", "change": "", "verdict": ""}
-                   for s in scores]
+                     "metric": "", "hypothesis": "", "change": "", "verdict": ""}
+                    for s in scores]
+        (run / f"scores_blind_r{rnd}.jsonl").write_text("\n".join(
+            json.dumps({"lane": lanes[s["seed"]],
+                        "binary_pass": s["binary_pass"]}) for s in scores) + "\n")
     else:
         entries = [{"seed": s["seed"], "binary_pass": s["binary_pass"],
-                    "hypothesis": "", "change": "", "verdict": ""}
+                    "metric": "", "hypothesis": "", "change": "", "verdict": ""}
                    for s in scores]
     doc = {"round": rnd, "at": time.time(), "blind": blind,
            "instruction": "Main agent: for EACH entry write hypothesis (why it "
                           "passed/failed), change (exact seed edit or null), "
                           "and verdict (promote/augment/drop). Then amend." +
-                          (" Judge lanes only — do not unseal until verdicts done."
-                           if blind else ""),
+                           (" Judge lanes only — cite only lane-visible fields "
+                            "(lane, binary_pass, metric). scores.jsonl carries "
+                            "seed names and counts: judging from it voids blindness. "
+                            "Use scores_blind_r<N>.jsonl. Do not unseal until verdicts done."
+                            if blind else ""),
            "seeds": entries,
            "promotions": []}
     p = run / f"review_r{rnd}{'_blind' if blind else ''}.json"
@@ -162,13 +168,72 @@ def reveal(run_dir: str, rnd: int) -> dict:
     return m
 
 
-def amend(seed_dir: str, bump: str, note: str, run_dir: str = "") -> dict:
+def freeze_run(run_dir: str) -> str:
+    """Pre-registration as a commit (S30): stage brief+rubric+validator+
+    weights in the containing repo and commit. Returns the freeze sha —
+    lanes built after this sha cannot claim a different brief."""
+    import subprocess as _sp
+    run = Path(run_dir)
+    top = _sp.run(["git", "rev-parse", "--show-toplevel"], capture_output=True,
+                  text=True, cwd=run)
+    if top.returncode != 0:
+        raise RuntimeError(f"freeze needs a git repo above {run_dir}")
+    root = top.stdout.strip()
+    rel = run.resolve().relative_to(Path(root).resolve())
+    names = ["brief.md", "rubric.json", "validate.py", "weights.json"]
+    staged = [str(rel / n) for n in names if (run / n).exists()]
+    if not staged:
+        raise ValueError(f"nothing freezable in {run_dir} (need brief/rubric/...)")
+    _sp.run(["git", "add", *staged], cwd=root, check=True, capture_output=True)
+    _sp.run(["git", "commit", "-qm", f"freeze: {rel} brief+rubric+validator+weights"],
+            cwd=root, check=True, capture_output=True)
+    return _sp.run(["git", "rev-parse", "HEAD"], cwd=root, check=True,
+                   capture_output=True, text=True).stdout.strip()
+
+
+def lane_risk(attempt_dirs: list[str]) -> dict:
+    """Risk-scored lane scheduling (OpenWeft pattern): file overlap between
+    lanes decides what runs parallel vs serialized. Returns pairwise shared
+    counts + greedy phases (overlapping lanes never share a phase)."""
+    SKIP = {".git", "__pycache__", "node_modules", ".venv", ".pytest_cache"}
+    files: dict[str, set[str]] = {}
+    for d in attempt_dirs:
+        got = set()
+        for p in Path(d).rglob("*"):
+            if p.is_file() and not any(x in p.parts for x in SKIP):
+                got.add(p.relative_to(d).as_posix())
+        files[d] = got
+    pairs = {}
+    names = list(attempt_dirs)
+    for i in range(len(names)):
+        for j in range(i + 1, len(names)):
+            shared = sorted(files[names[i]] & files[names[j]])
+            if shared:
+                pairs[f"{names[i]}+{names[j]}"] = shared
+    phases: list[list[str]] = []
+    for d in names:
+        placed = False
+        for ph in phases:
+            clash = any(f"{a}+{d}" in pairs or f"{d}+{a}" in pairs for a in ph)
+            if not clash:
+                ph.append(d)
+                placed = True
+                break
+        if not placed:
+            phases.append([d])
+    return {"pairs": pairs, "phases": phases}
+
+
+def amend(seed_dir: str, bump: str, note: str, run_dir: str = "",
+          falsifier: str = "") -> dict:
     """Record a seed amendment (seed1 -> 1.1). File edits themselves are the
-    main agent's diff; this stamps VERSION + log so reruns are traceable."""
+    main agent's diff; this stamps VERSION + log so reruns are traceable.
+    falsifier (One-Recipe pattern): what observation would disprove that this
+    amendment helped — empty means untestable, stated, not hidden."""
     root = Path(seed_dir)
     (root / "VERSION").write_text(bump.strip() + "\n")
     rec = {"at": time.time(), "seed": root.name, "version": bump.strip(),
-           "note": note, "run": run_dir}
+           "note": note, "run": run_dir, "falsifier": falsifier}
     with open(root / "AMENDMENTS.jsonl", "a") as f:
         f.write(json.dumps(rec) + "\n")
     return rec

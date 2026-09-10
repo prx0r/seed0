@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "add/list/set-status roundtrip",
+   "schema rejects bad + DONE-without-proof",
+   "suite green incl. 4 loop tests",
+   "live queue passes loop.py check"
+  ],
+  "basis": "this-iteration validation: re-read reports, re-ran checks",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-meta2",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:4c0d7dc918599ea95910b5610e6d5b2d5f3e92995a373f0fc20b7f66cdf19aca",
+ "ts": 1789037237.911019
+}

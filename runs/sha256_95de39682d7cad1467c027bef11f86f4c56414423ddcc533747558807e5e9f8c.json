@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "NORTHSTAR frozen",
+   "ingest live+demoed",
+   "goalcheck enforced+tested"
+  ],
+  "basis": "files on disk; 17 loop tests; live ingest demo + cleanup",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-northstar",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:95de39682d7cad1467c027bef11f86f4c56414423ddcc533747558807e5e9f8c",
+ "ts": 1789047401.2028556
+}

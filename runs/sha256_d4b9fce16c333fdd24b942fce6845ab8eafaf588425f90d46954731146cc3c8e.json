@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "pending/resolve roundtrip live socket",
+   "double-resolve rejected",
+   "UI served",
+   "localhost-only"
+  ],
+  "basis": "this-turn validation",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-hqueue",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:d4b9fce16c333fdd24b942fce6845ab8eafaf588425f90d46954731146cc3c8e",
+ "ts": 1789038475.1503696
+}

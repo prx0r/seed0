@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "frontier swept with numbers",
+   "steals S24-S34 specified",
+   "context command live+tested"
+  ],
+  "basis": "search outputs; pytest; live context runs",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-arxivgit",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:395fdd5800d5f9adb9768fbab2ed0d07f5921d5e32a51f6e5b64368f7113384a",
+ "ts": 1789048284.4506004
+}

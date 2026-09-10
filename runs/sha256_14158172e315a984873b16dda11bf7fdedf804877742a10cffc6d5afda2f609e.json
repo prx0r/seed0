@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "idea+criteria pass validators on landing",
+   "both bouts exit 0 on prereg ints",
+   "tournament + blind reviews receipted",
+   "metaguide + shared ruler banked"
+  ],
+  "basis": "validators run live incl. post-refactor re-run; receipts verify",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-metatourney",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:14158172e315a984873b16dda11bf7fdedf804877742a10cffc6d5afda2f609e",
+ "ts": 1789040365.0297909
+}

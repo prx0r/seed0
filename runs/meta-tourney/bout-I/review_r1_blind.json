@@ -1,0 +1,26 @@
+{
+ "round": 1,
+ "at": 1789040286.3069806,
+ "blind": true,
+ "instruction": "Main agent: for EACH entry write hypothesis (why it passed/failed), change (exact seed edit or null), and verdict (promote/augment/drop). Then amend. Judge lanes only \u2014 do not unseal until verdicts done.",
+ "seeds": [
+  {
+   "lane": "Lane A",
+   "binary_pass": false,
+   "hypothesis": "variant implements brief; unit-smoked",
+   "change": "none this round (both lanes valid)",
+   "verdict": "promote",
+   "seed": "keyed"
+  },
+  {
+   "lane": "Lane B",
+   "binary_pass": false,
+   "hypothesis": "variant implements brief; unit-smoked",
+   "change": "none this round (both lanes valid)",
+   "verdict": "promote",
+   "seed": "naive"
+  }
+ ],
+ "promotions": [],
+ "revealed": true
+}

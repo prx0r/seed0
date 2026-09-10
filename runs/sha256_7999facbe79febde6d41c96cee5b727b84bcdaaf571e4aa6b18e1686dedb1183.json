@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "funnel route ranked rows",
+   "repos override works",
+   "tests green"
+  ],
+  "basis": "live-socket test + this-session run",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-hqueue2",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:7999facbe79febde6d41c96cee5b727b84bcdaaf571e4aa6b18e1686dedb1183",
+ "ts": 1789046730.6241724
+}

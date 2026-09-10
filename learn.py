@@ -124,6 +124,21 @@ def main(argv) -> int:
         Path(out).mkdir(parents=True, exist_ok=True)
         (Path(out) / "proposals.json").write_text(json.dumps(rep, indent=1))
         print(f"wrote {out}/proposals.json")
+    if "--keyed" in argv:
+        # S26 keyed layout: one file per failure signature so concurrent
+        # amend attempts merge-conflict on disagreement instead of silently
+        # coexisting (GitOfThoughts contradiction-surfacing rule).
+        import hashlib as _h
+        kd = Path(argv[argv.index("--keyed") + 1])
+        kd.mkdir(parents=True, exist_ok=True)
+        index = {}
+        for p in rep["proposals"] + rep["global_lessons"]:
+            sig = p.get("signature", p.get("from", "?"))
+            fid = _h.sha256(sig.encode()).hexdigest()[:12]
+            (kd / f"{fid}.json").write_text(json.dumps(p, indent=1, sort_keys=True))
+            index[fid] = sig[:100]
+        (kd / "index.json").write_text(json.dumps(index, indent=1, sort_keys=True))
+        print(f"wrote {len(index)} keyed proposals to {kd}/")
     return 0
 
 

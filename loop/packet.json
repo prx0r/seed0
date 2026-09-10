@@ -1,0 +1,70 @@
+{
+ "done": [
+  "a-cont1",
+  "a-meta1",
+  "a-meta2",
+  "+5 backfilled",
+  "a-driver",
+  "a-hinbox",
+  "a-hqueue",
+  "a-grants",
+  "a-metering-design",
+  "a-flowtest",
+  "a-review",
+  "a-plane",
+  "a-metatourney",
+  "a-prompts",
+  "a-peerreview",
+  "a-chain",
+  "a-amend11",
+  "a-branches",
+  "a-stoplight",
+  "a-rerun",
+  "a-chainreport",
+  "a-primdoc",
+  "a-reviewip",
+  "a-routines",
+  "a-t0e2e",
+  "a-goals",
+  "a-mcpdeps",
+  "a-promote",
+  "a-hqueue2",
+  "a-northstar",
+  "a-gitnative",
+  "a-memfs",
+  "a-arxivgit",
+  "a-stealgit",
+  "a-stealexec",
+  "a-stealearn",
+  "a-coldstart",
+  "a-moneytourney",
+  "a-logreview",
+  "a-meteraudit",
+  "a-percase"
+ ],
+ "blocked_on": [
+  {
+   "queue": "H1b",
+   "approval_string": "fresh write-scoped token, then push"
+  },
+  {
+   "queue": "H2",
+   "approval_string": "you revoke read-scoped token"
+  },
+  {
+   "queue": "H6",
+   "approval_string": "go H6"
+  },
+  {
+   "queue": "M4-run",
+   "approval_string": "go M4"
+  },
+  {
+   "queue": "H-driver",
+   "approval_string": "pick D1 (cron+opencode) or D2 (hermes-cron) or D3 (manual); quota math first",
+   "demo": "cron line or hermes cron job listed + first pulse log on disk"
+  }
+ ],
+ "proposed_next": [],
+ "dryness_proof": "A-backlog empty; H/M queues pending (H1b/H2/H6/H-driver/M4-run). HALT legal."
+}

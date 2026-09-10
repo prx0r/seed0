@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "chain1 validation: artifacts + re-runs this turn",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-chain",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:c7eae171e5936992dc29365118536cd75fe2abd9bb73d9155065e3d77762fc40",
+ "ts": 1789042036.7574565
+}

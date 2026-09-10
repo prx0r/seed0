@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "idempotent filing",
+   "resolve-once + expiry",
+   "transitive priority pinned",
+   "5 tests green"
+  ],
+  "basis": "this-turn validation",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-hinbox",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:9f06fef1a1657f1945c99eb3486c1a1748d29bf0dbee49c9728b095e14cec0ef",
+ "ts": 1789038475.14983
+}

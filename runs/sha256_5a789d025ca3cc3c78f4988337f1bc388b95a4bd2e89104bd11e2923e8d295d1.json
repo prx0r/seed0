@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "per-case fields on all paths",
+   "stub test green",
+   "live re-run receipted"
+  ],
+  "basis": "pytest + live capped run sha256:d4e4",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-percase",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:5a789d025ca3cc3c78f4988337f1bc388b95a4bd2e89104bd11e2923e8d295d1",
+ "ts": 1789050802.215045
+}

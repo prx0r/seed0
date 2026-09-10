@@ -31,6 +31,8 @@ five kernels · `ideas/idea1.md` + `criteria/` live instance · `datasets/` ·
 
 ## Working style
 
+- Cold start? Read `BOOT.md` first — it is the session-start orders (state,
+  standing H7 autonomy rules, halt conditions). No chat history required.
 - Small diffs, tested each step; regression test per fix.
 - Docs: `docs/README.md` index stays accurate (checker enforces live links).
 - Keyless CI must stay green (`pytest tests/`); live runs (pyeval, funnel with

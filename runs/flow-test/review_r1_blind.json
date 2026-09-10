@@ -1,0 +1,34 @@
+{
+ "round": 1,
+ "at": 1789038931.2800486,
+ "blind": true,
+ "instruction": "Main agent: for EACH entry write hypothesis (why it passed/failed), change (exact seed edit or null), and verdict (promote/augment/drop). Then amend. Judge lanes only \u2014 do not unseal until verdicts done.",
+ "seeds": [
+  {
+   "lane": "Lane B",
+   "binary_pass": true,
+   "hypothesis": "7 tests incl round-trip (blind read); pass",
+   "change": "next-round rubric: input-validation hardening check (shared gap all lanes)",
+   "verdict": "promote",
+   "seed": "seed1"
+  },
+  {
+   "lane": "Lane A",
+   "binary_pass": true,
+   "hypothesis": "7 tests incl round-trip (blind read); pass",
+   "change": "next-round rubric: input-validation hardening check (shared gap all lanes)",
+   "verdict": "promote",
+   "seed": "seed3"
+  },
+  {
+   "lane": "Lane C",
+   "binary_pass": true,
+   "hypothesis": "6 tests incl round-trip (blind read); pass",
+   "change": "next-round rubric: input-validation hardening check (shared gap all lanes)",
+   "verdict": "promote",
+   "seed": "seed5"
+  }
+ ],
+ "promotions": [],
+ "revealed": true
+}

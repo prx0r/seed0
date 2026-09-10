@@ -109,7 +109,30 @@ def new(name: str, idea: str, dest: str = ".") -> Path:
             for k, v in subs.items():
                 t = t.replace(k, v)
             p.write_text(t)
+    _git_init(out)
     return out
+
+
+def _git_init(out: Path) -> str | None:
+    """git-init on scaffold (Letta MemFS pattern): every agent start gets a
+    versioned tree from byte zero. Local identity, no remotes, no network.
+    Returns initial commit sha, or None if git unavailable (non-fatal)."""
+    import subprocess as _sp
+    try:
+        _sp.run(["git", "init", "-qb", "main"], cwd=out, check=True,
+                capture_output=True)
+        _sp.run(["git", "config", "user.name", "seed0"], cwd=out, check=True,
+                capture_output=True)
+        _sp.run(["git", "config", "user.email", "seed0@local"], cwd=out,
+                check=True, capture_output=True)
+        _sp.run(["git", "add", "-A"], cwd=out, check=True, capture_output=True)
+        _sp.run(["git", "commit", "-qm", "seed0: scaffold + frozen intent"],
+                cwd=out, check=True, capture_output=True)
+        r = _sp.run(["git", "rev-parse", "HEAD"], cwd=out, check=True,
+                    capture_output=True, text=True)
+        return r.stdout.strip()
+    except Exception:
+        return None
 
 
 def main(argv):

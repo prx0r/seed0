@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "this-turn commands + files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-logreview",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:0514522904c0ec3d273de4a9ca572af5a455a71a67ea2cd367f1045559484e25",
+ "ts": 1789050567.0018122
+}

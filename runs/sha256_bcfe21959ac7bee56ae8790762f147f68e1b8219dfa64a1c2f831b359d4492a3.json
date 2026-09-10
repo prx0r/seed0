@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "6 ham tests green",
+   "ham.py self-clean",
+   "CLI demo PROHIBITED/CLEAR/VALID/VOID"
+  ],
+  "basis": "artifacts present + suite 46 green + 6/6 (session runs)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-ham",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:bcfe21959ac7bee56ae8790762f147f68e1b8219dfa64a1c2f831b359d4492a3",
+ "ts": 1789037171.5582662
+}

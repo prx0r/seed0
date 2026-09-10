@@ -1,0 +1,1 @@
+{"checks": [{"id": "strategy", "path": "strategy.md", "type": "file_exists"}, {"id": "scorer", "path": "scorer.py", "type": "file_exists"}, {"id": "stests", "path": "tests/test_scorer.py", "type": "file_exists"}, {"id": "evidence", "path": "evidence.txt", "type": "file_exists"}, {"id": "suite", "type": "suite_green"}]}

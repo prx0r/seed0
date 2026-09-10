@@ -1,0 +1,8 @@
+{
+ "round": 1,
+ "map": {
+  "transitive": "Lane A",
+  "direct": "Lane B"
+ },
+ "note": "reveal only after verdicts: funnel.py reveal"
+}

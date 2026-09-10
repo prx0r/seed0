@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "ready/branch/history work + tested",
+   "full chain fired green",
+   "friction rule documented"
+  ],
+  "basis": "11 loop tests; goaldemo log; git branch list empty",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-goals",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:65014408600e0e26c21b32a0e388dbc5c04eb6a4d223f6d69438f107fd485d13",
+ "ts": 1789044773.5288446
+}

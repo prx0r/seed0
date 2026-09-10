@@ -1,0 +1,29 @@
+{
+ "checks": [
+  {
+   "id": "ledger",
+   "path": "ledger.py",
+   "type": "file_exists"
+  },
+  {
+   "id": "ledger-tests",
+   "path": "tests/test_ledger.py",
+   "type": "file_exists"
+  },
+  {
+   "id": "total-fn",
+   "path": "ledger.py",
+   "text": "def total",
+   "type": "contains"
+  },
+  {
+   "id": "evidence",
+   "path": "evidence.txt",
+   "type": "file_exists"
+  },
+  {
+   "id": "suite",
+   "type": "suite_green"
+  }
+ ]
+}

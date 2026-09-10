@@ -1,0 +1,1 @@
+{"checks": [{"id": "variant", "path": "variant.py", "type": "file_exists"}, {"id": "vtest", "path": "tests/test_variant.py", "type": "file_exists"}, {"id": "suite", "type": "suite_green"}]}

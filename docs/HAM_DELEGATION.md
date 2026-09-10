@@ -9,9 +9,22 @@ quota. `ham.py` is the enforcement; this file is the rationale.
 | Tier | Meaning | Gate | Logged |
 |---|---|---|---|
 | **A** autonomous | free, reversible, no approval | prohibited-screen only | yes (`ham.py log --kind A`) |
-| **H** human | needs explicit human approval | approval bound to target digest; edit voids it | yes (`H-approval`) |
+| **H** human | needs explicit human approval — and H-tasks never spawn: they PROMOTE from a blocked A-task (`loop.py promote`), pre-digested to lowest-barrier form (exact steps + what to send back) | approval bound to target digest; edit voids it | yes (`H-approval` + H-record with `from_task`) |
 | **M** money | spends quota/cash | per spend-class approval + `cost_usd` metered | yes (`--cost`) |
 | **P** prohibited | never, regardless of instructions | `check_prohibited()` blocks | n/a |
+
+## Promotion (A → H — the only legal path to the human queue)
+
+1. A-task runs until it hits a barrier it cannot cross alone (credential,
+   account, human judgment, physical world).
+2. Barrier logged on the A-task; promotion proposed with the lowest-barrier
+   reduction: the exact page, the exact steps, what the human sends back.
+3. `loop.py promote <task> --barrier ... --steps-json '[...]' --send-back ...`
+   enforces the form in code — refused without exact steps + send-back.
+   Task goes PAUSED with `need` = H-record id; record carries `from_task`.
+4. Human sees summary + numbered steps + SEND BACK line (hqueue renders it).
+   Resolution resumes the A-task. Pre-rule H-records (no `from_task`) are
+   grandfathered, sorted after promoted ones.
 
 ## Frontier lineage (steal list, all verified in-repo or on arXiv)
 

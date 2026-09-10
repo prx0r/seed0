@@ -51,3 +51,25 @@ def test_review_verdicts_feed_in(tmp_path):
 
 def test_normalize_strips_ids():
     assert normalize_sig("token abc123 failed") == normalize_sig("token def456 failed")
+
+
+def test_keyed_layout_dedupes_by_signature(tmp_path):
+    import json as _json
+    from learn import main
+    run = tmp_path / "run1"
+    run.mkdir()
+    (run / "scores.jsonl").write_text(
+        _json.dumps({"seed": "s1", "binary_pass": False, "compliant": True,
+                     "suite_green": True, "rubric": {"readme": False},
+                     "agent_ok": True}) + "\n" +
+        _json.dumps({"seed": "s2", "binary_pass": False, "compliant": True,
+                     "suite_green": True, "rubric": {"readme": False},
+                     "agent_ok": True}) + "\n")
+    kd = tmp_path / "keyed"
+    assert main([str(run), "--keyed", str(kd)]) == 0
+    files = sorted(kd.glob("*.json"))
+    assert (kd / "index.json") in files and len(files) == 2  # 1 sig + index
+    before = (kd / [f for f in files if f.name != "index.json"][0].name).read_text()
+    assert main([str(run), "--keyed", str(kd)]) == 0  # rerun: stable, no dupes
+    after = (kd / [f for f in files if f.name != "index.json"][0].name).read_text()
+    assert before == after

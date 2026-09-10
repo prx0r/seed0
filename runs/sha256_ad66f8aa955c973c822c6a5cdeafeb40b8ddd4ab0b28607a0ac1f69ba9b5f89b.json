@@ -1,0 +1,48 @@
+{
+ "content": {
+  "blind_review": "all promote; convergence note: 5/5 EICR (priming)",
+  "context": "runs/money-tourney/context.md (P1-P6)",
+  "idea": "make-me-money via idea1 lens",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed1",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed2",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed3",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed4",
+    "suite_green": true
+   },
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed5",
+    "suite_green": true
+   }
+  ],
+  "weights": {
+   "compliant": 10,
+   "evidence": 1,
+   "tests_green": 100
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:ad66f8aa955c973c822c6a5cdeafeb40b8ddd4ab0b28607a0ac1f69ba9b5f89b",
+ "ts": 1789050225.2562935
+}

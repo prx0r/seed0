@@ -1,0 +1,16 @@
+{
+ "content": {
+  "acceptance": [
+   "heuristics distill + cite",
+   "consolidation rule unchanged"
+  ],
+  "basis": "this-turn pytest + live runs",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-stealearn",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:df19161f4700275249fbbb5a0986fd0c7d710dccc1bbcc36bd54f6c405679a8c",
+ "ts": 1789048771.1092362
+}

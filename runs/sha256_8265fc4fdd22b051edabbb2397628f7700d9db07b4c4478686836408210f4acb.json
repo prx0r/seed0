@@ -1,0 +1,18 @@
+{
+ "content": {
+  "criteria": "criteria/t0.md",
+  "h_filed": [
+   "h-b53897b1",
+   "h-14fbe71e"
+  ],
+  "idea": "ideas/t0.md",
+  "kind": "t0-e2e-round",
+  "m_grants": 0,
+  "rail_status": "DOWN-308-self-loop",
+  "spend_usd": 0,
+  "triage": "runs/t0-e2e/TRIAGE.md"
+ },
+ "kind": "t0-e2e-round",
+ "run_id": "sha256:8265fc4fdd22b051edabbb2397628f7700d9db07b4c4478686836408210f4acb",
+ "ts": 1789042991.4277697
+}

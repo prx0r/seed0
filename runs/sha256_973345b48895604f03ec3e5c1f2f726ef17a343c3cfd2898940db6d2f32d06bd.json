@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "MemFS reviewed at source",
+   "SKILL vendored with provenance",
+   "failsafe specced",
+   "cred finding triaged"
+  ],
+  "basis": "fetch + reads + git forensics listed in report",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-memfs",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:973345b48895604f03ec3e5c1f2f726ef17a343c3cfd2898940db6d2f32d06bd",
+ "ts": 1789048143.7577639
+}

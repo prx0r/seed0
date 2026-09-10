@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "WorkerKit money stack read at source",
+   "x402 live rail confirmed",
+   "inbox import verified retargetable",
+   "import verdict with reasons"
+  ],
+  "basis": "git show 05119b2 files read; x402 README+endpoints listed; queue.html POSTs grepped; 3 websearch sweeps",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-registries",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:0b13ba9ff4bbf18fac9caeb397e9b2f6d6f8fbc4591e1a61fc7fa60b76d295f9",
+ "ts": 1789038224.8036067
+}

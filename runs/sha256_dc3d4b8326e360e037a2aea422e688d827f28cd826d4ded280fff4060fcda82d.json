@@ -1,0 +1,33 @@
+{
+ "content": {
+  "kind": "tournament",
+  "seeds": [
+   {
+    "compliant": false,
+    "elapsed_s": 0.0,
+    "model": "",
+    "rank_score": 0.0,
+    "seed": "s1",
+    "substrate": "unknown",
+    "tests_green": null
+   },
+   {
+    "compliant": false,
+    "elapsed_s": 0.0,
+    "model": "",
+    "rank_score": 0.0,
+    "seed": "s2",
+    "substrate": "unknown",
+    "tests_green": null
+   }
+  ],
+  "weights": {
+   "compliant": 10.0,
+   "evidence": 1.0,
+   "tests_green": 100.0
+  }
+ },
+ "kind": "tournament",
+ "run_id": "sha256:dc3d4b8326e360e037a2aea422e688d827f28cd826d4ded280fff4060fcda82d",
+ "ts": 1789050318.6604624
+}

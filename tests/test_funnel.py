@@ -74,3 +74,63 @@ def test_telemetry_marks_usage_reported():
     from telemetry import Meter
     b = Meter(model="mimo-v2.5").block()
     assert b["usage_source"] == "reported"
+
+
+def test_blind_scores_view_leaks_nothing(tmp_path):
+    from funnel import review_template
+    (tmp_path / "scores.jsonl").write_text(
+        '{"seed": "seed1", "binary_pass": true, "suite_detail": "7 passed"}\n'
+        '{"seed": "seed2", "binary_pass": false, "suite_detail": "1 failed"}\n')
+    review_template(str(tmp_path), 1, blind=True)
+    blind = [json.loads(l) for l in
+             (tmp_path / "scores_blind_r1.jsonl").read_text().splitlines()]
+    assert {b["lane"] for b in blind} == {"Lane A", "Lane B"}
+    blob = json.dumps(blind)
+    assert "seed1" not in blob and "seed2" not in blob
+    assert "7 passed" not in blob and "1 failed" not in blob
+    assert all(set(b) == {"lane", "binary_pass"} for b in blind)
+
+
+def test_freeze_run_pins_brief(tmp_path):
+    import subprocess as _sp
+    from funnel import freeze_run, amend, lane_risk
+    repo = tmp_path / "repo"
+    (repo / "run").mkdir(parents=True)
+    for a in (["init", "-q"], ["config", "user.email", "t@t"],
+              ["config", "user.name", "t"], ["branch", "-M", "main"]):
+        _sp.run(["git", *a], cwd=repo, check=True, capture_output=True)
+    run = repo / "run"
+    (run / "brief.md").write_text("# B\n")
+    (run / "rubric.json").write_text("{}\n")
+    sha = freeze_run(str(run))
+    assert len(sha) == 40
+    (run / "brief.md").write_text("# B EDITED\n")
+    (run / "rubric.json").write_text("{}\n")
+    assert "EDITED" in (run / "brief.md").read_text()
+    shown = _sp.run(["git", "show", f"{sha}:run/brief.md"], capture_output=True,
+                    text=True, cwd=repo).stdout
+    assert shown.strip() == "# B"  # frozen copy immune to later edits
+
+
+def test_lane_risk_phases_overlap(tmp_path):
+    from funnel import lane_risk
+    a, b, c = (tmp_path / d for d in ("a", "b", "c"))
+    for d in (a, b, c):
+        d.mkdir()
+    (a / "same.py").write_text("x")
+    (b / "same.py").write_text("y")
+    (c / "solo.py").write_text("z")
+    rep = lane_risk([str(a), str(b), str(c)])
+    assert any("same.py" in f for v in rep["pairs"].values() for f in v)
+    flat = [d for ph in rep["phases"] for d in ph]
+    assert sorted(flat) == sorted([str(a), str(b), str(c)])
+    assert not any(str(a) in ph and str(b) in ph for ph in rep["phases"])
+
+
+def test_amend_records_falsifier(tmp_path):
+    import json as _json
+    from funnel import amend
+    s = tmp_path / "seed9"
+    s.mkdir()
+    rec = amend(str(s), "1.1", "note", falsifier="suite goes red on rerun")
+    assert _json.loads((s / "AMENDMENTS.jsonl").read_text().splitlines()[-1])["falsifier"].startswith("suite")

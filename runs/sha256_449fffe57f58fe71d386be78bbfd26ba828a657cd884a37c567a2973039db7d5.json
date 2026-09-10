@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "Part II covers all A-things",
+   "each entry has file+function+tier+proof",
+   "Part I untouched"
+  ],
+  "basis": "file written; entries cross-checked against repo tree + test files",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-primdoc",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:449fffe57f58fe71d386be78bbfd26ba828a657cd884a37c567a2973039db7d5",
+ "ts": 1789042210.1479633
+}

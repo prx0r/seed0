@@ -1,0 +1,15 @@
+{
+ "content": {
+  "kind": "tournament-chain1",
+  "note": "post-amendment rerun; seed1 at 1.1 (CWD-anchored run_once + A-log). Justifications: AMENDMENTS.jsonl + loop records.",
+  "seeds": "see tournament jsonl",
+  "weights": {
+   "compliant": 10,
+   "evidence": 1,
+   "tests_green": 100
+  }
+ },
+ "kind": "tournament-chain1",
+ "run_id": "sha256:efa7445f3ddd9d88ee62a20e176dd296ce559bdd46e48adface8fa7e05dec81f",
+ "ts": 1789041991.4726236
+}

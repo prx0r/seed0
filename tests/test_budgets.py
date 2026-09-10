@@ -68,3 +68,27 @@ def test_meter_versions_and_funnel_env(tmp_path):
         assert "USD=0.5" in r.stdout
     finally:
         del os.environ["SEED_BUDGET_USD"]
+
+
+def test_pre_call_refusal_fires_before_transport():
+    from budgets import Budget, BudgetExceeded
+    b = Budget(max_tokens=0)
+    with __import__("pytest").raises(BudgetExceeded):
+        b.check("case-1")
+    b2 = Budget(max_tokens=10)
+    b2.check("case-1")  # no raise when headroom
+
+
+def test_pyeval_zero_budget_makes_no_calls(tmp_path, monkeypatch):
+    import urllib.request as _url
+    from pyeval import run
+    from budgets import Budget
+    called = []
+    monkeypatch.setattr(_url, "urlopen", lambda *a, **k: called.append(1) or 1 / 0)
+    ds = tmp_path / "d.json"
+    ds.write_text(__import__("json").dumps(
+        {"cases": [{"id": "c1", "input": "hi",
+                    "expect": {"contains": ["x"]}, "weight": 1}]}))
+    rep = run(str(ds), "m", "http://x", "k", budget=Budget(max_tokens=0))
+    assert called == [] and rep["score"] == 0
+    assert "budget" in rep["results"][0]["why"]

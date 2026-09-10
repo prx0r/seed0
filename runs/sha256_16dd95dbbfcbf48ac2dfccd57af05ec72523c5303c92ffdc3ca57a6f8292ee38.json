@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "3-layer anatomy verified on box",
+   "BOOT.md+PULSE live, AGENTS points",
+   "H-driver queued with costs"
+  ],
+  "basis": "commands run live this turn (opencode --version, hermes cron --help, crontab -l, ps)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-driver",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:16dd95dbbfcbf48ac2dfccd57af05ec72523c5303c92ffdc3ca57a6f8292ee38",
+ "ts": 1789037861.6662536
+}

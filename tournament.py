@@ -96,7 +96,7 @@ if __name__ == "__main__":
             pass
     skip = set()
     for i, x in enumerate(raw):
-        if x == "--model":
+        if x in ("--model", "--weights"):
             skip.update((i, i + 1))
     paths = [x for i, x in enumerate(raw)
              if i not in skip and not x.startswith("--")]
@@ -115,6 +115,20 @@ if __name__ == "__main__":
         metas["__weights__"] = weights
     rows = leaderboard(paths, meta=metas)
     print(report(rows))
+    if "--notes" in sys.argv:
+        # S24 wire-up: scores as git notes on HEAD (best-effort; runs outside
+        # git repos must never fail because of this).
+        try:
+            from gitnotes import attach
+            attach(".", "HEAD", sys.argv[sys.argv.index("--notes") + 1],
+                   {"kind": "tournament", "top": r["seed"],
+                    "tests_green": r["tests_green"], "compliant": r["compliant"]}
+                   if (r := rows[0]) else {})
+            print("noted.")
+        except IndexError:
+            pass
+        except Exception as e:
+            print(f"notes skipped: {e}"[:120])
     with open(f"tournament_{int(time.time())}.jsonl", "w") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")

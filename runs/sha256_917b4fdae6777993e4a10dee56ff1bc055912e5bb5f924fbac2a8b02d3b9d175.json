@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "evidence table re-run live",
+   "theater/signal per metric",
+   "divergences fixed or queued",
+   "all gates re-green"
+  ],
+  "basis": "10 todos worked this turn; validators+suite+selfcheck re-run",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-peerreview",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:917b4fdae6777993e4a10dee56ff1bc055912e5bb5f924fbac2a8b02d3b9d175",
+ "ts": 1789041550.8936691
+}

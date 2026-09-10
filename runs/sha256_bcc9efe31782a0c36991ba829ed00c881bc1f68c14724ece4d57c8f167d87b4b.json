@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "memo skips + reruns",
+   "intent flag",
+   "phases valid",
+   "falsifier recorded"
+  ],
+  "basis": "this-turn pytest + live runs",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-stealexec",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:bcc9efe31782a0c36991ba829ed00c881bc1f68c14724ece4d57c8f167d87b4b",
+ "ts": 1789048771.109066
+}

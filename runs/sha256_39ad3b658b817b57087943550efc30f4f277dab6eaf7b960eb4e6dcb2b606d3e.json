@@ -1,0 +1,13 @@
+{
+ "content": {
+  "acceptance": "per queue record",
+  "basis": "this-turn commands + files on disk",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-meteraudit",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:39ad3b658b817b57087943550efc30f4f277dab6eaf7b960eb4e6dcb2b606d3e",
+ "ts": 1789050567.002317
+}

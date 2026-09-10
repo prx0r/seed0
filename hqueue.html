@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- hqueue.html — human inbox: approve/deny/answer what the agent filed.
+     Ported from mw queue.html (same dark cards). Served by hserver.py:
+       GET  /api/h/pending  -> [{id, h_kind, summary, context, options,
+                                 unlocks, urgency, priority_score, ts}]
+       POST /api/h/resolve  {id, decision, note} -> {ok:true} | {ok:false,error}
+     No build, no deps. Poll-friendly: agent files, you click at your pace. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seed0 — Human Queue</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 20px; max-width: 800px; margin: 0 auto; }
+  h1 { color: #00ff88; font-size: 1.5em; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.85em; margin-bottom: 24px; }
+  .task { background: #161616; border: 1px solid #2a2a2a; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .task:hover { border-color: #444; }
+  .task-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .task-num { background: #00ff88; color: #0a0a0a; min-width: 28px; height: 28px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8em; padding: 0 8px; flex-shrink: 0; }
+  .task-title { font-weight: 600; font-size: 1.05em; }
+  .task-meta { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7em; font-weight: 600; }
+  .badge.approval { background: #ffaa0022; color: #ffcc44; border: 1px solid #ffaa0044; }
+  .badge.input { background: #00aaff22; color: #66ccff; border: 1px solid #00aaff44; }
+  .badge.review { background: #cc66ff22; color: #dd99ff; border: 1px solid #cc66ff44; }
+  .unlocks { color: #888; font-size: 0.8em; }
+  .task-steps { background: #0a0a0a; border-radius: 6px; padding: 12px; margin-bottom: 10px; font-size: 0.88em; line-height: 1.6; white-space: pre-wrap; }
+  .task-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85em; }
+  .btn-primary { background: #00ff88; color: #0a0a0a; }
+  .btn-danger { background: #331111; color: #ff6666; border: 1px solid #ff444444; }
+  .btn-secondary { background: #222; color: #e0e0e0; border: 1px solid #333; }
+  .input-row { display: flex; gap: 8px; margin-top: 8px; width: 100%; }
+  .input-row input { flex: 1; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; padding: 8px 12px; color: #e0e0e0; font-size: 0.9em; }
+  .status { font-size: 0.8em; margin-top: 8px; min-height: 1.2em; }
+  .status.ok { color: #00ff88; } .status.error { color: #ff6666; }
+  .empty { color: #666; text-align: center; padding: 40px; }
+</style>
+</head>
+<body>
+<h1>Human Queue</h1>
+<div class="subtitle">Agent files, you click at your pace. Order = unlock value (computed, not triaged).</div>
+<div id="queue"><div class="empty">Loading…</div></div>
+<script>
+async function load() {
+  const q = document.getElementById('queue');
+  let items;
+  try {
+    items = await (await fetch('/api/h/pending')).json();
+  } catch(e) { q.innerHTML = '<div class="empty">Server offline — run: python3 hserver.py</div>'; return; }
+  if (!items.length) { q.innerHTML = '<div class="empty">Queue empty. Agent has everything it needs.</div>'; return; }
+  q.innerHTML = items.map((t, i) => `
+    <div class="task">
+      <div class="task-header">
+        <div class="task-num">#${i + 1} · ${t.priority_score}</div>
+        <div class="task-title">${escapeHtml(t.summary)}</div>
+      </div>
+      <div class="task-meta">
+        <span class="badge ${t.h_kind}">${t.h_kind}</span>
+        <span class="unlocks">unlocks: ${(t.unlocks || []).join(', ') || '—'}</span>
+      </div>
+      <div class="task-steps">${escapeHtml(t.context || '')}</div>
+      <div class="task-actions">
+        ${(t.options || ['approve', 'deny']).map(o =>
+          `<button class="btn ${o === 'approve' ? 'btn-primary' : o === 'deny' ? 'btn-danger' : 'btn-secondary'}" onclick="resolve('${t.id}', '${o}')">${o}</button>`).join('')}
+      </div>
+      <div class="input-row"><input type="text" id="note-${t.id}" placeholder="note (optional, goes back to the agent)"></div>
+      <div class="status" id="status-${t.id}"></div>
+    </div>`).join('');
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+async function resolve(id, decision) {
+  const noteEl = document.getElementById('note-' + id);
+  const st = document.getElementById('status-' + id);
+  st.textContent = 'Sending…'; st.className = 'status';
+  try {
+    const r = await (await fetch('/api/h/resolve', {method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id, decision, note: noteEl ? noteEl.value : ''})})).json();
+    if (r.ok) { st.textContent = '✓ Recorded'; st.className = 'status ok'; setTimeout(load, 600); }
+    else { st.textContent = '✗ ' + (r.error || 'failed'); st.className = 'status error'; }
+  } catch(e) { st.textContent = '✗ Server offline'; st.className = 'status error'; }
+}
+load();
+</script>
+</body>
+</html>

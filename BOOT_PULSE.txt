@@ -1,0 +1,2 @@
+BOOT: read BOOT.md first (session-start orders), then AGENTS.md laws, then loop/packet.json + loop/tasks.jsonl ready set. Standing: work ready A-tasks, tier-route via ham.py, cost-note responses, never end with questions, halt only at H/M with dryness proof. Abort at once if a STOP file exists beside this prompt.
+Repo: /tmp/opencode/seed0. Verify with: python3 loop.py check && python3 seed0.py check . --cwd-independent

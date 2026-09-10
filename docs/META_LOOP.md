@@ -51,8 +51,11 @@ H/M needs surface as queues with demos — never executed unapproved.
    to H with the rule id. No override exists.
 2. Spends quota/cash, or inference no wrapper can meter → M: queue with cost
    estimate + demo of the expected response. Never execute.
-3. Irreversible, externally visible (push, publish, share), or log-schema
-   changing → H: queue with the exact approval string (e.g. `go H1`).
+3. Irreversible, externally visible (push, publish, share), log-schema
+   changing, or barriered (needs human-only action) → H: ONLY via promotion
+   (`loop.py promote` from the blocked A-task, lowest-barrier form enforced).
+   Direct H-filing is grandfathered, sorted last. Queue carries the exact
+   approval string (e.g. `go H1`) plus numbered steps + SEND BACK line.
 4. Else A: execute, log completion via `ham.py log --kind A`.
 
 ## 4. A-task lifecycle
@@ -65,8 +68,33 @@ EXECUTING → PAUSED (H/M need) → EXECUTING (on approval)
 ```
 
 Batch rule: drain all ready A-tasks (parallel where independent) before the
-review pass. Never invent filler tasks to look busy; an empty ready-set with
-pending queues means halt with a bottleneck packet (§8).
+review pass. Then run the propose step (§7) and drain AGAIN — iterations
+continue inside one run until the ready-set is truly empty. Never invent
+filler tasks to look busy.
+
+## 4b. Continuity rules (why the loop never stops to ask)
+
+1. **No questions, ever.** Feedback requests are banned as turn endings. Any
+   impulse to ask becomes a queued H-item with cost note + demo, and work
+   continues on other lanes. Blocked lanes park; ready lanes drain.
+2. **Split blocked tasks.** An H/M-blocked task must be split: the
+   autonomous-legal prefix (design, code, tests, docs — everything short of
+   the blocked step) becomes a ready A-task immediately. Only the rump stays
+   queued. Example: M4 metering → A-design (wrapper code, no live calls) now,
+   M-run (live spend) queued.
+3. **Dryness proof required to halt.** Halt is legal only with proof of no
+   ready work: THREADS open items checked, learn.py clusters checked,
+   code TODOs grepped, T-list reviewed — all empty or all H/M-blocked with
+   no splittable prefix. The proof is written to `loop/packet.json`
+   (bottleneck packet on disk, not just in chat).
+4. **Default-action, cheap-reversal.** Ambiguous calls resolve toward action;
+   every action is logged with its reversal (usually `git checkout`/`git
+   reset`). The owner reverts with one word instead of pre-approving with
+   ten. Standing H7 may be paused with `pause H7` — the only question-shaped
+   input the loop accepts, and it needs no answer.
+5. **Turns are batches, not sessions.** One turn = as many loop iterations as
+   fit. A turn ends with completed work + packet on disk. The next turn —
+   any user message, even unrelated — resumes the queue first.
 
 ## 5. Progress report schema (`loop/reports/<id>.md`, required sections)
 

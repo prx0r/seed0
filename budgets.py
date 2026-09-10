@@ -44,6 +44,15 @@ class Budget:
             raise BudgetExceeded(
                 f"budget exhausted after {label or 'call'}: {snap}")
 
+    def check(self, label: str = ""):
+        """Pre-call refusal (XBSTACK billing-guard pattern): raise BEFORE the
+        billed call if the budget is already exhausted. Call this before
+        every metered operation; record() stays the post-call accounting."""
+        if self.exhausted():
+            raise BudgetExceeded(
+                f"budget already exhausted before {label or 'call'}: "
+                f"{self.snapshot(label)}")
+
     def exhausted(self) -> bool:
         if self.max_tokens is not None and self.spent_tokens >= self.max_tokens:
             return True

@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "14 blocks H/M/A",
+   "queues cross-checked live",
+   "indexed"
+  ],
+  "basis": "packet cross-check ran; index links via self-check",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-prompts",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:dfe108eb05424b9f2036747c92d83c1b1abfbac324a267707964a6b55dfb7c6d",
+ "ts": 1789041372.3640244
+}

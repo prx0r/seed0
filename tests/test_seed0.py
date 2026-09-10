@@ -44,3 +44,13 @@ def test_new_scaffold_is_compliant(tmp_path):
     r = subprocess.run([sys.executable, "-m", "pytest", "tests/", "-q"],
                        cwd=out, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout[-500:]
+
+
+def test_new_scaffold_git_inits_tree(tmp_path):
+    import subprocess as _sp
+    out = new("gittest", "git init check", dest=str(tmp_path))
+    assert (out / ".git").is_dir()
+    r = _sp.run(["git", "log", "--oneline"], capture_output=True, text=True, cwd=out)
+    assert r.returncode == 0 and "scaffold" in r.stdout
+    r = _sp.run(["git", "config", "user.email"], capture_output=True, text=True, cwd=out)
+    assert r.stdout.strip() == "seed0@local"  # local identity, not operator's

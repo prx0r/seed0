@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "pytest green in-repo",
+   "pytest green from /tmp",
+   "check --cwd-independent 6/6"
+  ],
+  "basis": "artifacts present + suite 46 green + 6/6 (session runs)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-cwdgate",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:2127204b652ad3d56c8479bc62937ccbb25125a4c2c155dafce754d57815805a",
+ "ts": 1789037171.5579226
+}

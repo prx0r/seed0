@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "review doc with re-measured numbers",
+   "THREADS consolidated T0+blocked+backlog+closed",
+   "index/FILES rows live"
+  ],
+  "basis": "digest commands re-run this turn; links checked by self-check",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-review",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:37880db9204389f8f376e312295da35bd20666f4475bcea300c562295975ec36",
+ "ts": 1789039363.1953554
+}

@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "frozen pre-work incl a-context",
+   "5 lanes exit 0 + re-run",
+   "blind review-then-reveal",
+   "tournament receipted"
+  ],
+  "basis": "commands run live this turn; receipts verify",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-moneytourney",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:b5417c6a01321aaabe771a2b8855678ec2b43e31d82d4dbe5125145effe866d9",
+ "ts": 1789050233.8992743
+}

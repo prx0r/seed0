@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "frontier mined",
+   "git-init + map live + tested",
+   "steals banked"
+  ],
+  "basis": "2 deep searches; pytest; live map run",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-gitnative",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:69aae8c361a4eb4942ec019ef23fe516931582937122c54f991943d4cb1fc0d0",
+ "ts": 1789047848.4197533
+}

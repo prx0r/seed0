@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "8 sections each naming graduated v1 mechanism",
+   "build order starts with metering",
+   "marked SPEC NOT BUILT"
+  ],
+  "basis": "artifacts present + suite 46 green + 6/6 (session runs)",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-endgame",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:d081c31840f4a72ff06229f62387a4b545d712dcd42827a5200c536802797c47",
+ "ts": 1789037171.5585008
+}

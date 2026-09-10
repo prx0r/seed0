@@ -5,6 +5,16 @@ like) and a **harness** (checker, tournament, funnel, evals, receipts). This gui
 covers bring-up through running tournaments. Philosophy + landscape live in
 THESIS.md, HUMAN_LOOP.md, ECOSYSTEM.md.
 
+## Core loop (every routine lives inside this)
+
+```
+freeze (brief+rubric+validator+weights) → lanes/attempts (isolated)
+   → operator re-runs validators → score (mechanical) → blind review
+   → reveal → tournament → receipts verify → bank (queue+THREADS+packet)
+```
+Full session routines (R1 bring-up … R6 resume), WHEN matrix, and workflow
+combinations: `docs/ROUTINES.md`. Copy-paste ops: `docs/RECIPES.md`.
+
 ## Bring-up (fresh machine)
 
 ```bash

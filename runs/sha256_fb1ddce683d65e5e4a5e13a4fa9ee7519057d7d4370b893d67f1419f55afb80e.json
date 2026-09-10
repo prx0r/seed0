@@ -1,0 +1,18 @@
+{
+ "content": {
+  "acceptance": [
+   "gitnotes + --notes tested",
+   "keyed dedupe stable",
+   "freeze immune",
+   "rollback refuses dirty"
+  ],
+  "basis": "this-turn pytest + live runs",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-stealgit",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:fb1ddce683d65e5e4a5e13a4fa9ee7519057d7d4370b893d67f1419f55afb80e",
+ "ts": 1789048771.1085784
+}

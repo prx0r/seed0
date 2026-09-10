@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "clone exercised end-to-end",
+   "gap inventoried (158 paths)",
+   "staleness fixed"
+  ],
+  "basis": "clean-dir clone + commands run + git status count",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-coldstart",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:171ccce6b6c302f084ca8a7deae7f0a3b330d127fd7d242617e7ec1b43b46341",
+ "ts": 1789049626.3883507
+}

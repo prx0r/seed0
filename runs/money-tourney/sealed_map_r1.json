@@ -1,0 +1,11 @@
+{
+ "round": 1,
+ "map": {
+  "seed2": "Lane A",
+  "seed5": "Lane B",
+  "seed3": "Lane C",
+  "seed1": "Lane D",
+  "seed4": "Lane E"
+ },
+ "note": "reveal only after verdicts: funnel.py reveal"
+}

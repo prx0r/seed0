@@ -1,0 +1,19 @@
+{
+ "content": {
+  "acceptance": [
+   "exact-amount lifecycle 60+40=100",
+   "ceiling/purpose/expiry refusals",
+   "receipt shape gate",
+   "treasury fail-closed",
+   "5 tests green"
+  ],
+  "basis": "this-turn validation",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-grants",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:383c746082e9f65f6702f19e96074dc92a52a4f80ccfbe89a5ae6d608b8de550",
+ "ts": 1789038475.1507196
+}

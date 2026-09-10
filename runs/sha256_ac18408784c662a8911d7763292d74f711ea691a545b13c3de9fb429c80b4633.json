@@ -1,0 +1,17 @@
+{
+ "content": {
+  "acceptance": [
+   "promotion path enforced in code",
+   "old callers green",
+   "docs state the rule"
+  ],
+  "basis": "16 loop tests + 20 inbox/server tests; doc diffs read back",
+  "kind": "task-validation",
+  "result": "pass",
+  "task_id": "a-promote",
+  "tier": "A"
+ },
+ "kind": "task-validation",
+ "run_id": "sha256:ac18408784c662a8911d7763292d74f711ea691a545b13c3de9fb429c80b4633",
+ "ts": 1789046240.5123775
+}
