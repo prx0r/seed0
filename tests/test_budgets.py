@@ -92,3 +92,20 @@ def test_pyeval_zero_budget_makes_no_calls(tmp_path, monkeypatch):
     rep = run(str(ds), "m", "http://x", "k", budget=Budget(max_tokens=0))
     assert called == [] and rep["score"] == 0
     assert "budget" in rep["results"][0]["why"]
+
+
+def test_max_usd_trips_and_precheck_refuses():
+    from budgets import Budget, BudgetExceeded
+    import pytest as _pt
+    b = Budget(max_usd=0.01)
+    b.record(tokens=5, cost=0.004, label="t1")
+    assert b.exhausted() is False
+    with _pt.raises(BudgetExceeded):
+        b.record(tokens=5, cost=0.008, label="t2")  # crosses $0.01
+    b2 = Budget(max_usd=0.005)
+    b2.record(tokens=1, cost=0.004, label="t1")
+    b2.check("still-room")  # under cap: passes
+    with _pt.raises(BudgetExceeded):
+        b2.record(tokens=1, cost=0.002, label="t2")  # crosses the line
+    with _pt.raises(BudgetExceeded):
+        b2.check("next-call")  # pre-call refusal, no transport touched
