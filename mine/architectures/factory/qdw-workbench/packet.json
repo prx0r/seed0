@@ -1,0 +1,64 @@
+{
+ "packet": "arch/qdw-workbench",
+ "source_repo": "prx0r/qdw-workbench",
+ "commit_sha": "ee4cc18cd28d6dea21889bbfa0eb4da3b7d5262d",
+ "license": "unknown",
+ "family": "factory",
+ "pattern": "# QDW Workbench",
+ "run_shape": {
+  "bring_up": [
+   "cargo build"
+  ],
+  "gate": [
+   "cargo test"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".github",
+   ".gitignore",
+   "AGENTS.md",
+   "ARCHITECTURE-MODULES-2026-09-01.md",
+   "Cargo.lock",
+   "Cargo.toml",
+   "HANDOVER-2026-09-01.md",
+   "HANDOVER-2026-09-02-EVENING.md",
+   "HANDOVER-2026-09-02.md",
+   "HANDOVER.md",
+   "Makefile",
+   "PLAN-CAPABILITY-POOLS-2026-09-01.md",
+   "PLAN-CP1-CONTROL-PLANE-PROVEN.md",
+   "PLAN-SECURITY-POOL-2026-09-02.md",
+   "PLAN.md",
+   "PRIVATE-LAB-SPEC-EMAIL.md",
+   "README.md",
+   "REVIEW-2026-09-02.md",
+   "SOURCE-MANIFEST.json",
+   "TEST-SUITE-CP1.md",
+   "VALIDATION-REPORT.md",
+   "apps",
+   "config",
+   "crates",
+   "data",
+   "docs",
+   "integrations",
+   "lab",
+   "private",
+   "scripts",
+   "studios",
+   "systemd",
+   "tests"
+  ],
+  "readme_excerpt": "# QDW Workbench\n\nA lightweight Tauri 2 control plane and coding workbench for QDW.\n\nQDW Workbench is deliberately **not another agent framework** and not another QDW kernel. It is the human surface over canonical QDW state plus a replaceable workstation/VPS execution daemon (`qdw-node`). Hermes is the primary agent runtime through ACP; other ACP-compatible runtimes can be attached without changing Workbench semantics.\n\n## Goals\n\n- Open one desktop app and immediately know the state of the QDW estate.\n- Switch between local and remote workspaces without rebuilding project context manually.\n- See products, factories, work graphs, verification, human approvals, nodes, CPU/RAM, costs, agent runs and context usage in one place.\n- Compile task-specific agent context from QDW doctrine + code + memory + current evidence instead of dumping entire repositories into a prompt.\n- Preserve session handovers as timestamped, hashed artifacts when a context window approaches its limit or a user ends a session.\n- Treat human approvals as canonical QDW HumanQueue transitions, never frontend-only state.\n- Keep the laptop light: no Electron, no mandatory Docker, Redis, Postgres, ClickHouse or backgroun",
+  "agents_excerpt": "# AGENTS.md \u2014 Private Lab\n\nThe local control plane for Moltwork. Desktop app, native graph database, agent vault, human queue.\n\n## What is Private Lab?\n\nA Tauri 2 desktop app that is the **private controller** for your Moltwork operation. The browser (oracle.moltwork.com) is the lightweight public oracle \u2014 opportunities, data, stats. The desktop is where real work happens.\n\n### Core capabilities\n\n- **Vault**: All private keys, mnemonics, API secrets (never exposed to browser)\n- **HydraDB**: Native Rust graph database \u2014 the canonical experience graph\n- **CGE**: Run experiments locally (adversar",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-qdw-workbench-ee4cc18c"
+ },
+ "truth_condition": "Re-clone prx0r/qdw-workbench@ee4cc18c sparse + run gate ['cargo test'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:23Z"
+}

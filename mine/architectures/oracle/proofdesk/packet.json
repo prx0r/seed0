@@ -1,0 +1,57 @@
+{
+ "packet": "arch/proofdesk",
+ "source_repo": "prx0r/proofdesk",
+ "commit_sha": "d7f37d0a432f7ddb3367655018246bd63a31514d",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "**Your agent shouldn't sign that.**",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [
+   "pytest tests/ -q (assumed)"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".env.example",
+   ".github",
+   ".gitignore",
+   "LICENSE",
+   "Procfile",
+   "README.md",
+   "benchmarks",
+   "data",
+   "demo_2min.py",
+   "docs",
+   "experiments",
+   "fixtures",
+   "foxit",
+   "generate_visuals.py",
+   "media",
+   "pitch_script.py",
+   "railway.json",
+   "requirements.txt",
+   "rubrics",
+   "run.sh",
+   "run_benchmark.py",
+   "scripts",
+   "site",
+   "src",
+   "templates",
+   "tests"
+  ],
+  "readme_excerpt": "# ProofDesk\n\n**Your agent shouldn't sign that.**\n\n[![Hackathon](https://img.shields.io/badge/DevNetwork_API%2BCloud%2BAI_Hackathon-2026-blue)](https://api-cloud-ai-hackathon-2026.devpost.com/)\n[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)\n[![Tests](https://img.shields.io/badge/Tests-115_passing-brightgreen)](#tests)\n[![Nutrient](https://img.shields.io/badge/Nutrient_DWS-Integrated-blue)](#nutrient-dws-integration)\n\n> Two documents are individually read correctly. Together they describe a transaction that should not happen. The AI refuses to act.\n\n**[Watch Demo](https://youtu.be/LWN3qNX-hk4)** | **[Try Live Demo](https://proofdesk-90q.pages.dev)** | **[View Source](https://github.com/prx0r/proofdesk)**\n\n---\n\n## Judge in 30 Seconds\n\n**Sponsor API:** [Nutrient DWS](https://nutrient.io) \u2014 extracts grounded evidence from source PDFs with value, confidence, page, and bounding-box provenance. Not just text \u2014 sourced, scored evidence.\n\n**Core workflow:**\n```\nHigh-confidence fact A (from Nutrient DWS extraction)\n  + High-confidence fact B (from Nutrient DWS extraction)\n  \u2192 Cross-document contradiction detected\n  \u2192 AUTHORITY BLOCKED\n  \u2192 Human examines the exa",
+  "agents_excerpt": "",
+  "proto_signals": [],
+  "n_root_files": 26,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-proofdesk-d7f37d0a"
+ },
+ "truth_condition": "Re-clone prx0r/proofdesk@d7f37d0a sparse + gate ['pytest tests/ -q (assumed)'] green or doc proves proto-agent role (); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=[]; tests=True; agentic=False; tournament=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:19Z"
+}

@@ -1,0 +1,28 @@
+{
+ "packet": "arch/cge1",
+ "source_repo": "prx0r/cge1",
+ "commit_sha": "b6edb13afc51df235d4c86b56ef79e6933a7ce3f",
+ "license": "unknown",
+ "family": "evolution-kernel",
+ "pattern": "T2 sweep prx0r/cge1",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "README.md",
+   "cge1",
+   "pyproject.toml",
+   "tests"
+  ],
+  "receipt_id": "t2-cge1-b6edb13a",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/cge1@b6edb13a sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:32:03Z"
+}

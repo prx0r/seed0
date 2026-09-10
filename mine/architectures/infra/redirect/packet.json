@@ -1,0 +1,27 @@
+{
+ "packet": "arch/redirect",
+ "source_repo": "prx0r/redirect",
+ "commit_sha": "e1cb9bbcc531577f9c654c74182b5795447f5f60",
+ "license": "unknown",
+ "family": "infra",
+ "pattern": "T2 sweep prx0r/redirect",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "Cargo.lock",
+   "Cargo.toml",
+   "src"
+  ],
+  "receipt_id": "t2-redirect-e1cb9bbc",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/redirect@e1cb9bbc sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:19:58Z"
+}

@@ -1,0 +1,52 @@
+{
+ "packet": "arch/qdw",
+ "source_repo": "prx0r/qdw",
+ "commit_sha": "ee6d5ac035667a3825714e2f5f2db12e880050d7",
+ "license": "unknown",
+ "family": "factory",
+ "pattern": "",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".github",
+   ".gitignore",
+   "AGENTS.md",
+   "BUILD_CERTIFICATE.json",
+   "Dockerfile",
+   "UPSTREAM.md",
+   "crypto",
+   "data",
+   "docs",
+   "manifests",
+   "migrations",
+   "patches",
+   "pyproject.toml",
+   "qdw",
+   "qdw_federation",
+   "qdw_finishline",
+   "qdw_global_infra",
+   "schemas",
+   "scripts",
+   "src",
+   "tests"
+  ],
+  "readme_excerpt": "",
+  "agents_excerpt": "# AGENTS.md \u2014 QDW\n\n*How agents work here. Read this first.*\n\n---\n\n## THE ONE RULE\n\n> **Nothing is DONE because code exists or because you say a test passed.**\n> It is PROVEN only when a recorded verification run shows every required gate passed.\n\n---\n\n## DEFINITIONS\n\n- **PROVEN**: verification run recorded, all gates passed, artifacts hashed\n- **IMPLEMENTED_UNVERIFIED**: code exists but no verification run proves it\n- **UNVERIFIED**: command could not run\n- **BLOCKED**: prerequisite not met\n- **FAIL**: recorded command returned non-zero or artifact check failed\n\nThere is no state called: `prob",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-qdw-ee6d5ac0"
+ },
+ "truth_condition": "Re-clone prx0r/qdw@ee6d5ac0 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:14Z"
+}

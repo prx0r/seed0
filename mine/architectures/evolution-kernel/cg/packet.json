@@ -1,0 +1,47 @@
+{
+ "packet": "arch/cg",
+ "source_repo": "prx0r/cg",
+ "commit_sha": "e374b0b4d9f454ab32b3ac9480581c82d9adb82e",
+ "license": "unknown",
+ "family": "evolution-kernel",
+ "pattern": "# cogymkernel",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".github",
+   ".gitignore",
+   "AGENTS.md",
+   "HANDOVER.md",
+   "README.md",
+   "SPEC.md",
+   "cg",
+   "claims",
+   "cogym_kernel",
+   "docs",
+   "migrations",
+   "pyproject.toml",
+   "tests",
+   "tools",
+   "website",
+   "worldpacks"
+  ],
+  "readme_excerpt": "# cogymkernel\n\n**Deterministic agentic evolution laboratory.**\nWorlds are replayable. Runs are content-addressed proofs. Quality gates are\nhard constraints. An experience graph remembers everything.\n\n```\npip install -e \".[dev]\"        # or: uv pip install -e .\npython3 -m pytest tests/ -q    # determinism is CI-enforced\ncg status                      # razor alias: cg == cogym_kernel\ncg run --seed 42\n# also: from cg.k.ids import content_id  (2 chars vs 12)\n```\n\nThat last command prints a **RunReceipt** with a `run_id` \u2014 a blake3 content\nhash over worldpack + scenario + candidate + seed + merkle root of every event.\nAnyone, anywhere, re-running it gets the identical id. That is the proof\nprimitive the whole stack builds on.\n\n## What's inside\n\n| Module | Role |\n|---|---|\n| `kernel/` | contracts \u00b7 async runner \u00b7 content-addressed run ids |\n| `executors.py` | deterministic \u00b7 replay-tape \u00b7 cached-model executors |\n| `eval/` | quality gates \u00b7 lexicographic selection \u00b7 layered suites (dev/validation/secret) \u00b7 Wilson/bootstrap stats |\n| `evo/` | 10 evolution recipes \u00b7 33 reasoning styles (16 families) \u00b7 typed search spaces |\n| `experience/` | async HydraDB client (capability probe, batching",
+  "agents_excerpt": "# AGENTS.md \u2014 cogymkernel\n\nBinding rules for any coding agent working in this repository.\n\n## Absolute rules\n\n1. **NEVER `git push`.** The owner pushes. You commit locally only when asked.\n2. **No domain concepts in `cogym_kernel/kernel/`.** Worlds plug in via\n   `worlds/registry.py` only. If kernel code names a market, a claim, or any\n   domain object, the architecture has failed.\n3. **Gates dominate objectives.** Never introduce a scalar fitness that trades\n   quality for cost.\n4. **Volatile fields never enter content ids** (see `kernel/ids.VOLATILE`).\n   Timestamps live beside ids inside re",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-cg-e374b0b4"
+ },
+ "truth_condition": "Re-clone prx0r/cg@e374b0b4 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:11Z"
+}

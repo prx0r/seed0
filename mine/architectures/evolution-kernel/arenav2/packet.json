@@ -1,0 +1,40 @@
+{
+ "packet": "arch/arenav2",
+ "source_repo": "prx0r/arenav2",
+ "commit_sha": "ad5cdec1fc1fc0d4dae24d9554394c7eaa0bf588",
+ "license": "unknown",
+ "family": "evolution-kernel",
+ "pattern": "# Arena v2 \u2014 Worker evaluation infrastructure",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [
+   "pytest tests/ -q (assumed)"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "HANDOVER.md",
+   "README.md",
+   "arena",
+   "cogym_world.py",
+   "data",
+   "newdirection.md",
+   "scripts",
+   "tests"
+  ],
+  "readme_excerpt": "# Arena v2 \u2014 Worker evaluation infrastructure\n\n**Trust layer for autonomous workers.**\n\n> Money buys evaluation, not reputation.\n\n## What this is\n\nA system that builds empirical capability profiles for agents/workers from actual work, controlled benchmarks, and verified outcomes.\n\n```text\nWORK RECEIPTS + CONTROLLED TESTS\n          \u2193\n    VERIFIED EVIDENCE\n          \u2193\n  contextual capability estimates\n          \u2193\n  \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n  \u2193               \u2193\nWORK ROUTING   ACTIVE LEARNING\nbest worker    what to test next\n```\n\n## Thesis\n\nThe scarce thing in autonomous agent marketplaces is **trust**. Not \"which API?\" but \"which agent can actually do this job?\"\n\nExisting approaches (star ratings, self-reported claims, transaction counts) are gameable and context-free. Arena v2 builds:\n\n- **Per-task-cluster capability profiles** with confidence intervals\n- **Quality vs price preference separation** (blind choice \u2260 purchase choice)\n- **Evidence saturation** (benchmark where new evidence has marginal value)\n- **Recommend vs research split** (route real jobs, explore unknown workers)\n\n## What we have\n\n### Seed data: 402Pilot\n\n20,575 frozen provider responses across 823 tasks and 5 providers. Qua",
+  "agents_excerpt": "",
+  "proto_signals": [],
+  "n_root_files": 9,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-arenav2-ad5cdec1"
+ },
+ "truth_condition": "Re-clone prx0r/arenav2@ad5cdec1 sparse + gate ['pytest tests/ -q (assumed)'] green or doc proves proto-agent role (); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=[]; tests=True; agentic=False; tournament=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:27Z"
+}

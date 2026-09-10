@@ -1,0 +1,30 @@
+{
+ "packet": "arch/agentseo",
+ "source_repo": "prx0r/agentseo",
+ "commit_sha": "21f1a26bc9670155aa8b240db7701b70c586595a",
+ "license": "unknown",
+ "family": "infra",
+ "pattern": "T2 sweep prx0r/agentseo",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "Cargo.lock",
+   "Cargo.toml",
+   "README.md",
+   "docs",
+   "llms.txt",
+   "src"
+  ],
+  "receipt_id": "t2-agentseo-21f1a26b",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/agentseo@21f1a26b sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:19:59Z"
+}

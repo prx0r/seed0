@@ -1,0 +1,67 @@
+{
+ "packet": "arch/unignorant",
+ "source_repo": "prx0r/unignorant",
+ "commit_sha": "836f1b269004f039b11dd952d660918f02e26595",
+ "license": "unknown",
+ "family": "kgraph",
+ "pattern": "# Unignorant",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENTIC.md",
+   "AGENTS.md",
+   "API_INVENTORY.md",
+   "APIs.md",
+   "ARCHITECTURE.md",
+   "DEV_PLAN.md",
+   "GEOPOLITICS_ENGINE.md",
+   "GRAPH.md",
+   "HANDOVER-2026-08-17.md",
+   "HERMES-API.md",
+   "HERMES_INTEGRATION.md",
+   "MONETIZATION.md",
+   "MORAL_ARCHITECTURE.md",
+   "Makefile",
+   "NEEDS_KEYS.md",
+   "OUR_APIS.md",
+   "PLAN.md",
+   "README.md",
+   "RECIPES.md",
+   "REDTEAM_LOG.md",
+   "RESEARCH.md",
+   "REVIEW.md",
+   "SUFFERING_INDEX.md",
+   "VISION.md",
+   "agent",
+   "check.py",
+   "install_cron.sh",
+   "llms.txt",
+   "pyproject.toml",
+   "scripts",
+   "site",
+   "skills",
+   "src",
+   "usefulapi.md",
+   "watchdog.py"
+  ],
+  "readme_excerpt": "# Unignorant\n\n**Global life, not global news.**\n\nA world-reality data graph that assembles what ordinary humans in 191 countries are actually experiencing \u2014 work, wages, food prices, housing, trade, aid, and real pictures of daily life \u2014 sourced from public world data APIs, served via REST + MCP + static frontend.\n\n## Why this exists\n\nWestern media covers the world through drama \u2014 war, politics, celebrities. That's not what life *is*. Unignorant answers the question no one else answers:\n\n> Show me what ordinary humans elsewhere are actually experiencing that I would otherwise never hear about.\n\nNot \"global news.\" **Global life.** The texture of an ordinary Thursday in Kampala \u2014 what people complain about, what they eat, what a teacher's salary buys, how they talk about the West, what's getting better and worse. From the people living it, in their own words.\n\n## Architecture\n\n```\nconnectors/        one module per external API (25 sources)\n    \u2193  normalized\ncore/              entities, reality-scoring, Suffering Index, countries registry,\n                   TTL cache, SQLite, pydantic schemas, .env loader\n    \u2193\napi/               FastAPI REST app (~45 endpoints, typed, cached, fail-s",
+  "agents_excerpt": "# Unignorant \u2014 AGENTS.md (governing rules)\n\n*The ONE rule-set for working on Unignorant. Read this first, then the\ndocumentation map below + `ARCHITECTURE.md` + `check.py --gate`.*\n\n---\n\n## \ud83d\udcda THE DOCUMENTATION MAP \u2014 know every doc before touching code\n\nThis repo is intentionally doc-heavy. Each file has ONE job; read the ones that\napply to your task. Do not duplicate or rewrite these \u2014 extend them.\n\n| Doc | What it's for |\n|-----|---------------|\n| **`VISION.md`** | **Why we exist.** Global life, not global news; the moat (a traversable government/people backlog); the north star (self-verifyin",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-unignorant-836f1b26"
+ },
+ "truth_condition": "Re-clone prx0r/unignorant@836f1b26 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=False; agentic=True; substrate=local-git; tournament-runnable=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:31Z"
+}

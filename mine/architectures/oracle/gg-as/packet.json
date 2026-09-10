@@ -1,0 +1,59 @@
+{
+ "packet": "arch/gg-as",
+ "source_repo": "prx0r/gg-as",
+ "commit_sha": "ac43421c7d9713f8f063124d949a3237722f0f5f",
+ "license": "# License policy",
+ "family": "oracle",
+ "pattern": "# GG-AS \u2014 GitGoblin Agent Commerce",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".env.example",
+   ".github",
+   ".gitignore",
+   "AGENTS.md",
+   "Dockerfile",
+   "GITGOBLIN_USER_MANUAL.md",
+   "GITGOBLIN_VISION.md",
+   "GUIDING_PROMPT.md",
+   "LICENSE-POLICY.md",
+   "METAGIT.md",
+   "Makefile",
+   "README.md",
+   "STAR_GRAPH_PROCESS.md",
+   "campaigns",
+   "configs",
+   "data",
+   "docker-compose.yml",
+   "docs",
+   "ggctl.sh",
+   "gitgoblin",
+   "logs",
+   "output",
+   "pyproject.toml",
+   "run.sh",
+   "schemas",
+   "scripts",
+   "skills",
+   "tests"
+  ],
+  "readme_excerpt": "# GG-AS \u2014 GitGoblin Agent Commerce\n\n*Technical alpha for agent-native commerce. Finds engineers building infrastructure before it ships.*\n\n---\n\n## What Is This?\n\nGG-AS is a frontier-intelligence system that watches high-signal engineers and finds convergence before it becomes obvious.\n\n**It is NOT:**\n- A trending repo tracker\n- A star counter\n- A content scraper\n\n**It IS:**\n- A rabbit hole machine\n- A convergence detector\n- A capability tracker\n- A product opportunity engine\n\n---\n\n## The Core Loop\n\n```\nYOUR DIRTY INTENT\n    \u2193\nINTENT ENGINE (parse what you REALLY want)\n    \u2193\nENGINEER DISCOVERY (web search for smart people)\n    \u2193\nCORPUS (top 8 highest signal bets)\n    \u2193\nCAMPAIGN (focused rabbit hole)\n    \u2193\nSIGNALS + OPPORTUNITIES\n    \u2193\nQUALITY ASSESSMENT\n    \u2193\nLOG (for future runs)\n```\n\n---\n\n## Quick Start\n\n### 1. Parse your intent\n\n```bash\npython3 -m gitgoblin.cli mission \"I want to come top in Google AI results for Norwegian spare parts\"\n```\n\n### 2. Run the campaign\n\n```bash\npython3 -m gitgoblin.cli campaign run <campaign-id>\n```\n\n### 3. Check results\n\n```bash\npython3 -m gitgoblin.cli rank --sector <sector>\npython3 -m gitgoblin.cli experiments\n```\n\n---\n\n## Commands\n\n| Command | Des",
+  "agents_excerpt": "# AGENTS.md \u2014 GG-AS\n\n*For agents using GG-AS to monitor the agent-commerce frontier.*\n\n---\n\n## Mission\n\nGG-AS converts public technical activity in agent-native commerce into **evidence-backed frontier signals**, then into falsifiable product hypotheses.\n\nIt watches Shopify/UCP, Google/Merchant Center, Timefold/dispatch, and Anthropic/commerce-agents to find capabilities before they ship.\n\n---\n\n## How GG-AS Works\n\n### 1. Seeding\n\nStart with known high-signal engineers:\n\n```bash\npython3 -m gitgoblin.cli seed high-certainty-agentic-commerce igrigorik\npython3 -m gitgoblin.cli seed high-certainty-",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-gg-as-ac43421c"
+ },
+ "truth_condition": "Re-clone prx0r/gg-as@ac43421c sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:09Z"
+}

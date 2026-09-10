@@ -1,0 +1,16 @@
+{
+ "round": 1,
+ "at": 1789040405.418949,
+ "blind": false,
+ "instruction": "Main agent: for EACH entry write hypothesis (why it passed/failed), change (exact seed edit or null), and verdict (promote/augment/drop). Then amend.",
+ "seeds": [
+  {
+   "seed": "seed6-ham",
+   "binary_pass": false,
+   "hypothesis": "",
+   "change": "",
+   "verdict": ""
+  }
+ ],
+ "promotions": []
+}

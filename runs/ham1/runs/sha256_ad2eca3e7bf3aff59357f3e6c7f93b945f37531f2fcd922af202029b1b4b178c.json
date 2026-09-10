@@ -1,0 +1,29 @@
+{
+ "content": {
+  "idea": "HAM registry auditable autonomy",
+  "kind": "funnel-round",
+  "seeds": [
+   {
+    "binary_pass": true,
+    "compliance": "5/5",
+    "seed": "seed6-ham",
+    "suite_green": true
+   }
+  ],
+  "telemetry": {
+   "cost_usd": null,
+   "criteria": "",
+   "criteria_version": "",
+   "elapsed_s": 0.44,
+   "idea": "",
+   "idea_version": "",
+   "input_tokens": 0,
+   "model": "",
+   "output_tokens": 0,
+   "usage_source": "reported"
+  }
+ },
+ "kind": "funnel-round",
+ "run_id": "sha256:ad2eca3e7bf3aff59357f3e6c7f93b945f37531f2fcd922af202029b1b4b178c",
+ "ts": 1789040414.2462928
+}

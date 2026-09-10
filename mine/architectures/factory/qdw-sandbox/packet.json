@@ -1,0 +1,41 @@
+{
+ "packet": "arch/qdw-sandbox",
+ "source_repo": "prx0r/qdw-sandbox",
+ "commit_sha": "5e4278c8eeed008bcf11deff288b19110379ece0",
+ "license": "unknown",
+ "family": "factory",
+ "pattern": "# QDW Sandbox",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENTS.md",
+   "README.md",
+   "_lifegit",
+   "_lifegit_tests",
+   "_review_system",
+   "migrations",
+   "pyproject.toml",
+   "src",
+   "tests"
+  ],
+  "readme_excerpt": "# QDW Sandbox\n\nDevelopment playground for bounty engine, human oracle, and data rights primitives that will graduate into the QDW core stack.\n\n## Quick Start\n\n```bash\npip install -e \".[dev]\"\nsandbox doctor\n```\n\n## Modules\n\n- **Bounty Engine** \u2014 4 bounty types: TASK, DATA, EVIDENCE, ASSET\n- **HumanOracle** \u2014 route tasks to humans as capability providers\n- **DataRightsBackend** \u2014 abstract data licensing (NativeLocal, Vana, EnterpriseVault)\n- **StackOracle** \u2014 allocate resources across LLM/tool/human/data providers\n\n## CLI\n\n```bash\nsandbox doctor                                    # system health\nsandbox bounty create evidence \"Find X\" ...       # create bounty\nsandbox bounty list                                # list bounties\nsandbox worker list                                # list workers\nsandbox rights check <asset_id> <purpose> <ops>   # check data clearance\n```\n\n## API\n\n```bash\nuvicorn sandbox.interfaces.api:app --port 8000\n```\n\n## Architecture\n\n```\n                    STACK ORACLE\n                         \u2502\n     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n     \u2502                   \u2502                   \u2502\n     \u25bc                   \u25bc                   \u25bc\nHumanOracle        DataRights   ",
+  "agents_excerpt": "# AGENTS.md \u2014 QDW Sandbox\n\n*Development playground for bounty engine, human oracle, and data rights primitives.*\n\n---\n\n## THE ONE RULE\n\n> **Nothing is DONE because code exists or because you say a test passed.**\n> It is PROVEN only when a recorded verification run shows every required gate passed.\n\n---\n\n## WHAT THIS REPO IS\n\nQDW Sandbox is where we develop and test modules before they graduate into the QDW core stack. It contains:\n\n| Module | Purpose |\n|---|---|\n| `sandbox/bounty/` | Bounty Engine \u2014 4 bounty types (TASK, DATA, EVIDENCE, ASSET) |\n| `sandbox/human/` | HumanOracle \u2014 route tasks t",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-qdw-sandbox-5e4278c8"
+ },
+ "truth_condition": "Re-clone prx0r/qdw-sandbox@5e4278c8 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:16Z"
+}

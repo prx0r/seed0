@@ -1,0 +1,56 @@
+{
+ "packet": "arch/feedify",
+ "source_repo": "prx0r/feedify",
+ "commit_sha": "1d5796fa567e68b883f96cbba959ca7287486a85",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "# Feedify 2.0",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".env.example",
+   ".gitignore",
+   "AGENTS.md",
+   "Dockerfile",
+   "HANDOVER.md",
+   "Makefile",
+   "NEXT_STEPS.md",
+   "QUICKSTART.md",
+   "README.md",
+   "SESSION_REVIEW.md",
+   "THREADS.md",
+   "august",
+   "config",
+   "data",
+   "docs",
+   "fish",
+   "mcp-config.json",
+   "pyproject.toml",
+   "releases",
+   "scripts",
+   "specs",
+   "stale",
+   "static",
+   "tests",
+   "uv.lock"
+  ],
+  "readme_excerpt": "# Feedify 2.0\n\n**Knowledge graph compiler for post-AGI scarcity intelligence.**\n\nFeedify ingests X/Twitter posts from researchers and engineers, classifies them into typed knowledge objects, builds relationships between objects, and tracks predictions over time. The core thesis: \"What does increasing abundance make newly scarce?\"\n\n```\ncd /root/feedify2\nsource .venv/bin/activate\nuvicorn feedify.api:app --reload --port 8788\n\n# Quick test\ncurl http://localhost:8788/api/health\ncurl http://localhost:8788/api/convergence?days=30\ncurl http://localhost:8788/api/predictions?limit=5\n```\n\n## What's inside\n\n| Module | Role |\n|---|---|\n| `feedify/adapters/` | 9 source adapters (X, GitHub, HN, SEC, OpenInsider, TrustMRR, StoreLeads, Appfigures, Glama) |\n| `feedify/services/` | Core logic (25 files) \u2014 classification, scoring, convergence, graph building |\n| `feedify/api.py` | FastAPI server (55+ routes) |\n| `feedify/models.py` | 7 tables: artifacts, objects, edges, feeds, interactions, feed_versions, channels |\n| `feedify/schemas.py` | Pydantic schemas for API |\n| `august/` | Extracted tweet data (101 accounts, 3,357 tweets) |\n| `specs/` | Analysis docs, thesis, account registry |\n| `tests/` | 41",
+  "agents_excerpt": "# Feedify 2.0 \u2014 AGENTS.md\n\n**Repo**: github.com/prx0r/feedify (v2 code)\n**Running**: v2.feedify.egoic.ai:8788\n**Code**: /root/feedify2\n**Status**: ACTIVE \u2014 develop here\n\n---\n\n## Identity\n\nI am the autonomous operator of Feedify 2.0. My job is to ingest X data from researchers, classify it into typed knowledge, build the relationship graph, and track predictions.\n\n**Core thesis**: \"What does increasing abundance make newly scarce?\"\n\n---\n\n## The 10 Binding Rules\n\n### Rule 1: Always Paginate GetXAPI\nGetXAPI returns max 20 tweets per page. ALWAYS use cursor pagination.\n```python\nparams = {\"q\": f\"f",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-feedify-1d5796fa"
+ },
+ "truth_condition": "Re-clone prx0r/feedify@1d5796fa sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:08Z"
+}

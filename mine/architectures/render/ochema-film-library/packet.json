@@ -1,0 +1,37 @@
+{
+ "packet": "arch/ochema-film-library",
+ "source_repo": "prx0r/ochema-film-library",
+ "commit_sha": "78417ac82844d3914d6174d423bb30d942b01f99",
+ "license": "unknown",
+ "family": "render",
+ "pattern": "The pristine, machine-readable catalog of every film work in the Ochema corpus.",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   "README.md",
+   "analytics",
+   "library",
+   "scripts",
+   "skiapipeline.md",
+   "works"
+  ],
+  "readme_excerpt": "# Ochema Film Library\n\nThe pristine, machine-readable catalog of every film work in the Ochema corpus.\nEverything lives here so we can curate, port to Skia, publish to YouTube, and\nuse the corpus as dev examples \u2014 without re-auditing the mess.\n\n## Layout\n\n```\nlibrary/\n  index.json    \u2014 raw scan of every source location (scripts, packs, videos, sizes)\n  works.json    \u2014 the canonical registry: 79 works, id/title/thesis/queue/rendered/skia/youtube status\nworks/          \u2014 (future) one dir per work: script + pack + stills + final mp4\nanalytics/      \u2014 YouTube analytics schema\nscripts/        \u2014 scan.mjs (raw inventory), registry.mjs (works registry)\n```\n\n## The pipeline tiers\n\n| Tier | What | Count | Where |\n|------|------|-------|-------|\n| PIL platinum films | hand-authored essay+render `.py` scripts | 79 | `/root/projects/clean/queue{1-4}/*_platinum.py` |\n| PIL-rendered outputs | `output_<id>/` renders (final mp4s) | 21 of 79 | `/mnt/HC_Volume_106427611/goldrender/` |\n| Featured on site | on R2 public + ochema-site | 16 platinum + 4 series shorts | `atlas-sources/videos/` (R2) |\n| Skia (MOTHERFUCKER) | new renderer, PIL\u2192Canvas2D spec exists | 0 ported yet | `/root/projects/clean/MOTH",
+  "agents_excerpt": "",
+  "proto_signals": [
+   "pipeline"
+  ],
+  "n_root_files": 6,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-ochema-film-library-78417ac8"
+ },
+ "truth_condition": "Re-clone prx0r/ochema-film-library@78417ac8 sparse + gate [] green or doc proves proto-agent role (pipeline); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=['pipeline']; tests=False; agentic=False; tournament=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:15:19Z"
+}

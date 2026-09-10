@@ -1,0 +1,40 @@
+{
+ "packet": "arch/voiceagent",
+ "source_repo": "prx0r/voiceagent",
+ "commit_sha": "08f19c2900b2faa85acd0dae4713746270bec55d",
+ "license": "unknown",
+ "family": "render",
+ "pattern": "T2 sweep prx0r/voiceagent",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   "BUILD_NOTES.md",
+   "Dockerfile",
+   "HANDOVER.md",
+   "README.md",
+   "adapters",
+   "app",
+   "docker-compose.yml",
+   "docs",
+   "graphs",
+   "knowledge",
+   "requirements.txt",
+   "runtime",
+   "schemas",
+   "scripts",
+   "static",
+   "tests",
+   "tools"
+  ],
+  "receipt_id": "t2-voiceagent-08f19c29",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/voiceagent@08f19c29 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:19:56Z"
+}

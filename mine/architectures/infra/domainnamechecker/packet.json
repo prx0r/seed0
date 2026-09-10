@@ -1,0 +1,34 @@
+{
+ "packet": "arch/domainnamechecker",
+ "source_repo": "prx0r/domainnamechecker",
+ "commit_sha": "bc3a70b3023298bcbc051a8ef1fd188fbce6db2c",
+ "license": "unknown",
+ "family": "infra",
+ "pattern": "T2 sweep prx0r/domainnamechecker",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "Cargo.lock",
+   "Cargo.toml",
+   "HANDOVER-2026-08-21.md",
+   "SPEC.md",
+   "archive",
+   "docs",
+   "llms.txt",
+   "src",
+   "worker-v4",
+   "worker"
+  ],
+  "receipt_id": "t2-domainnamechecker-bc3a70b3",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/domainnamechecker@bc3a70b3 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:20:00Z"
+}

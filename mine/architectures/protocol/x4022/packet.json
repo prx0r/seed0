@@ -1,0 +1,52 @@
+{
+ "packet": "arch/x4022",
+ "source_repo": "prx0r/x4022",
+ "commit_sha": "68ddb890025490a5bfae48aec993b1baed7b1b4d",
+ "license": "unknown",
+ "family": "protocol",
+ "pattern": "T2 sweep prx0r/x4022",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".agents",
+   ".gitbook.yaml",
+   ".github",
+   ".gitignore",
+   ".gitmodules",
+   ".vscode",
+   "CONTRIBUTING.md",
+   "DEFAULT_ASSETS.md",
+   "LICENSE",
+   "NOTICE",
+   "PROJECT-IDEAS.md",
+   "README.md",
+   "ROADMAP.md",
+   "SECURITY.md",
+   "TSC.md",
+   "contracts",
+   "docs",
+   "e2e",
+   "examples",
+   "foundation",
+   "go",
+   "integrations",
+   "java",
+   "package.json",
+   "python",
+   "scripts",
+   "specs",
+   "static",
+   "typescript"
+  ],
+  "receipt_id": "t2-x4022-68ddb890",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/x4022@68ddb890 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:19:53Z"
+}

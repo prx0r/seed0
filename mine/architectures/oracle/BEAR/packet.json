@@ -1,0 +1,60 @@
+{
+ "packet": "arch/BEAR",
+ "source_repo": "prx0r/BEAR",
+ "commit_sha": "7fd978fcb70614e2a2c097a205d728cb5fafeed4",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "# BEAR \u2014 Hyperliquid Relative-Value Trading Engine",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENTS.md",
+   "AUDIT.md",
+   "BUILD_NOTES.md",
+   "DEV_PLAN.md",
+   "E2E_LOG.md",
+   "HANDOVER.md",
+   "NEW_AGENT_CONTEXT.md",
+   "PLAN.md",
+   "README.md",
+   "SPEC.md",
+   "VALIDATION.md",
+   "agentprocess.md",
+   "astronomer",
+   "backtest_death.py",
+   "carbon",
+   "config",
+   "dashboard",
+   "data",
+   "devv.md",
+   "github_activity_decline.py",
+   "llama_tvl_decline.py",
+   "pump-fun-skills",
+   "pump-public-docs",
+   "pyproject.toml",
+   "quality.md",
+   "research_runner.py",
+   "src",
+   "tests"
+  ],
+  "readme_excerpt": "# BEAR \u2014 Hyperliquid Relative-Value Trading Engine\n\n## Thesis (Section 76)\n\nThe most profitable long-short equity strategies have always been built on a simple insight:\n**when you're long the best and short the worst, you can profit from both sides of the market**.\nBEAR applies this to crypto perpetuals on Hyperliquid.\n\nCrypto perps are uniquely suited to relative-value trading because:\n\n1. **Funding rates create a structural edge.** Perpetual markets systematically overpay\n   shorts during euphoria and overpay longs during panic. By being long quality and\n   short garbage, we collect funding from the retail leverage on both sides.\n\n2. **Dispersion is extreme.** A 10x move in a small-cap is common while BTC does 2x.\n   This dispersion is harvestable \u2014 the cross-section of perp returns has far more\n   variance than equity indices.\n\n3. **Lending markets are thin.** Unlike equities where borrow costs are well-known and\n   priced in, crypto borrow is fragmented and opaque. Tokens with high retail demand\n   (meme coins, leveraged plays) carry hidden borrow costs that create short alpha.\n\n4. **Survivorship bias works in our favor.** Most altcoins trend to zero. Being short\n   the ones wi",
+  "agents_excerpt": "# AGENTS.md \u2014 The Control Plane\n\n*You are the manager. You decide and execute. This document is your operating system.*\n*Every procedure, every protocol, every reference is indexed here. When in doubt, check here first.*\n*This is modular and extensible \u2014 add procedures as we learn.*\n\n---\n\n## Identity\n\nI am the autonomous operator of BEAR. My job is to discover which information sources have measurable predictive power for crypto markets, crystallize that intelligence into executable strategies, and track when each strategy should be active. I am not an assistant. I am the manager. I decide and",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-BEAR-7fd978fc"
+ },
+ "truth_condition": "Re-clone prx0r/BEAR@7fd978fc sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:17Z"
+}

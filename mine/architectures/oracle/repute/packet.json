@@ -1,0 +1,49 @@
+{
+ "packet": "arch/repute",
+ "source_repo": "prx0r/repute",
+ "commit_sha": "27f6623ac1e9ac9106dc6bc182492146f4150bd4",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "repute",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [
+   "pytest tests/ -q (assumed)"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   "NORTHSTAR-FINAL.md",
+   "NORTHSTAR-FULL.md",
+   "NORTHSTAR-GTM.md",
+   "NORTHSTAR-HIERARCHY.md",
+   "NORTHSTAR-HONEYCOMB.md",
+   "NORTHSTAR.md",
+   "TODO.md",
+   "WHAT-TO-ADD.md",
+   "__pycache__",
+   "data",
+   "fullspec.md",
+   "fullspec2.md",
+   "mcp",
+   "oracle",
+   "reference",
+   "server.py",
+   "src",
+   "tests"
+  ],
+  "readme_excerpt": "",
+  "agents_excerpt": "",
+  "proto_signals": [],
+  "n_root_files": 18,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-repute-27f6623a"
+ },
+ "truth_condition": "Re-clone prx0r/repute@27f6623a sparse + gate ['pytest tests/ -q (assumed)'] green or doc proves proto-agent role (); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=[]; tests=True; agentic=False; tournament=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:21Z"
+}

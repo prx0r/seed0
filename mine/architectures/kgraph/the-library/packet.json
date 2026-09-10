@@ -1,0 +1,60 @@
+{
+ "packet": "arch/the-library",
+ "source_repo": "prx0r/the-library",
+ "commit_sha": "088b73f2e6498cdc8b2e8997ca091d04dbcb4556",
+ "license": "unknown",
+ "family": "kgraph",
+ "pattern": "**One system. Everything you see in this folder is part of it.**",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   ".meta",
+   "33sermons",
+   "CX-Train",
+   "DRAFT-ROOM.md",
+   "README.md",
+   "audiator",
+   "basecamp",
+   "content-graph.json",
+   "control",
+   "hindihelp",
+   "intelligentothers",
+   "itsm-service-desk-platform",
+   "links.md",
+   "ltx-style-lab",
+   "media-os",
+   "media-skills",
+   "meditate",
+   "ochema",
+   "ochema-site",
+   "patala-site",
+   "patalafinal",
+   "reception",
+   "renderio",
+   "research-library",
+   "sanskrithelp",
+   "sanskritree",
+   "tantrafiles",
+   "workengestation"
+  ],
+  "readme_excerpt": "# THE LIBRARY\n\n**One system. Everything you see in this folder is part of it.**\n\nThis is the master entry point. Every project in `/root/projects/` is a department of\na single Library that turns source material into published, beautiful content.\n\n```\n                    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 THE LIBRARY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n                    \u2502                                                  \u2502\n                    \u2502  THE DEPARTMENTS (each a piece of one machine)   \u2502\n                    \u2502                                                  \u2502\n                    \u2502  ARCHIVE        READING ROOM   WRITER'S STUDIO   \u2502\n                    \u2502  source-library  basecamp      workengestation   \u2502\n                    \u2502                                                  \u2502\n                    \u2502  PRINTSHOP      THE CATALOG     THE LIBRARIAN    \u2502\n                    \u2502  renderio       .meta/         .meta/            \u2502\n                    \u2502                content-graph                     \u2502\n                    \u2502                                                  \u2502\n                    \u2502  \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 THE FOUR WINGS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510        \u2502\n                    \u2502  \u2502 ochema  intelligentothers  tantrafiles patala \u2502\n ",
+  "agents_excerpt": "",
+  "proto_signals": [
+   "content-graph"
+  ],
+  "n_root_files": 29,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-the-library-088b73f2"
+ },
+ "truth_condition": "Re-clone prx0r/the-library@088b73f2 sparse + gate [] green or doc proves proto-agent role (content-graph); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=['content-graph']; tests=False; agentic=False; tournament=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:18Z"
+}

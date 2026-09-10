@@ -1,0 +1,32 @@
+{
+ "packet": "arch/qdw-forge",
+ "source_repo": "prx0r/qdw-forge",
+ "commit_sha": "2037cdb93458278bdc4807be8e84111cce72fb10",
+ "license": "unknown",
+ "family": "factory",
+ "pattern": "T2 sweep prx0r/qdw-forge",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "Dockerfile",
+   "README.md",
+   "config",
+   "deploy",
+   "docs",
+   "pyproject.toml",
+   "src",
+   "tests"
+  ],
+  "receipt_id": "t2-qdw-forge-2037cdb9",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/qdw-forge@2037cdb9 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:32:02Z"
+}

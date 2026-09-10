@@ -1,0 +1,48 @@
+{
+ "packet": "arch/ip-graph",
+ "source_repo": "prx0r/ip-graph",
+ "commit_sha": "2ac554bc345d0c35047e6349ef22fc93b4d26515",
+ "license": "unknown",
+ "family": "kgraph",
+ "pattern": "# OPENPATALAPROJECT \u2014 the open Sanskrit translation graph",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENT-ORCHESTRATION.md",
+   "AGENTS.md",
+   "HANDOVER-2026-08-16-openpatala.md",
+   "HERMES-API.md",
+   "MANIFEST.json",
+   "Makefile",
+   "README.md",
+   "agent",
+   "check.py",
+   "contracts",
+   "data",
+   "docs",
+   "pipeline",
+   "python",
+   "research",
+   "schemas",
+   "scripts",
+   "skills",
+   "source-evidence",
+   "tools"
+  ],
+  "readme_excerpt": "# OPENPATALAPROJECT \u2014 the open Sanskrit translation graph\n\n*2026-08-16 \u00b7 one self-contained project: for each Sanskrit work, find the actual translations, prove they're\ndownloadable, tier them, serve them via a FastAPI, and verify the pipeline didn't make a mistake.*\n\n**Read `AGENTS.md` first.** This is the entry point.\n\n---\n\n## What it does\n\n```\nMuktabodha/GRETIL text\n   \u2192 extract verses            (harvest_to_factory, dedup + ||N/N|| fix)\n   \u2192 find translation editions (translation_deepfinder: OpenLibrary + archive.org + variants)\n   \u2192 prove downloadable + tier (translation_download: A/B/C + evidence ladder + language matrix)\n   \u2192 compile the index         (pipeline/build_translation_availability.py \u2192 257-work index)\n   \u2192 serve via FastAPI         (python/patala_core/atlas/api.py: /works/{id}/translations, /traditions, /editions, /bundle, /download)\n   \u2192 verify the pipeline       (pipeline_verify.py \u2192 pipeline-audit.jsonl)\n```\n\n## Quick start\n\n```bash\ncd /root/openpatalaproject\nPY=/root/patalacheckpoints/.venv-atlas/bin/python   # the lxml host (no project-local venv)\n\n# 1. compile the enriched index (needs lxml \u2192 the shared venv)\n$PY pipeline/build_translation_availability.py --",
+  "agents_excerpt": "# openpatalaproject \u2014 AGENTS.md (the governing rules)\n\n*The ONE self-contained project for the openpatala work: ingest \u2192 translations \u2192 API \u2192 verification.\nCode, docs, data, and the benchmark-lab stack live together here so one agent can run the whole thing.\nRead this FIRST, then `MANIFEST.json` + `check.py --status`.*\n\n---\n\n## 0. THE ONE RULE\n\n> **Nothing is real because a file exists. It is real when a reproducible pipeline, clean input, verifiable\n> output, and an honest gate show it does what its name claims.**\n\nA copied file is not a working pipeline. A green test on unchanged code is noi",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-ip-graph-2ac554bc"
+ },
+ "truth_condition": "Re-clone prx0r/ip-graph@2ac554bc sparse + run gate [] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=False; agentic=True; substrate=local-git; tournament-runnable=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:33Z"
+}

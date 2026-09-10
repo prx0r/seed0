@@ -1,0 +1,49 @@
+{
+ "packet": "arch/cogym",
+ "source_repo": "prx0r/cogym",
+ "commit_sha": "765f9c0f9377b21e9e6c0e3036da488786451a83",
+ "license": "unknown",
+ "family": "evolution-kernel",
+ "pattern": "# Cogym \u2014 Deterministic Reasoning Laboratory",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "EXPERIMENT-LOG.md",
+   "EXPERIMENTS.md",
+   "HANDOVER.md",
+   "NOTES-STX002.md",
+   "README.md",
+   "RESULTS-SUMMARY.md",
+   "STATUS.md",
+   "archive-zips",
+   "canonical",
+   "data",
+   "docs",
+   "evolution_lab",
+   "experiments",
+   "hydradb-data",
+   "logs",
+   "school_v2",
+   "trading_v1"
+  ],
+  "readme_excerpt": "# Cogym \u2014 Deterministic Reasoning Laboratory\n\n**Cogym measures whether reasoning strategies actually improve decisions under uncertainty.**\n\nTrading is the experimental organism \u2014 objective outcomes, sequential decisions, regime changes, noisy evidence, calibration pressure, deterministic replay.\n\n## START HERE (new agent onboarding)\n\nRead these IN ORDER:\n\n| Step | File | Why |\n|------|------|-----|\n| 1 | [`canonical/AGENTS.md`](canonical/AGENTS.md) | Rules, conventions, repo layout, what NOT to do |\n| 2 | [`canonical/IMPLEMENTATION-PLAN.md`](canonical/IMPLEMENTATION-PLAN.md) | What's built, what's next, what's frozen |\n| 3 | [`canonical/docs/REFERENCE.md`](canonical/docs/REFERENCE.md) | Every module documented |\n| 4 | [`docs/PEER-REVIEW-CHECKLIST.md`](docs/PEER-REVIEW-CHECKLIST.md) | Run this after EVERY experiment |\n| 5 | [`docs/papers/FRONTIER-PAPERS.md`](docs/papers/FRONTIER-PAPERS.md) | Arxiv papers that justify our methodology |\n\n## The ONE rule\n\n> **Hermes proposes. Cogym disposes. No LLM grades itself.**\n\nExtraction is not verification. A model saying \"this skill is useful\" means nothing.\nOnly paired evaluation on held-out deterministic worlds counts as evidence.\n\n## Experi",
+  "agents_excerpt": "",
+  "proto_signals": [
+   "canonical"
+  ],
+  "n_root_files": 18,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-cogym-765f9c0f"
+ },
+ "truth_condition": "Re-clone prx0r/cogym@765f9c0f sparse + gate [] green or doc proves proto-agent role (canonical); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=['canonical']; tests=False; agentic=False; tournament=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:28Z"
+}

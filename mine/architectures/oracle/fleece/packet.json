@@ -1,0 +1,47 @@
+{
+ "packet": "arch/fleece",
+ "source_repo": "prx0r/fleece",
+ "commit_sha": "38687c7c7bb60fffb7636944f2e7d2ff7cb9ae6b",
+ "license": "# All Rights Reserved License",
+ "family": "oracle",
+ "pattern": "# DeltaTuna \ud83d\udc1f \u2014 Evolving Options Capital Allocation",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "HANDOVER.md",
+   "LICENSE",
+   "README.md",
+   "SPEC.md",
+   "claims",
+   "dashboard",
+   "docs",
+   "experiments",
+   "fleece",
+   "pyproject.toml",
+   "scripts",
+   "tests",
+   "tools",
+   "watchdog.sh",
+   "worldpacks"
+  ],
+  "readme_excerpt": "# DeltaTuna \ud83d\udc1f \u2014 Evolving Options Capital Allocation\n\n**Swarm intelligence + options + honest measurement.** A league of allocation\n\"schools\" competes on standardized market scenarios; failures go to a\ngraveyard; a graph database remembers everything; a meta-controller named\nOrca reads that memory and proposes what to try next. Built for the Alpaca\nAI Trading Agents Hackathon (Aug 28 \u2013 Sep 4, 2026, paper trading).\n\n```\nFish (7 fixed option strategies)\n \u2514\u2500 5 Pools per school\n     \u2514\u2500 Shark genome routes capital by regime\n         \u2514\u2500 SCHOOL = shark + pools          \u2190 unit of evolution\n             \u2514\u2500 LEAGUE of 12 schools\n                 \u251c\u2500 ranked on hash-locked scenarios (ARENA-v1)\n                 \u251c\u2500 bottom 20% \u2192 \u26b0\ufe0f graveyard (tombstones, never deleted)\n                 \u2514\u2500 capital allocated by rank\nHydraDB = shared memory (posteriors \u00b7 lineage \u00b7 traits \u00b7 proposals)\nOrca    = meta-controller reading the graph, proposing next moves\n```\n\n## Quickstart\n\n```bash\n# services\npython3 -m uvicorn fleece.api.server:app --port 8000 &      # API\ncd dashboard && npm run dev &                               # Dashboard :5173\nsetsid nohup python3 -u fleece/options/live_runner.py >> logs/live_runner.l",
+  "agents_excerpt": "",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-fleece-38687c7c"
+ },
+ "truth_condition": "Re-clone prx0r/fleece@38687c7c sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=False; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:13Z"
+}

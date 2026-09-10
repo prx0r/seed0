@@ -1,0 +1,49 @@
+{
+ "packet": "arch/gitgoblin",
+ "source_repo": "prx0r/gitgoblin",
+ "commit_sha": "11516d8173ab11abeaffd7d79806a82431cddd16",
+ "license": "# License policy",
+ "family": "oracle",
+ "pattern": "# GitGoblin",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".env.example",
+   ".github",
+   ".gitignore",
+   "AGENTS.md",
+   "Dockerfile",
+   "GITGOBLIN_USER_MANUAL.md",
+   "LICENSE-POLICY.md",
+   "Makefile",
+   "README.md",
+   "configs",
+   "docker-compose.yml",
+   "docs",
+   "gitgoblin",
+   "output",
+   "pyproject.toml",
+   "schemas",
+   "scripts",
+   "tests"
+  ],
+  "readme_excerpt": "# GitGoblin\n\n**Technical alpha before virality.** GitGoblin watches high-signal builders, repositories, papers, dependencies and technical discourse; converts their activity into evidence-backed observations; detects independent expert convergence; extracts the underlying technical primitive; and emits downstream product opportunities.\n\nGitGoblin is designed as both:\n\n1. a standalone frontier-intelligence product; and\n2. a specialized oracle for VentureLab/venture-lab.\n\n## What is implemented\n\n- GitHub public-profile, following, starred-repository, public-event and repository collectors.\n- OpenAlex recent-work collector.\n- arXiv Atom collector.\n- ecosyste.ms repository-metadata collector.\n- Hacker News official API collector.\n- Generic RSS/Atom technical-publication collector.\n- SQLite WAL store with idempotent append-only observation ingestion.\n- Evidence hashes and source URLs on every observation.\n- Builder expertise scoring that caps raw popularity influence.\n- Time-decayed weighted attention, momentum, novelty and independence scoring.\n- Frontier convergence signals (\"technical alpha\").\n- Rule-based architectural primitive extraction with sector overrides.\n- Product-opportunit",
+  "agents_excerpt": "# AGENTS.md \u2014 GitGoblin\n\nRead this before changing the repository.\n\n## Mission\n\nGitGoblin converts public technical activity into **evidence-backed frontier signals**, then into falsifiable product hypotheses. It is not a content scraper and not a startup-idea text generator.\n\n## Non-negotiable invariants\n\n1. **No evidence, no signal.** Every production observation carries a source reference and SHA-256 evidence hash.\n2. **Never invent timestamps.** Snapshot relationships (for example current GitHub follows) are labeled `snapshot_only`; event timestamps are used only when an upstream source su",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-gitgoblin-11516d81"
+ },
+ "truth_condition": "Re-clone prx0r/gitgoblin@11516d81 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:10Z"
+}

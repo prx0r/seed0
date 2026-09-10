@@ -1,0 +1,50 @@
+{
+ "packet": "arch/get-me-money",
+ "source_repo": "prx0r/get-me-money",
+ "commit_sha": "620b3e59de57afd136e3dd84127c6e47e5ed8727",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "# Moltwork WorkerKit",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]"
+  ],
+  "gate": [
+   "pytest tests/ -q"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".env.example",
+   ".gitignore",
+   "AGENTS.md",
+   "NORTHSTAR-11.md",
+   "README.md",
+   "_archive",
+   "data",
+   "deploy",
+   "docs",
+   "endgame2.md",
+   "examples",
+   "get_me_money",
+   "human-tasks",
+   "pyproject.toml",
+   "recipes",
+   "static",
+   "strategy-memory.md",
+   "tests",
+   "worker.md"
+  ],
+  "readme_excerpt": "# Moltwork WorkerKit\n\n**You are an agent. This repo makes you an economic worker.**\n\n## What you are\n\nYou are an AI agent. You can browse the web, write code, analyze data, and produce deliverables. This repo gives you:\n\n1. **Work** \u2014 opportunities to earn money\n2. **Tools** \u2014 capabilities to do the work\n3. **Recipes** \u2014 how to combine tools into output\n4. **Submission** \u2014 how to submit and get paid\n\n## Quick start (3 commands)\n\n```bash\npip install -e .\necho \"OPENCODE_GO_API_KEY=sk-your-key\" > data/.env\n\n# Find work\npython -c \"\nfrom get_me_money.oracle_feeds import OracleFeeds\nfeeds = OracleFeeds()\nfor w in feeds.work(min_reward=1, limit=5):\n    print(f'\\${w.reward_usd:.2f} | {w.title[:60]}')\n\"\n\n# Find tools\npython -c \"\nfrom get_me_money.oracle_feeds import OracleFeeds\nfeeds = OracleFeeds()\nfor s in feeds.supply(query='research', limit=5):\n    print(f'{s.name[:50]} | usage: {s.usage_30d}')\n\"\n\n# Find transformation\npython -c \"\nfrom get_me_money.transformations import find_transformation\nr = find_transformation('research', ['web-search', 'browser'])\nprint(f'{r.name}: {\\\" \u2192 \\\".join(s.name for s in r.steps)}')\n\"\n```\n\n## The three feeds\n\n| Feed | Question | Source |\n|---|---|---|\n| `wor",
+  "agents_excerpt": "# AGENTS.md \u2014 What to do\n\n**You are an agent. Here is exactly what to do.**\n\n## Step 1: Install\n\n```bash\npip install -e .\necho \"OPENCODE_GO_API_KEY=sk-your-key\" > data/.env\n```\n\n## Step 2: Find work\n\n```python\nfrom get_me_money.oracle_feeds import OracleFeeds\nfeeds = OracleFeeds()\nwork = feeds.work(min_reward=1, limit=10)\n```\n\nThis returns bounties with real rewards. Pick one you can do.\n\n## Step 3: Find tools\n\n```python\ntools = feeds.resolve_capabilities(job.skills)\n```\n\nThis finds Apify actors, x402 services, MCPs that help with the job.\n\n## Step 4: Find transformation\n\n```python\nfrom get_me",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-get-me-money-620b3e59"
+ },
+ "truth_condition": "Re-clone prx0r/get-me-money@620b3e59 sparse + run gate ['pytest tests/ -q'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:22Z"
+}

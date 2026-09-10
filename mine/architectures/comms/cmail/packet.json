@@ -1,0 +1,40 @@
+{
+ "packet": "arch/cmail",
+ "source_repo": "prx0r/cmail",
+ "commit_sha": "98b5f850b941485a376a0c15c78f84f11082df90",
+ "license": "unknown",
+ "family": "comms",
+ "pattern": "# cmail \u2014 the agentic business stack",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENTS.md",
+   "BOOTSTRAP.md",
+   "HANDOVER.md",
+   "PROGRESS.md",
+   "README.md",
+   "THREADS.md",
+   "cmail",
+   "docs",
+   "domainnamechecker",
+   "scripts",
+   "stevejobless",
+   "voiceagentfeedback"
+  ],
+  "readme_excerpt": "# cmail \u2014 the agentic business stack\n\n**One name, owned everywhere, touched once. One business, run by agents, seen as one queue.**\n\nEmail, voice, WhatsApp, SMS, and socials converge into a job pipeline\n(lead \u2192 quote \u2192 schedule \u2192 invoice) with drafts everywhere and human confirm\non every send. Untrusted input stays untrusted all the way down.\n\n```text\nname \u2500\u2500\u25ba checker \u2500\u2500\u25ba buy \u2500\u2500\u25ba zone \u2500\u2500\u25ba mail + business + number + socials\n                                                         \u2502\n              voice \u2500\u2500\u25ba\u2510                                 \u25bc\n           whatsapp \u2500\u2500\u25ba\u2524\u25ba brain (jobs/quotes/slots) \u2500\u2500\u25ba desk (one queue)\n              email \u2500\u2500\u25ba\u2518\n```\n\n## Bring-up (fresh machine, 5 min)\n\n```bash\ngit clone https://github.com/prx0r/cmail.git && cd cmail\n# brain\ncd stevejobless && python3 -m venv .venv && source .venv/bin/activate\npip install -e '.[dev]' && cp .env.example .env\npython3 -m pytest tests/ -q        # 80+ pass, no keys needed\nsteve serve                        # \u2192 http://127.0.0.1:8787, desk at /desk\n# email bus\ncd ../cmail && npm install && npx tsc --noEmit && npm test\nnpx wrangler deploy                # after filling wrangler.toml IDs\n# names\ncd ../domainnamechecker/worker && npm i",
+  "agents_excerpt": "# AGENTS.md \u2014 binding rules for coding agents working in this repo\n\n1. **Untrusted input stays untrusted.** Email/DM/voice content never calls tools\n   directly. Parse \u2192 classify \u2192 policy \u2192 tool. Quarantine can only downgrade.\n2. **Drafts everywhere; sends need explicit human confirm** \u2014 at every autonomy\n   level, no exceptions. A `send` that didn't happen must report `sent:false`.\n3. **Money moves need approval tokens** (single-use, sha256-stored) + fresh\n   rechecks (availability, price drift \u226410%, budget cap). Fail closed, receipt everything.\n4. **No blind buys, no invented prices.** Unkno",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-cmail-98b5f850"
+ },
+ "truth_condition": "Re-clone prx0r/cmail@98b5f850 sparse + run gate [] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=False; agentic=True; substrate=local-git; tournament-runnable=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:07Z"
+}

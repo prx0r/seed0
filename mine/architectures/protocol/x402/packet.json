@@ -1,0 +1,28 @@
+{
+ "packet": "arch/x402",
+ "source_repo": "prx0r/x402",
+ "commit_sha": "444140d58814616bf0679adcc70e41812f52bb6a",
+ "license": "unknown",
+ "family": "protocol",
+ "pattern": "T2 sweep prx0r/x402",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   "README.md",
+   "moltwork-oracle",
+   "specs",
+   "x402-endpoints",
+   "x402fun"
+  ],
+  "receipt_id": "t2-x402-444140d5",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/x402@444140d5 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:19:52Z"
+}

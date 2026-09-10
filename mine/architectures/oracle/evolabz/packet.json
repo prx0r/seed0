@@ -1,0 +1,39 @@
+{
+ "packet": "arch/evolabz",
+ "source_repo": "prx0r/evolabz",
+ "commit_sha": "1641bbb97278ffc846f17b4afc83d1c688f4f1d5",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "T2 sweep prx0r/evolabz",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "README.md",
+   "analytics",
+   "backtesting",
+   "data",
+   "database",
+   "evolabz",
+   "examples",
+   "modules",
+   "orchestration",
+   "requirements.txt",
+   "scripts",
+   "sensors",
+   "setup.py",
+   "structure.txt",
+   "visualization"
+  ],
+  "receipt_id": "t2-evolabz-1641bbb9",
+  "seed0_check": "not-run"
+ },
+ "truth_condition": "Re-clone prx0r/evolabz@1641bbb9 sparse; tree matches.",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:32:06Z"
+}

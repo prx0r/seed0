@@ -1,0 +1,67 @@
+{
+ "packet": "arch/dell2",
+ "source_repo": "prx0r/dell2",
+ "commit_sha": "976116c129e6b89da52469541b77017d48c7c255",
+ "license": "unknown",
+ "family": "oracle",
+ "pattern": "# Dell2 \u2014 Proof-Carrying Coding Deals",
+ "run_shape": {
+  "bring_up": [
+   "pip install -e .[dev]",
+   "npm install"
+  ],
+  "gate": [
+   "pytest tests/ -q",
+   "npm test"
+  ],
+  "tests_present": true
+ },
+ "evidence": {
+  "root_tree": [
+   ".gitignore",
+   "AGENTS.md",
+   "ARCHITECTURE.md",
+   "BRAINSTORM.md",
+   "DEVPLAN-V2.md",
+   "HANDOVER.md",
+   "README.md",
+   "chat",
+   "checks.json",
+   "data",
+   "devplan-20260821-195323.md",
+   "devplan-20260821-212935.md",
+   "devplan-v2-20260821-230749.md",
+   "devplan-v2.md",
+   "devplan.md",
+   "docs",
+   "hermes",
+   "legacy",
+   "lib",
+   "mcp",
+   "nextsteps.md",
+   "node_modules",
+   "package-lock.json",
+   "package.json",
+   "providers",
+   "public-site",
+   "public",
+   "pyproject.toml",
+   "registry",
+   "src",
+   "tests",
+   "verify_deals.py",
+   "verify_primary.py",
+   "web"
+  ],
+  "readme_excerpt": "# Dell2 \u2014 Proof-Carrying Coding Deals\n\n> Discovery is cheap. Verification is the product.\n\n## What Is This?\n\nDell2 is a **proof-carrying registry of currently available coding-AI deals**. It is NOT:\n\n- Another LiteLLM price database\n- A generic model router\n- A benchmark site\n- A list of open-source models\n- An LLM-generated recommendations page\n- A crawler that treats text as verified truth\n\n## How It Works\n\n```\nHermes / ChatGPT / search\n        =\nuntrusted candidate generator\n\nDell2\n        =\ndeterministic evidence + verification + certification layer\n```\n\nThe valuable object is a **DealCertificate** \u2014 not a deals list.\n\n## Quick Start\n\n```bash\n# Install\ncd dell2 && pip install -e .\n\n# Verify OpenCode Go\nPYTHONPATH=src python3 -c \"from dell2.verifiers.opencode_go.verify import verify; verify()\"\n\n# Run tests\nPYTHONPATH=src pytest tests/ -v\n```\n\n## Verification Dimensions\n\nEach deal has 11 independent verification dimensions. A deal can be PROVEN on some dimensions and UNKNOWN on others \u2014 this is honest, not incomplete.\n\n```\nsource_identity: PROVEN       \u2190 hostname matches official provider\ncontent_integrity: PROVEN     \u2190 artifact hash matches\nclaim_support: PROVEN         \u2190 atomic",
+  "agents_excerpt": "# DELL2 AGENTS\n\n## INVARIANTS\n\n1. LLM output is never evidence.\n2. Search results are leads, not proof.\n3. A webpage being reachable does not prove a deal.\n4. A string appearing somewhere on a page does not prove a structured claim.\n5. Every published claim must point to exact immutable evidence.\n6. Derived quantities use only verified input claims.\n7. Evidence is append-only.\n8. Certificates are immutable.\n9. Changes create new observations/certificates rather than rewriting history.\n10. UNKNOWN is preferable to invented certainty.\n11. NOT_RUN is not PASS.\n12. SKIP is not PASS.\n13. One page c",
+  "seed0_check": "not-run (collect-only)",
+  "receipt_id": "t1-dell2-976116c1"
+ },
+ "truth_condition": "Re-clone prx0r/dell2@976116c1 sparse + run gate ['pytest tests/ -q', 'npm test'] green; if gate red or bring-up undocumented, pattern fails.",
+ "rival_reading": "Single-script prototype with no gates would ship faster; gates only pay off across re-runs.",
+ "seed0_notes": "tests_dir=True; agentic=True; substrate=local-git; tournament-runnable=likely",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:12:21Z"
+}

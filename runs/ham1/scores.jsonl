@@ -1,0 +1,1 @@
+{"compliant": true, "compliance": "5/5", "suite_green": true, "suite_detail": "10 passed in 0.05s", "rubric": {"registry": true, "hypothesis": true, "falsifier": true, "tests": true, "suite": true}, "binary_pass": true, "elapsed_s": 0.0, "seed": "seed6-ham", "agent_ok": true, "agent_log": ""}

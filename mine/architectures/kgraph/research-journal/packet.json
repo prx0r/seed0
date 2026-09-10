@@ -1,0 +1,46 @@
+{
+ "packet": "arch/research-journal",
+ "source_repo": "prx0r/research-journal",
+ "commit_sha": "fc33a6cc33ba507c06dcf8cf7b27ced4046051fb",
+ "license": "unknown",
+ "family": "kgraph",
+ "pattern": "research-journal",
+ "run_shape": {
+  "bring_up": [],
+  "gate": [],
+  "tests_present": false
+ },
+ "evidence": {
+  "root_tree": [
+   "astral",
+   "chakra",
+   "day 6",
+   "day1",
+   "day2",
+   "day2-ai",
+   "day3.md",
+   "day4",
+   "day4ai",
+   "marxian",
+   "metaphysics",
+   "pwan",
+   "pwan grounding",
+   "pwan levin",
+   "pwan links",
+   "tractatus0",
+   "tractatus1"
+  ],
+  "readme_excerpt": "",
+  "agents_excerpt": "",
+  "proto_signals": [],
+  "n_root_files": 17,
+  "seed0_check": "not-run",
+  "receipt_id": "lineage-research-journal-fc33a6cc"
+ },
+ "truth_condition": "Re-clone prx0r/research-journal@fc33a6cc sparse + gate [] green or doc proves proto-agent role (); else disputed.",
+ "rival_reading": "Old metaphysical docs with no runnable gate \u2014 essay corpus, not kernel.",
+ "seed0_notes": "proto_signals=[]; tests=False; agentic=False; tournament=needs-boot-test",
+ "status": "claimed",
+ "verifier": "",
+ "ts": "2026-09-10T10:17:12Z"
+}
