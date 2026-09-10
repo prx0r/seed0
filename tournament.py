@@ -1,0 +1,80 @@
+"""Tournament scorer: one idea, N seeds, honest leaderboard. Stdlib only.
+
+Each seed = a directory built by an agent from the same idea (+ its run log).
+Scoring is mechanical, no judges:
+  compliance  — seed0.py check (layout, tests exist, no secrets, live index)
+  tests_green — its own suite passes (subprocess pytest, timeout-guarded)
+  evidence    — run/scenario logs present (proof it actually ran, not claimed)
+Ranked: tests_green desc, compliance desc, evidence desc. Failures keep their
+logs — reviewing WHY seeds fail is the point (augment the weak, rerun).
+"""
+from __future__ import annotations
+import json
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from seed0 import check as seed0_check
+
+
+def score_seed(path: str, timeout_s: int = 300, meta: dict | None = None) -> dict:
+    root = Path(path)
+    rep = seed0_check(str(root))
+    tests_green, tests_detail = None, "no suite attempted"
+    if (root / "tests").exists():
+        try:
+            r = subprocess.run([sys.executable, "-m", "pytest", "tests/", "-q"],
+                               cwd=root, capture_output=True, text=True,
+                               timeout=timeout_s)
+            tail = (r.stdout + r.stderr).strip().splitlines()
+            tests_detail = tail[-1] if tail else "empty output"
+            tests_green = (r.returncode == 0)
+        except subprocess.TimeoutExpired:
+            tests_detail = f"timeout after {timeout_s}s"
+            tests_green = False
+    evidence = [str(p.relative_to(root)) for p in root.rglob("*")
+                if p.is_file() and any(k in p.name for k in
+                ("evidence", "run_", "report", "results"))
+                and ".git" not in p.parts][:20]
+    return {"seed": root.name, "path": str(root),
+            "substrate": (meta or {}).get("substrate", "unknown"),
+            "compliant": rep["compliant"],
+            "compliance": f"{rep['passed']}/{rep['total']}",
+            "tests_green": tests_green, "tests_detail": tests_detail[:160],
+            "evidence": evidence, "scored_at": time.time()}
+
+
+def leaderboard(paths: list[str], timeout_s: int = 300,
+                substrates: dict | None = None) -> list[dict]:
+    substrates = substrates or {}
+    rows = [score_seed(p, timeout_s, {"substrate": substrates.get(p, "unknown")})
+            for p in paths]
+    rows.sort(key=lambda r: (r["tests_green"] is True, r["compliant"],
+                             len(r["evidence"])), reverse=True)
+    return rows
+
+
+def report(rows: list[dict]) -> str:
+    lines = []
+    for i, r in enumerate(rows, 1):
+        det = str(r["tests_detail"])[:100]
+        lines.append("#" + str(i) + " " + str(r["seed"]) +
+                     " tests_green=" + str(r["tests_green"]) +
+                     " compliant=" + str(r["compliant"]) +
+                     " (" + str(r["compliance"]) + ")" +
+                     " evidence=" + str(len(r["evidence"])) + " :: " + det)
+    return "\n".join(lines)
+
+
+if __name__ == "__main__":
+    paths = sys.argv[1:]
+    if not paths:
+        print("usage: tournament.py <seed-dir> [<seed-dir> ...]")
+        raise SystemExit(2)
+    rows = leaderboard(paths)
+    print(report(rows))
+    with open(f"tournament_{int(time.time())}.jsonl", "w") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
