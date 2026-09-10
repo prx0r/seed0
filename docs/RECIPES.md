@@ -5,6 +5,7 @@
 git clone <seed0> && cd seed0
 python3 -m pytest tests/ -q        # expect ~35 passed
 python3 seed0.py check .           # expect 5/5 COMPLIANT
+python3 seed0.py check . --cwd-independent   # + suite green from foreign CWD
 ```
 
 ## Start a project from an idea
@@ -16,6 +17,8 @@ python3 seed0.py new NAME --idea "one-paragraph idea"
 ## Rank seeds (tournament)
 ```bash
 python3 tournament.py seeds/seed1 seeds/seed2 --model mock
+echo '{"tests_green":100,"compliant":10,"evidence":1}' > weights.json
+python3 tournament.py seeds/seed1 seeds/seed2 --weights weights.json  # preregistered
 # expect ranked lines + receipt: runs/sha256_….json
 ```
 
@@ -25,6 +28,8 @@ printf '{"checks": [{"id": "readme", "type": "file_exists", "path": "README.md"}
 python3 funnel.py run --idea "demo ledger API" --rubric rubric.json \
   --seeds seed1,seed2 --agent-cmd true --out runs/idea1
 python3 funnel.py review --run runs/idea1 --round 1   # hypothesis scaffold
+python3 funnel.py review --run runs/idea1 --round 1 --blind  # lanes + sealed map
+python3 funnel.py reveal --run runs/idea1 --round 1  # AFTER verdicts only
 python3 funnel.py amend --seed seeds/seed1 --bump 1.1 --note "why" --run runs/idea1
 ```
 
@@ -45,6 +50,15 @@ python3 learn.py runs/idea1 --out learnings/
 ```bash
 OPENCODE_GO_API_KEY=... python3 pyeval.py run datasets/safety_sample.json \
   --model mimo-v2.5 --out runs/     # expect SCORE 5.0/5.0 PASS + receipt
+```
+
+## Delegate a step (H/A/M tiers)
+```bash
+python3 ham.py check --action "git push origin main"   # CLEAR or PROHIBITED
+python3 ham.py approve --target seed0.py --summary "H1" --by owner
+python3 ham.py verify --record '<json>' --target seed0.py   # VALID or VOID
+python3 ham.py log --kind M --summary "eval run" --cost 0.001
+python3 ham.py outcome --class "push:branch" --approved 1   # x3 -> standing allow
 ```
 
 ## Validate idea / criteria files

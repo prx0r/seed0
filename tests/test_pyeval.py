@@ -3,7 +3,6 @@ import json
 import sys
 import urllib.request
 
-sys.path.insert(0, ".")
 from pyeval import run, grade_rule
 
 

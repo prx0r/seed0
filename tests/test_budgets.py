@@ -1,7 +1,6 @@
 import json
 import sys
 
-sys.path.insert(0, ".")
 from budgets import Budget, BudgetExceeded
 from telemetry import Meter, cost_usd, file_version
 

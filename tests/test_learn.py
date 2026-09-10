@@ -1,7 +1,6 @@
 import json
 import sys
 
-sys.path.insert(0, ".")
 from learn import collect, propose, normalize_sig
 
 

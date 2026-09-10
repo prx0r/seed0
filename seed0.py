@@ -15,9 +15,11 @@ from pathlib import Path
 REQUIRED_FILES = ["AGENTS.md", "README.md", ".env.example",
                   "docs/README.md", "docs/RECIPES.md", "docs/FILES.md",
                   "docs/THREADS.md"]
+# NOTE: private-key pattern is concatenated so this source file does
+# not literally contain the string it scans for (self-match).
 SECRET_RES = [re.compile(r"sk-[A-Za-z0-9]{12,}"),
               re.compile(r"ghp_[A-Za-z0-9]{12,}"),
-              re.compile(r"-----BEGIN .*PRIVATE KEY-----")]
+              re.compile(r"-----BEG" + "IN " + r".*PRIV" + "ATE KEY-----")]
 SKIP_DIRS = {".git", "__pycache__", "node_modules", ".venv", "venv",
              ".pytest_cache", "runtime", "var"}
 
@@ -27,7 +29,7 @@ def _tree(root: Path):
             and not any(d in p.parts for d in SKIP_DIRS)]
 
 
-def check(root: str) -> dict:
+def check(root: str, cwd_independent: bool = False) -> dict:
     root = Path(root)
     checks, notes = [], []
 
@@ -40,8 +42,12 @@ def check(root: str) -> dict:
     rec("tests-exist", len(tests) > 0, f"{len(tests)} test files")
     rec("env-committed", not (root / ".env").exists(),
         ".env present — never commit it" if (root / ".env").exists() else "clean")
-    leaks = []
+    leaks, skipped = [], 0
     for p in _tree(root):
+        rel = p.relative_to(root).as_posix()
+        if rel.startswith("tests/fixtures/"):
+            skipped += 1
+            continue
         if p.suffix not in {".py", ".md", ".yaml", ".yml", ".json", ".ts", ".js", ".txt", ".toml"}:
             continue
         try:
@@ -52,7 +58,11 @@ def check(root: str) -> dict:
             if rx.search(text):
                 leaks.append(f"{p.relative_to(root)}:{rx.pattern[:18]}…")
                 break
-    rec("no-committed-secrets", not leaks, f"leaks={leaks}" if leaks else "clean")
+    scanned = sum(1 for _ in [p for p in _tree(root) if p.suffix in {".py", ".md", ".yaml", ".yml", ".json", ".ts", ".js", ".txt", ".toml"}])
+    detail = f"leaks={leaks}" if leaks else ("clean" if scanned else "clean (nothing scanned)")
+    if skipped:
+        detail += f" ({skipped} fixture files skipped as intentionally-dirty test data)"
+    rec("no-committed-secrets", not leaks, detail)
     # docs index must not point at missing files
     idx = root / "docs" / "README.md"
     dead = []
@@ -66,6 +76,20 @@ def check(root: str) -> dict:
             if not live and not m.group(1).startswith("http"):
                 dead.append(m.group(1))
     rec("index-links-live", not dead, f"dead={dead}" if dead else "all resolve")
+    if cwd_independent:
+        # Run the suite from a FOREIGN cwd with absolute paths: catches tests
+        # that secretly depend on the repo directory (imports, data files).
+        import subprocess
+        try:
+            r = subprocess.run(
+                [sys.executable, "-m", "pytest", "--rootdir", str(root.resolve()),
+                 "-q", str(root.resolve() / "tests")],
+                cwd="/tmp", capture_output=True, text=True, timeout=300)
+            ok = r.returncode == 0
+            tail = (r.stdout.strip().splitlines() or ["?"])[-1][:120]
+        except Exception as e:
+            ok, tail = False, f"harness: {e}"[:120]
+        rec("suite-green-any-cwd", ok, tail)
     passed = sum(1 for c in checks if c["pass"])
     return {"project": str(root), "passed": passed, "total": len(checks),
             "compliant": passed == len(checks), "checks": checks}
@@ -93,7 +117,8 @@ def main(argv):
         print(__doc__)
         return 2
     if argv[1] == "check":
-        rep = check(argv[2] if len(argv) > 2 else ".")
+        target = argv[2] if len(argv) > 2 and not argv[2].startswith("--") else "."
+        rep = check(target, cwd_independent="--cwd-independent" in argv)
         for c in rep["checks"]:
             print(f"[{'PASS' if c['pass'] else 'FAIL'}] {c['check']} {c['detail']}")
         print(f"{rep['passed']}/{rep['total']} — "

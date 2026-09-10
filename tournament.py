@@ -39,7 +39,8 @@ def score_seed(path: str, timeout_s: int = 300, meta: dict | None = None) -> dic
     evidence = [str(p.relative_to(root)) for p in root.rglob("*")
                 if p.is_file() and any(k in p.name for k in
                 ("evidence", "run_", "report", "results"))
-                and ".git" not in p.parts][:20]
+                and ".git" not in p.parts and "__pycache__" not in p.parts
+                and p.suffix != ".pyc"][:20]
     return {"seed": root.name, "path": str(root),
             "substrate": (meta or {}).get("substrate", "unknown"),
             "model": (meta or {}).get("model", ""),
@@ -59,8 +60,17 @@ def leaderboard(paths: list[str], timeout_s: int = 300,
                        {**( {"substrate": substrates[p]} if p in substrates else {}),
                         **meta.get(p, {})})
             for p in paths]
-    rows.sort(key=lambda r: (r["tests_green"] is True, r["compliant"],
-                             len(r["evidence"])), reverse=True)
+    weights = meta.get("__weights__", {}) if isinstance(meta, dict) else {}
+    wt = float(weights.get("tests_green", 100))
+    wc = float(weights.get("compliant", 10))
+    we = float(weights.get("evidence", 1))
+    for r in rows:
+        r["rank_score"] = round(
+            (wt if r["tests_green"] is True else 0.0)
+            + (wc if r["compliant"] else 0.0)
+            + we * len(r["evidence"]), 4)
+        r["weights"] = {"tests_green": wt, "compliant": wc, "evidence": we}
+    rows.sort(key=lambda r: r["rank_score"], reverse=True)
     return rows
 
 
@@ -94,6 +104,15 @@ if __name__ == "__main__":
         print("usage: tournament.py <seed-dir> [<seed-dir> ...] [--model m]")
         raise SystemExit(2)
     metas = {p: {"model": model} for p in paths} if model else None
+    weights = None
+    if "--weights" in sys.argv:
+        try:
+            weights = json.loads(Path(sys.argv[sys.argv.index("--weights") + 1]).read_text())
+        except IndexError:
+            pass
+    if weights:
+        metas = dict(metas or {})
+        metas["__weights__"] = weights
     rows = leaderboard(paths, meta=metas)
     print(report(rows))
     with open(f"tournament_{int(time.time())}.jsonl", "w") as f:
@@ -107,8 +126,10 @@ if __name__ == "__main__":
                                       "model": r.get("model", ""),
                                       "elapsed_s": r.get("elapsed_s", 0),
                                       "compliant": r["compliant"],
-                                      "tests_green": r["tests_green"]}
-                                     for r in rows]})
+                                      "tests_green": r["tests_green"],
+                                      "rank_score": r.get("rank_score", 0)}
+                                     for r in rows],
+                          "weights": rows[0].get("weights", {}) if rows else {}})
         save(rec)
         print(f"receipt: runs/{rec['run_id'].replace(':', '_')}.json")
     except Exception:

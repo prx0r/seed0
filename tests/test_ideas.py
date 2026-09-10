@@ -1,17 +1,15 @@
 import subprocess
+from pathlib import Path
 import sys
 import time
 
-sys.path.insert(0, ".")
-sys.path.insert(0, "idea0")
-sys.path.insert(0, "criteria0")
 from validate_idea import validate as validate_idea
 from validate_criteria import validate as validate_criteria
 
 
 def test_idea1_passes_idea0():
     t0 = time.time()
-    errs = validate_idea("ideas/idea1.md")
+    errs = validate_idea(str(Path(__file__).resolve().parent.parent / "ideas" / "idea1.md"))
     dt = time.time() - t0
     print(f"\nidea1 validation took {dt*1000:.0f}ms")
     assert errs == [], errs
@@ -19,7 +17,7 @@ def test_idea1_passes_idea0():
 
 def test_criteria1_passes_criteria0():
     t0 = time.time()
-    errs = validate_criteria("criteria/criteria1.md")
+    errs = validate_criteria(str(Path(__file__).resolve().parent.parent / "criteria" / "criteria1.md"))
     dt = time.time() - t0
     print(f"\ncriteria1 validation took {dt*1000:.0f}ms")
     assert errs == [], errs
@@ -42,8 +40,9 @@ def test_weasel_criteria_fails(tmp_path):
 
 
 def test_validators_cli_time_logged():
-    for cmd in (["idea0/validate_idea.py", "ideas/idea1.md"],
-                ["criteria0/validate_criteria.py", "criteria/criteria1.md"]):
+    root = Path(__file__).resolve().parent.parent
+    for cmd in ([str(root / "idea0" / "validate_idea.py"), str(root / "ideas" / "idea1.md")],
+                [str(root / "criteria0" / "validate_criteria.py"), str(root / "criteria" / "criteria1.md")]):
         r = subprocess.run([sys.executable] + cmd, capture_output=True, text=True)
         assert r.returncode == 0, r.stdout
         assert "ms]" in r.stdout  # elapsed always printed = time-to-verify logged

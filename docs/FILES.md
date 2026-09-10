@@ -1,0 +1,25 @@
+# FILES — one line per file (root + key dirs)
+
+- seed0.py — compliance checker + scaffolder (stdlib only)
+- tournament.py — mechanical seed ranking + receipts
+- funnel.py — idea to isolated attempts to review loop
+- pyeval.py — live model eval runner (opt-in, needs key)
+- eval_arch.py — architecture ablation loop
+- learn.py — shared-failure clustering to criteria proposals
+- runs.py — content-addressed receipts
+- tasks.py — human/agent feed with predict/deliver/reconcile
+- telemetry.py — usage metering (reported, never estimated silently)
+- budgets.py — spend caps advertised to agents
+- trace.py — run tracing helpers
+- ham.py — H/A/M delegation tiers + prohibited screen + digest-bound approvals
+- decisions.jsonl — tier/approval decision log (content-hashed ids)
+- endgameautonomy.md — crazy final autonomy spec (vision, not built)
+- docs/META_LOOP.md — autonomous work protocol (self-tasking spec v1)
+- AGENTS.md — binding agent laws; README.md — usage; THESIS.md — vision
+- HUMAN_LOOP.md — reporting contract; ECOSYSTEM.md — landscape
+- idea0/ — idea validator; criteria0/ — criteria validator
+- ideas/idea1.md — live scarcity thesis; criteria/criteria1.md — live rubric
+- seeds/seed1..seed5 — five starting kernels (tournament fodder)
+- templates/ — scaffold source for seed0.py new
+- datasets/ — sample eval datasets; runs/ — receipts and bout logs
+- docs/GUIDE.md — operator start-here; docs/RECIPES.md — operations

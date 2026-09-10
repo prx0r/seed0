@@ -2,7 +2,6 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, ".")
 from eval_arch import run_eval
 
 

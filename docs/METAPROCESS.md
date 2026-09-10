@@ -62,4 +62,18 @@ decision, including the flaws. Written so the next run avoids them by constructi
 - [ ] Pre-register ranking weights before launching.
 - [ ] Run eval_arch ablation + csec packs on every winner.
 - [ ] learn.py over real bout data; promote ≥1 rule per bout or log why none.
-- [ ] CWD-independence gate in CI for all suites (own repos included).
+- [ ] CWD-independence gate in CI for all suites (own repos included). → DONE
+  2026-09-10: `seed0.py check --cwd-independent` gate + conftest; caught 8
+  real CWD bugs; suite 46 green both CWDs.
+
+## Addendum 2026-09-10 — tournament audit (code vs logs, not memory)
+
+- `elapsed_s` in tournament logs is scoring-harness wall time (compliance +
+  pytest subprocess), never model/build time. Rename to `score_elapsed_s`
+  queued (H6) so future readers can't misread it.
+- Zero token tracking anywhere in the tournament path: no HTTP in
+  `tournament.py`/`funnel.py` (grep-verified), no token keys in any log or
+  receipt. `model: "mock"` is an echoed CLI flag, not a measurement.
+- Funnel receipts carry `input_tokens: 0` — `Meter` is created but `add_usage`
+  has no callers outside pyeval. Metering wrapper + enforced budgets queued
+  (M4). Only pyeval live runs meter (provider-reported, honestly labeled).

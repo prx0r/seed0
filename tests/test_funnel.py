@@ -1,7 +1,6 @@
 import json
 import sys
 
-sys.path.insert(0, ".")
 from funnel import run_funnel, review_template, amend, score_attempt
 from seed0 import new
 
@@ -72,8 +71,6 @@ def test_blind_review_hides_and_reveals(tmp_path):
 
 
 def test_telemetry_marks_usage_reported():
-    import sys
-    sys.path.insert(0, ".")
     from telemetry import Meter
     b = Meter(model="mimo-v2.5").block()
     assert b["usage_source"] == "reported"

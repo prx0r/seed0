@@ -1,7 +1,6 @@
 import json
 import sys
 
-sys.path.insert(0, ".")
 from runs import new_receipt, save, verify, verify_file, run_id
 
 
