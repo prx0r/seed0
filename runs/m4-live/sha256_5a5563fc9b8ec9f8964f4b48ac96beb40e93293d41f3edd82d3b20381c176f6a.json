@@ -1,0 +1,38 @@
+{
+ "content": {
+  "cases": [
+   {
+    "cost_usd": 0.0,
+    "elapsed_s": 0.43,
+    "id": "p1",
+    "input_tokens": 0,
+    "judge_in": 0,
+    "judge_out": 0,
+    "output_tokens": 0,
+    "pass": false,
+    "weight": 1.0
+   }
+  ],
+  "dataset": "/tmp/m4probe.json",
+  "kind": "pyeval",
+  "model": "mimo-v2.5",
+  "pass": false,
+  "score": 0.0,
+  "telemetry": {
+   "cost_usd": 0.0,
+   "criteria": "",
+   "criteria_version": "",
+   "elapsed_s": 0.43,
+   "idea": "",
+   "idea_version": "",
+   "input_tokens": 0,
+   "model": "mimo-v2.5",
+   "output_tokens": 0,
+   "usage_source": "reported"
+  },
+  "total": 1.0
+ },
+ "kind": "pyeval",
+ "run_id": "sha256:5a5563fc9b8ec9f8964f4b48ac96beb40e93293d41f3edd82d3b20381c176f6a",
+ "ts": 1789073781.6577022
+}

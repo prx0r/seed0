@@ -15,8 +15,13 @@ evidence, not suite-count theatre. Full session record: `docs/SESSION_REVIEW.md`
 - **H6**: rename `elapsed_s` → `score_elapsed_s` (log schema change). Say `go H6`.
 - **H-driver**: pick D1 (cron+`opencode run`) / D2 (hermes-cron) / D3 (manual
   pulses). Needs quota math first (M-class). KILL-file convention specced.
-- **M4-run**: live metered bout (first honest cost comparison). Cost ~$0 free
-  tier, burns daily neurons. Say `go M4`.
+- **M4-run**: FIRED 2026-09-10 pm, BLOCKED with full channel matrix. zen/go 429
+  x2 (weekly quota burned, not a window — 8 min apart); hermes CLI hangs (same
+  pool); deepseek key valid but 402 empty wallet; nous-portal key present, endpoint
+  unknown (not probed — no guessing URLs with secrets); CF token can't list
+  accounts. Loop PROVEN working (timed 0.5s, FAIL+transport recorded, receipts
+  runs/m4-live*/sha256_5a5563fc…, sha256_f3422c32…). UNBLOCKS (owner): fund
+  deepseek (M, ~$5), or wait zen reset, or `hermes portal` login (H).
 - **a-push**: PAUSED task, rides H1b automatically.
 - **H-inbox**: built and listening (`hserver.py:8791`), awaiting first human
   traffic; urgency-weight calibration needs real data, not theory.

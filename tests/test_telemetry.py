@@ -53,3 +53,8 @@ def test_validate_usage_tripwires():
     assert validate_usage("", resp, {"input_tokens": 10, "output_tokens": 5}) != []
     assert validate_usage(req, "", {"input_tokens": 5, "output_tokens": 9}) != []
     assert validate_usage(req, resp, {"input_tokens": "lots", "output_tokens": 5}) != []
+
+
+def test_deepseek_flash_priced_offpeak():
+    from telemetry import cost_usd
+    assert cost_usd("deepseek-v4-flash", 1_000_000, 1_000_000) == 0.88

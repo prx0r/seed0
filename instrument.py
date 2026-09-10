@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""instrument.py — 10-key dispatch: parse a chain, run each key against
-real machinery, log every press with its outcome. Stdlib only.
+"""instrument.py — the 10-key OS runtime. Stdlib only.
 
+  python3 instrument.py boot [--root .] [--session S]
+  python3 instrument.py pulse [--root .] [--session S]
   python3 instrument.py press 2943 [--root .] [--session S] [--text "7=...;9=..."]
 
 Read-only keys (2, 3) work under halt; executing keys refuse while
@@ -206,6 +207,87 @@ def _context(root: str) -> dict:
             "goal": None, "halted": _halted(root)}
 
 
+def _qp(root: str) -> str:
+    return str(Path(root) / "loop" / "tasks.jsonl")
+
+
+def boot(root: str = ".", session: str | None = None) -> dict:
+    """Clone-to-runtime in one call: init queue if missing, orient the agent.
+    Idempotent and read-only except queue-file creation."""
+    import loop as _loop
+    R = Path(root)
+    qp = _qp(root)
+    created = False
+    if not Path(qp).exists():
+        _loop.main(["init", "--queue", qp])
+        created = True
+    z = _act("2", None, root, session or "", {})
+    d = z["detail"]
+    if d["halted"]:
+        nxt, chain = "lift the halt (press 0) or inspect (2, 3 still work)", "0"
+    elif d["open_h"]:
+        nxt, chain = f"clear {d['open_h']} human tasks (4/5/6/7)", "2"
+    elif d["missing"]:
+        nxt, chain = "drain the ready set", "1"
+    else:
+        nxt, chain = "halt-legal: propose next tasks with justification", "9"
+    return {"booted": True, "created_queue": created, "zoom": d,
+            "read": ["ATASK.md", "AGENTS.md", "BOOT.md"],
+            "next": nxt, "suggested_chain": chain,
+            "close": f"runtime up. {z['close']}. next: {nxt}"}
+
+
+def pulse(root: str = ".", session: str | None = None) -> dict:
+    """One mechanical runtime iteration (the driver calls this, then wakes
+    the agent for judgment work). Auto-promotes REPORTED→DONE on stoplight
+    GO (double-gated by set-status); never flips anything else; appends one
+    pulse line. Returns halt_legal + per-task agent orders."""
+    import loop as _loop
+    R = Path(root)
+    qp = _qp(root)
+    t0 = time.monotonic()
+    if _halted(root):
+        return {"halted": True, "close": "halted — press 0 to resume",
+                "halt_legal": True, "elapsed_s": 0.0}
+    try:
+        recs = _loop.load(qp)
+    except Exception as e:
+        return {"halted": False, "error": f"queue unreadable: {e}"[:160],
+                "halt_legal": False}
+    promoted, nogos = [], {}
+    for r in recs:
+        if r.get("status") != "REPORTED":
+            continue
+        sl = _loop.stoplight(r["id"], qp)
+        if sl["go"]:
+            rc = _loop.main(["set-status", r["id"], "DONE", "--queue", qp])
+            if rc == 0:
+                promoted.append(r["id"])
+            else:
+                nogos[r["id"]] = ["set-status refused"]
+        else:
+            nogos[r["id"]] = sl["missing"][:4]
+    ready = _ready(root)
+    orders = [{"id": r.get("id"), "summary": (r.get("summary") or "")[:100],
+               "acceptance": (r.get("acceptance") or [])[:3]} for r in ready]
+    still_reported = [r.get("id") for r in _loop.load(qp)
+                      if r.get("status") == "REPORTED"]
+    halt_legal = not ready and not nogos and not still_reported
+    pl = R / "loop" / "pulse.jsonl"
+    pl.parent.mkdir(parents=True, exist_ok=True)
+    with open(pl, "a") as f:
+        f.write(json.dumps({"ts": time.time(), "session": session,
+                             "promoted": promoted, "nogo": list(nogos),
+                             "ready": [o["id"] for o in orders],
+                             "halt_legal": halt_legal}, sort_keys=True) + "\n")
+    return {"halted": False, "promoted": promoted, "nogo": nogos,
+            "orders": orders, "halt_legal": halt_legal,
+            "elapsed_s": round(time.monotonic() - t0, 3),
+            "close": (f"pulse: promoted {len(promoted)}, "
+                      f"{len(nogos)} nogo, {len(orders)} ready"
+                      + (" — HALT-LEGAL" if halt_legal else ""))}
+
+
 def run(chain_str: str, session: str | None = None, root: str = ".",
         payloads: dict | None = None) -> dict:
     """Parse + dispatch a chain; log every press with its outcome."""
@@ -227,7 +309,7 @@ def run(chain_str: str, session: str | None = None, root: str = ".",
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) < 2 or argv[0] != "press":
+    if len(argv) < 1 or argv[0] not in ("press", "boot", "pulse"):
         print(__doc__)
         return 2
     root, session, payloads = ".", None, {}
@@ -235,6 +317,15 @@ def main(argv: list[str]) -> int:
         root = argv[argv.index("--root") + 1]
     if "--session" in argv:
         session = argv[argv.index("--session") + 1]
+    if argv[0] == "boot":
+        print(json.dumps(boot(root, session), indent=1)[:3000])
+        return 0
+    if argv[0] == "pulse":
+        print(json.dumps(pulse(root, session), indent=1)[:4000])
+        return 0
+    if len(argv) < 2:
+        print(__doc__)
+        return 2
     if "--text" in argv:
         for part in argv[argv.index("--text") + 1].split(";"):
             if "=" in part:

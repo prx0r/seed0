@@ -26,7 +26,8 @@ def _good(done=True):
 def test_clean_queue_passes(tmp_path):
     q = _q(tmp_path, _good())
     (tmp_path / "r-1.json").write_text("{}")
-    (tmp_path / "reports" / "a-1.md").write_text("# done\n")
+    (tmp_path / "reports" / "a-1.md").write_text(
+        "# t\n## 1. claim\n## 2. evidence\n## 3. self-review\n## 4. needs\n## 5. cost\n")
     assert A.check(q, tmp_path / "a-logs", tmp_path / "reports") == []
 
 
@@ -50,7 +51,8 @@ def test_sha256_uri_resolves_like_loop(tmp_path):
     recs = _good()
     recs[0]["validation_ref"] = "sha256:abc123"
     q = _q(tmp_path, recs)
-    (tmp_path / "reports" / "a-1.md").write_text("# done\n")
+    (tmp_path / "reports" / "a-1.md").write_text(
+        "# t\n## 1. claim\n## 2. evidence\n## 3. self-review\n## 4. needs\n## 5. cost\n")
     assert A.check(q, tmp_path / "a-logs", tmp_path / "reports") == []
     recs[0]["validation_ref"] = "sha256:ghost000"
     q = _q(tmp_path, recs)
@@ -86,3 +88,16 @@ def test_executing_needs_fresh_alog(tmp_path):
 def test_missing_queue_is_a_finding(tmp_path):
     f = A.check(tmp_path / "nope.jsonl", tmp_path, tmp_path)
     assert f == [f"queue missing: {tmp_path / 'nope.jsonl'}"]
+
+
+def test_report_section_gate(tmp_path):
+    import acheck as A2
+    q = _q(tmp_path, [
+        {"id": "a-r", "tier": "A", "summary": "w", "status": "REPORTED",
+         "blocked_by": [], "report_ref": "reports/a-r.md"}])
+    (tmp_path / "reports" / "a-r.md").write_text("# t\n## claim\n bare\n")
+    f = A2.check(q, tmp_path / "a-logs", tmp_path / "reports")
+    assert any("report missing section: evidence" in x for x in f)
+    (tmp_path / "reports" / "a-r.md").write_text(
+        "# t\n## 1. claim\n## 2. evidence\n## 3. self-review\n## 4. needs\n## 5. cost\n")
+    assert A2.check(q, tmp_path / "a-logs", tmp_path / "reports") == []

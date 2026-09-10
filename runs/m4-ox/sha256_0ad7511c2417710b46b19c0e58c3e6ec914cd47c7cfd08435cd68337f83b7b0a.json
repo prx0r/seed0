@@ -1,0 +1,38 @@
+{
+ "content": {
+  "cases": [
+   {
+    "cost_usd": 0.0,
+    "elapsed_s": 0.42,
+    "id": "p1",
+    "input_tokens": 0,
+    "judge_in": 0,
+    "judge_out": 0,
+    "output_tokens": 0,
+    "pass": false,
+    "weight": 1.0
+   }
+  ],
+  "dataset": "/tmp/m4probe.json",
+  "kind": "pyeval",
+  "model": "ox-alpha-free",
+  "pass": false,
+  "score": 0.0,
+  "telemetry": {
+   "cost_usd": null,
+   "criteria": "",
+   "criteria_version": "",
+   "elapsed_s": 0.42,
+   "idea": "",
+   "idea_version": "",
+   "input_tokens": 0,
+   "model": "ox-alpha-free",
+   "output_tokens": 0,
+   "usage_source": "reported"
+  },
+  "total": 1.0
+ },
+ "kind": "pyeval",
+ "run_id": "sha256:0ad7511c2417710b46b19c0e58c3e6ec914cd47c7cfd08435cd68337f83b7b0a",
+ "ts": 1789074849.1037395
+}

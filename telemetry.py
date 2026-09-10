@@ -19,6 +19,9 @@ PRICES = {
     "mimo-v2.5-pro": (0.435, 0.87),
     "muse-spark-1.3-contributor": (0.10, 0.20),
     "muse-spark-1.2-contributor": (0.10, 0.20),
+    # DeepSeek direct, off-peak 2026-08 (peak 01-04 & 06-10 UTC is 2x:
+    # 0.44/1.32). Table is an estimate; invoice is truth (L5 reconcile).
+    "deepseek-v4-flash": (0.22, 0.66),
 }
 
 

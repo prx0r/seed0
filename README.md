@@ -11,7 +11,9 @@ python3 -m pytest tests/ -q             # 160 green or stop and report
 python3 seed0.py check .                # 5/5 COMPLIANT or stop and report
 python3 loop.py init                    # create your queue (runtime state, never committed)
 python3 acheck.py                       # 0 findings = your queue is native
+python3 instrument.py boot              # orient: zoom + next action + what to read
 python3 instrument.py press 2           # ZOOM: achieved vs missing right now
+python3 instrument.py pulse             # one driver iteration (promote proven, emit orders)
 ```
 No install step: stdlib only. `pydantic` is optional — telemetry uses it when
 importable, identical stdlib checks otherwise (same contract, both paths tested).

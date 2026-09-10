@@ -1,0 +1,38 @@
+{
+ "content": {
+  "cases": [
+   {
+    "cost_usd": 0.0,
+    "elapsed_s": 0.0,
+    "id": "p1",
+    "input_tokens": 0,
+    "judge_in": 0,
+    "judge_out": 0,
+    "output_tokens": 0,
+    "pass": false,
+    "weight": 1.0
+   }
+  ],
+  "dataset": "/tmp/m4probe.json",
+  "kind": "pyeval",
+  "model": "deepseek-chat",
+  "pass": false,
+  "score": 0.0,
+  "telemetry": {
+   "cost_usd": 0.0,
+   "criteria": "",
+   "criteria_version": "",
+   "elapsed_s": 0.0,
+   "idea": "",
+   "idea_version": "",
+   "input_tokens": 0,
+   "model": "deepseek-chat",
+   "output_tokens": 0,
+   "usage_source": "reported"
+  },
+  "total": 1.0
+ },
+ "kind": "pyeval",
+ "run_id": "sha256:4459c08e4a5dd78df99b083bcea4f91a5d61415d2557d9d5b4ba4ade9ee5ceb8",
+ "ts": 1789074522.9096463
+}

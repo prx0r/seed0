@@ -19,6 +19,8 @@ from pathlib import Path
 STATUS = ("PROPOSED", "JUSTIFIED", "EXECUTING", "PAUSED", "REPORTED",
           "REJECTED", "DONE")
 REQUIRED = ("id", "tier", "summary", "status")
+# META_LOOP §5: required report sections (numbered or bare headers).
+REPORT_SECTIONS = ("claim", "evidence", "self-review", "needs", "cost")
 
 
 def _resolve(vr: str, base: Path) -> bool:
@@ -29,6 +31,28 @@ def _resolve(vr: str, base: Path) -> bool:
         return ((base / "runs" / name).exists()
                 or (base.parent / "runs" / name).exists())
     return (base / vr).exists() or Path(vr).exists()
+
+
+def _report_path(rr: str, base: Path) -> Path | None:
+    for c in (base / rr, Path(rr)):
+        if c.exists() and c.is_file():
+            return c
+    return None
+
+
+def _report_sections(p: Path) -> list[str]:
+    """Missing META_LOOP §5 sections (empty = compliant). .md only."""
+    import re as _re
+    if p.suffix != ".md":
+        return []
+    try:
+        heads = set(m.group(1).lower() for m in
+                    _re.finditer(r"^#+\s*(?:\d+\.\s*)?([\w-]+)",
+                                 p.read_text(), _re.M))
+    except Exception:
+        return [f"unreadable report: {p.name}"]
+    return [f"report missing section: {s}" for s in REPORT_SECTIONS
+            if s not in heads]
 
 
 def _load_jsonl(p: Path) -> list[dict]:
@@ -70,14 +94,22 @@ def check(queue: Path, alogs: Path, reports: Path,
             elif not _resolve(vr, queue.parent):
                 findings.append(f"{tag}: validation_ref unresolvable: {vr}"[:160])
             rr = r.get("report_ref", "")
-            if rr and not _resolve(rr, queue.parent):
-                findings.append(f"{tag}: report_ref unresolvable: {rr}"[:160])
+            if rr:
+                rp = _report_path(rr, queue.parent)
+                if rp is None:
+                    findings.append(f"{tag}: report_ref unresolvable: {rr}"[:160])
+                else:
+                    findings += [f"{tag}: {e}" for e in _report_sections(rp)]
         if st == "REPORTED":
             rr = r.get("report_ref", "")
             if not rr:
                 findings.append(f"{tag}: REPORTED without report_ref")
-            elif not _resolve(rr, queue.parent):
-                findings.append(f"{tag}: report missing: {rr}"[:160])
+            else:
+                rp = _report_path(rr, queue.parent)
+                if rp is None:
+                    findings.append(f"{tag}: report missing: {rr}"[:160])
+                else:
+                    findings += [f"{tag}: {e}" for e in _report_sections(rp)]
         if st == "EXECUTING":
             lp = alogs / f"{r.get('id')}.jsonl"
             if not lp.exists() or not _load_jsonl(lp):
