@@ -10,6 +10,7 @@ python3 seed0.py check ./proj           # compliance gate (5 checks, exit 1 if r
 python3 tournament.py ./seedA ./seedB   # rank seeds, write tournament_*.jsonl
 python3 -m pytest tests/ -q             # self-tests
 OPENCODE_GO_API_KEY=... python3 pyeval.py run datasets/safety_sample.json --model mimo-v2.5
+python3 learn.py runs/idea1             # shared failures -> criteria1.1 proposals
 ```
 
 ## Primitives (all future seeds share these)

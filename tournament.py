@@ -20,6 +20,8 @@ from seed0 import check as seed0_check
 
 
 def score_seed(path: str, timeout_s: int = 300, meta: dict | None = None) -> dict:
+    import time as _t
+    t0 = _t.time()
     root = Path(path)
     rep = seed0_check(str(root))
     tests_green, tests_detail = None, "no suite attempted"
@@ -40,6 +42,8 @@ def score_seed(path: str, timeout_s: int = 300, meta: dict | None = None) -> dic
                 and ".git" not in p.parts][:20]
     return {"seed": root.name, "path": str(root),
             "substrate": (meta or {}).get("substrate", "unknown"),
+            "model": (meta or {}).get("model", ""),
+            "elapsed_s": round(time.time() - t0, 2),
             "compliant": rep["compliant"],
             "compliance": f"{rep['passed']}/{rep['total']}",
             "tests_green": tests_green, "tests_detail": tests_detail[:160],
@@ -47,9 +51,13 @@ def score_seed(path: str, timeout_s: int = 300, meta: dict | None = None) -> dic
 
 
 def leaderboard(paths: list[str], timeout_s: int = 300,
-                substrates: dict | None = None) -> list[dict]:
+                substrates: dict | None = None,
+                meta: dict | None = None) -> list[dict]:
     substrates = substrates or {}
-    rows = [score_seed(p, timeout_s, {"substrate": substrates.get(p, "unknown")})
+    meta = meta or {}
+    rows = [score_seed(p, timeout_s,
+                       {**( {"substrate": substrates[p]} if p in substrates else {}),
+                        **meta.get(p, {})})
             for p in paths]
     rows.sort(key=lambda r: (r["tests_green"] is True, r["compliant"],
                              len(r["evidence"])), reverse=True)
@@ -69,12 +77,34 @@ def report(rows: list[dict]) -> str:
 
 
 if __name__ == "__main__":
-    paths = sys.argv[1:]
+    args = [x for x in sys.argv[1:] if not x.startswith("--")]
+    model = ""
+    if "--model" in sys.argv:
+        try:
+            model = sys.argv[sys.argv.index("--model") + 1]
+        except IndexError:
+            pass
+    paths = args
     if not paths:
-        print("usage: tournament.py <seed-dir> [<seed-dir> ...]")
+        print("usage: tournament.py <seed-dir> [<seed-dir> ...] [--model m]")
         raise SystemExit(2)
-    rows = leaderboard(paths)
+    metas = {p: {"model": model} for p in paths} if model else None
+    rows = leaderboard(paths, meta=metas)
     print(report(rows))
     with open(f"tournament_{int(time.time())}.jsonl", "w") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")
+    try:
+        from runs import new_receipt, save
+        rec = new_receipt("tournament",
+                          {"seeds": [{"seed": r["seed"],
+                                      "substrate": r.get("substrate", "unknown"),
+                                      "model": r.get("model", ""),
+                                      "elapsed_s": r.get("elapsed_s", 0),
+                                      "compliant": r["compliant"],
+                                      "tests_green": r["tests_green"]}
+                                     for r in rows]})
+        save(rec)
+        print(f"receipt: runs/{rec['run_id'].replace(':', '_')}.json")
+    except Exception:
+        pass

@@ -19,14 +19,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from seed0 import check as seed0_check
+from telemetry import Meter
 
 
 def run_funnel(idea: str, rubric: dict, seeds: list[str], agent_cmd: str,
-               out: str, seed_root: str = "seeds") -> dict:
+               out: str, seed_root: str = "seeds", model: str = "",
+               idea_id: str = "", criteria: str = "") -> dict:
     outdir = Path(out)
     (outdir / "attempts").mkdir(parents=True, exist_ok=True)
     (outdir / "brief.md").write_text(f"# Brief\n\n{idea}\n")
     (outdir / "rubric.json").write_text(json.dumps(rubric, indent=1))
+    _meter = Meter(model=model, idea=idea_id, criteria=criteria)
     results = []
     for seed in seeds:
         att = outdir / "attempts" / Path(seed).name
@@ -50,6 +53,20 @@ def run_funnel(idea: str, rubric: dict, seeds: list[str], agent_cmd: str,
         results.append(score)
     (outdir / "scores.jsonl").write_text(
         "\n".join(json.dumps(r) for r in results) + "\n")
+    try:
+        from runs import new_receipt, save
+        rec = new_receipt("funnel-round",
+                          {"idea": idea,
+                           "telemetry": _meter.block(),
+                           "seeds": [{"seed": r["seed"],
+                                      "binary_pass": r["binary_pass"],
+                                      "compliance": r["compliance"],
+                                      "suite_green": r["suite_green"]}
+                                     for r in results]},
+                          root=str(outdir / "runs"))
+        save(rec, root=str(outdir / "runs"))
+    except Exception:
+        pass  # receipt is evidence, never load-bearing for the run itself
     return {"idea": idea, "results": results}
 
 
@@ -120,11 +137,22 @@ if __name__ == "__main__":
     if not a or a[0] not in ("run", "review", "amend"):
         print(__doc__)
         raise SystemExit(2)
-    kw = dict(zip(a[1::2], a[2::2]))
+    kw, pos = {}, []
+    it = iter(a[1:])
+    for x in it:
+        if x.startswith("--"):
+            try:
+                kw[x] = next(it)
+            except StopIteration:
+                print(f"flag {x} needs a value")
+                raise SystemExit(2)
     if a[0] == "run":
         rubric = json.loads(Path(kw["--rubric"]).read_text())
         out = run_funnel(kw["--idea"], rubric, kw["--seeds"].split(","),
-                         kw.get("--agent-cmd", "true"), kw["--out"])
+                         kw.get("--agent-cmd", "true"), kw["--out"],
+                         model=kw.get("--model", ""),
+                         idea_id=kw.get("--idea-id", ""),
+                         criteria=kw.get("--criteria", ""))
         print(json.dumps({r["seed"]: r["binary_pass"] for r in out["results"]}))
     elif a[0] == "review":
         print(review_template(kw["--run"], int(kw.get("--round", "1"))))
