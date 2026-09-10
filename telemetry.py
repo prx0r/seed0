@@ -62,7 +62,13 @@ class Meter:
         self.output_tokens += u["output_tokens"]
 
     def block(self) -> dict:
+        # usage_source: "reported" ALWAYS. Token counts come from the provider's
+        # own usage blocks, which current research shows are unaudited claims:
+        # hidden-reasoning inflation up to 1469% undetectable without TEEs/proofs
+        # (CoIn; Token Inflation 2605.30040). We record verbatim + reconcile
+        # against provider invoices. Never present these numbers as verified.
         return {"model": self.model,
+                "usage_source": "reported",
                 "idea": self.idea,
                 "idea_version": file_version(self.idea) if self.idea else "",
                 "criteria": self.criteria,

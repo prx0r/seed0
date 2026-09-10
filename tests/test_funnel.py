@@ -49,3 +49,31 @@ def test_agent_failure_recorded_not_hidden(tmp_path):
     seeds = _idea(tmp_path, 1)
     out = run_funnel("x", {"checks": []}, seeds, "false", str(tmp_path / "run3"))
     assert out["results"][0]["agent_ok"] is False
+
+
+def test_blind_review_hides_and_reveals(tmp_path):
+    from funnel import review_template, reveal
+    (tmp_path / "scores.jsonl").write_text(
+        '{"seed": "seed1", "binary_pass": true}\n'
+        '{"seed": "seed2", "binary_pass": false}\n')
+    p = review_template(str(tmp_path), 1, blind=True)
+    doc = json.loads(p.read_text())
+    assert doc["blind"] is True
+    assert not any("seed1" in json.dumps(e) or "seed2" in json.dumps(e)
+                   for e in doc["seeds"])
+    assert {e["lane"] for e in doc["seeds"]} == {"Lane A", "Lane B"}
+    p2 = review_template(str(tmp_path), 1, blind=True)  # deterministic
+    assert json.loads(p2.read_text())["seeds"] == doc["seeds"]
+    m = reveal(str(tmp_path), 1)
+    assert set(m.values()) == {"Lane A", "Lane B"}
+    doc2 = json.loads(p.read_text())
+    assert doc2["revealed"] is True
+    assert {e["seed"] for e in doc2["seeds"]} == {"seed1", "seed2"}
+
+
+def test_telemetry_marks_usage_reported():
+    import sys
+    sys.path.insert(0, ".")
+    from telemetry import Meter
+    b = Meter(model="mimo-v2.5").block()
+    assert b["usage_source"] == "reported"
