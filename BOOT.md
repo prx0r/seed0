@@ -1,15 +1,25 @@
 # BOOT.md — session-start orders (read first, every session, no exceptions)
 
 You are starting cold. Chat history is gone or untrustworthy. This file plus
-the repo IS your memory. Follow exactly, then work.
+the repo IS your memory. Do §0 before ANY other action — no building, no
+planning, no domain work until boot passes.
 
-## 1. Load state (in order, 2 minutes)
+## 0. Boot (one command, 30 seconds)
 
-1. `AGENTS.md` — binding laws (logs, gates, secrets, mocks).
-2. `loop/packet.json` — where the last run stopped + what's blocked.
-3. `loop/tasks.jsonl` — `python3 loop.py list --status JUSTIFIED` and
-   `--status PAUSED` first; those are your ready set.
-4. `decisions.jsonl` tail (last 5 lines) — recent tier decisions.
+Run `python3 instrument.py boot` and follow its output exactly. It creates
+the queue if missing, shows achieved-vs-missing, and tells you the next
+action plus what to read. Report its close line, then do what it says.
+If it says HALT-legal, propose next tasks with justification — never invent
+unqueued work. The runtime drives; you execute judgment inside it.
+
+## 1. Load state (only if boot tells you to dig deeper)
+
+1. `AGENTS.md` — binding laws (logs, gates, secrets, mocks) + the 10-key
+   instrument + A-task requirement.
+2. `ATASK.md` — the one-page work contract (5 rules, record shape, turn loop).
+3. `loop/packet.json` — where the last run stopped + what's blocked.
+4. `loop/tasks.jsonl` — ready set = status JUSTIFIED/EXECUTING with all
+   `blocked_by` DONE (`python3 instrument.py press 1` drains it).
 5. `docs/THREADS.md` — open threads with owners.
 
 ## 2. Standing orders (H7 — revoke only with `pause H7`)
@@ -28,11 +38,12 @@ the repo IS your memory. Follow exactly, then work.
 
 ## 3. First-run (no loop/ state yet)
 
-Run `python3 loop.py init`, file the first task (the user's request) with
-justification + acceptance + evidence plan, then work it per §2.
+`instrument.py boot` covers it: init, orientation, first action. File the
+user's request as the first task (justification + acceptance + evidence
+plan), then work it per §2.
 
 ## 4. Non-goals for boot
 
 Do not re-verify the whole suite at boot (wastes a turn). Trust the last
-`6/6` + receipts; re-verify only what you touch. Do not summarize history
-back to the user unless asked — work first, packet on disk, brief close.
+green self-check + receipts; re-verify only what you touch. Do not summarize
+history back to the user unless asked — work first, packet on disk, brief close.

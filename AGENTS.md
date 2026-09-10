@@ -2,6 +2,15 @@
 
 Binding rules for any coding agent working in this repository.
 
+## START HERE (new agent — 60 seconds, before anything else)
+
+1. `python3 instrument.py boot` — follow its output exactly, report its close line.
+2. `python3 acheck.py` — must exit 0 before you touch the queue.
+3. Read `ATASK.md` (one page — the work contract), then `BOOT.md` §2 (standing orders).
+4. First-turn protocol: ORIENT ONLY. No building, no planning, no domain work
+   until steps 1–3 pass. If anything fails, report the failure verbatim and stop.
+   "Become A-task native" = pass `acheck.py`; the concept lives in `ATASK.md`.
+
 ## Absolute rules
 
 1. **Every run logs. No log, no claim.** Test suites, pyeval runs, funnel rounds,

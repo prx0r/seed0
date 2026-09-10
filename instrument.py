@@ -215,11 +215,14 @@ def boot(root: str = ".", session: str | None = None) -> dict:
     """Clone-to-runtime in one call: init queue if missing, orient the agent.
     Idempotent and read-only except queue-file creation."""
     import loop as _loop
+    from contextlib import redirect_stdout
+    import io as _io
     R = Path(root)
     qp = _qp(root)
     created = False
     if not Path(qp).exists():
-        _loop.main(["init", "--queue", qp])
+        with redirect_stdout(_io.StringIO()):
+            _loop.main(["init", "--queue", qp])
         created = True
     z = _act("2", None, root, session or "", {})
     d = z["detail"]
@@ -260,7 +263,10 @@ def pulse(root: str = ".", session: str | None = None) -> dict:
             continue
         sl = _loop.stoplight(r["id"], qp)
         if sl["go"]:
-            rc = _loop.main(["set-status", r["id"], "DONE", "--queue", qp])
+            from contextlib import redirect_stdout
+            import io as _io
+            with redirect_stdout(_io.StringIO()):
+                rc = _loop.main(["set-status", r["id"], "DONE", "--queue", qp])
             if rc == 0:
                 promoted.append(r["id"])
             else:
