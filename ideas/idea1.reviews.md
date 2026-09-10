@@ -58,3 +58,16 @@ framing. All implementable, all in criteria1.
 Fund ONE slice first: grid-permission Deliverable MW — most measurable, most
 falsifiable, nearest revenue. Demand a worked numeric example before expanding
 to biology/quantum. Score this review against criteria1-C12's demo when built.
+
+## R2 — bout1 tournament review (3 seeds × money prompt, 2026-09-10)
+Convergent result: all three built dB/dt bottleneck scorers with Theil-Sen robust
+trend, all self-reviewed "mechanism real, money needs live data + distribution".
+Rank by honesty-adjusted utility: seed2 (spec caught inverted term pre-build) ≥
+seed1 (validated trend choice, cleanest gate) > seed5 (best fail-closed design,
+docked for CWD-fragile suite — passes home, fails away).
+Meta-findings: (1) CWD-independence belongs in criteria0 as a global rule
+(proposed: suites must pass from any working directory); (2) all three cited
+external validation unprompted once instructed — the websearch+arxiv primitive
+works and should be law, not suggestion; (3) unanimous "no buyer, no product"
+verdicts confirm idea1's missing piece is demand-side (who pays for shortage
+alerts), not math — next bout should score distribution hypotheses, not scorers.

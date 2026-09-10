@@ -1,0 +1,3 @@
+{"seed": "seed1-ralph", "suite_own_cwd": "12 passed", "suite_any_cwd": "12 passed", "compliant": "4/5 (app, not kernel)", "self_verdict": "half-bet", "note": "Theil-Sen validated vs OLS; robust-trend choice arxiv-backed"}
+{"seed": "seed2-spec", "suite_own_cwd": "4 passed", "suite_any_cwd": "4 passed", "compliant": "4/5 (app, not kernel)", "self_verdict": "no-as-product/maybe-as-wedge", "note": "spec-first caught inverted crowdedness term pre-build"}
+{"seed": "seed5-redteam", "suite_own_cwd": "10 passed (claimed)", "suite_any_cwd": "4 failed (CWD-relative paths)", "compliant": "4/5 (app, not kernel)", "self_verdict": "half-bet", "note": "fail-closed RefuseError is good design; CWD fragility is the finding"}
