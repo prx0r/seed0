@@ -42,8 +42,12 @@ def run_funnel(idea: str, rubric: dict, seeds: list[str], agent_cmd: str,
         (att / "rubric.json").write_text(json.dumps(rubric, indent=1))
         t0 = time.time()
         try:
+            import os as _os
+            from budgets import from_env as _budget_from_env
+            env = dict(_os.environ)
+            env.update(_budget_from_env().advertise())
             p = subprocess.run(agent_cmd.split() + [str(att)], capture_output=True,
-                               text=True, timeout=600)
+                               text=True, timeout=600, env=env)
             agent_ok, agent_log = p.returncode == 0, (p.stdout + p.stderr)[-1000:]
         except subprocess.TimeoutExpired:
             agent_ok, agent_log = False, "agent timeout"

@@ -69,15 +69,22 @@ def grade_judge(complete_fn, answer: str, rubric: str) -> tuple[bool, str]:
 
 def run(dataset: str, model: str, base: str, key: str,
         judge_model: str | None = None, idea: str = "", criteria: str = "",
-        meter: Meter | None = None) -> dict:
+        meter: Meter | None = None, budget=None) -> dict:
     ds = json.loads(Path(dataset).read_text())
     meter = meter or Meter(model=model, idea=idea, criteria=criteria)
     meter.model, meter.idea, meter.criteria = model, idea, criteria
     results, score, total = [], 0.0, 0.0
     session = f"seed0-pyeval-{int(time.time())}"
+    from telemetry import cost_usd
     for case in ds.get("cases", []):
         w = float(case.get("weight", 1))
         total += w
+        if budget is not None and budget.exhausted():
+            results.append({"id": case["id"], "pass": False,
+                            "why": "budget exhausted — run stopped, not failed",
+                            "weight": w})
+            continue
+        i0, o0 = meter.input_tokens, meter.output_tokens
         try:
             ans = complete(base, key, model,
                            [{"role": "user", "content": case["input"]}],
@@ -98,6 +105,13 @@ def run(dataset: str, model: str, base: str, key: str,
         else:
             ok, why = grade_rule(ans, case.get("expect", {}))
         score += w if ok else 0.0
+        if budget is not None:
+            di, do = meter.input_tokens - i0, meter.output_tokens - o0
+            try:
+                budget.record(tokens=di + do,
+                              cost=cost_usd(model, di, do), label=case["id"])
+            except Exception as e:
+                ok, why = False, f"budget refused next call: {e}"[:160]
         results.append({"id": case["id"], "pass": ok, "why": why,
                         "weight": w, "answer": ans[:300]})
     return {"model": model, "score": score, "total": total,
@@ -135,9 +149,14 @@ if __name__ == "__main__":
     if not key:
         print("OPENCODE_GO_API_KEY not set (env only, never a file)")
         raise SystemExit(2)
+    from budgets import Budget
+    bgt = None
+    if kw.get("--budget-usd") or kw.get("--budget-tokens"):
+        bgt = Budget(max_usd=float(kw["--budget-usd"]) if kw.get("--budget-usd") else None,
+                     max_tokens=int(kw["--budget-tokens"]) if kw.get("--budget-tokens") else None)
     rep = run(ds_path, kw.get("--model", "mimo-v2.5"), base, key,
               kw.get("--judge-model"), idea=kw.get("--idea", ""),
-              criteria=kw.get("--criteria", ""))
+              criteria=kw.get("--criteria", ""), budget=bgt)
     for r in rep["results"]:
         print(json.dumps(r))
     print(f"SCORE {rep['score']}/{rep['total']} "
