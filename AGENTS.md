@@ -24,6 +24,25 @@ Binding rules for any coding agent working in this repository.
    re-fire which action to take; money/irreversible steps re-resolve their
    gate (keyword, digest, grant) at replay time. No inherited approvals.
 
+## Agentic OS (the instrument)
+
+The human directs agents by pressing keys, not typing letters. 10 keys:
+1 GO (drain ready A-tasks) · 2 ZOOM (achieved vs missing) · 3 DIG (review
+until obvious) · 4 PICK#n (choose option n) · 5 OK (approve; money re-resolves
+its gate, never inherits) · 6 NO (deny + replan) · 7 TELL (answer the open
+input; key-shaped input refused) · 8 GOAL#Tn (switch goal) · 9 FIX (correction
+becomes learn food; bare 9 = auto-context + replan) · 0 STOP (halt/resume;
+read-only 2,3 survive halt).
+Left hand directs (1,2,3,8,9), right hand responds (4,5,6,7), foot on brake.
+Chains compose (`2943` = ZOOM, FIX, PICK#3); only 4 and 8 consume a digit.
+Grammar lives in `keys.json`, parser in `chain.py`, dispatch in
+`instrument.py` (`python3 instrument.py press <chain>`).
+Every press logs (context → decision → outcome) to `loop/presses.jsonl`.
+Frequent chains become one-press macros; thrice-identical approvals become
+standing policy via the ratchet; predicted presses above per-key thresholds
+go autonomous-with-undo. Money paths are never autonomous at any accuracy.
+Agents: be A-task native per `ATASK.md`; prove it with `acheck.py` (exit 0).
+
 ## Where things are
 
 `seed0.py` checker/scaffolder · `tasks.py` human/agent feeds · `tournament.py`
